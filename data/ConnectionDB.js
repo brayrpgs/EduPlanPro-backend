@@ -1,23 +1,37 @@
 const { Client } = require('pg');
 
 class ConnectionDB {
+  constructor() {
+    this.client = new Client({
+      user: "postgres",
+      password: "123",  
+      host: "localhost",
+      port: 5432,
+      database: "EDUPLANPRO"
+    });
+  }
+
   async connect() {
     try {
-      const connection = new Client({
-        user: "postgres",
-        password: "123",  
-        host: "localhost",
-        port: 5432,   
-        database: "EDUPLANPRO"
-      });
       // Conexión a la base de datos
-      await connection.connect();
+      await this.client.connect();
       console.log("Conexión exitosa a la base de datos");
+      return this.client; 
     } catch (error) {
       console.error(`Error de conexión: ${error}`);
+      throw error;
+    }
+  }
+
+  async disconnect() {
+    try {
+      await this.client.end(); // Cierra la conexión
+      console.log("Conexión cerrada con éxito");
+    } catch (error) {
+      console.error(`Error al cerrar la conexión: ${error}`);
     }
   }
 }
 
-// Exportamos el método connect
-module.exports = new ConnectionDB().connect;
+// Exportamos una instancia de la clase ConnectionDB
+module.exports = ConnectionDB;

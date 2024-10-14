@@ -1,9 +1,5 @@
 const express = require('express')
 const morgan = require('morgan')
-const connectDB = require('./data/ConnectionDB');
-
-
-
 /**
  * midelwares
  */
@@ -13,16 +9,11 @@ const port = 3000
 app.use(morgan('dev'));
 
 /**
- * en rutado inicial
+ * el rutado inicial
  */
 //index servira los datos del index
 app.get('/index', (req, res) => {
   res.contentType('application/json');
-  // Llamamos al método para conectarse a la base de datos 
-  /**
-   * @todo
-   */
-  connectDB();
   res.send(JSON.stringify({ mensaje: 'Hola mundo EduPlanPro!' }));
 });
 
