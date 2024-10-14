@@ -2,11 +2,12 @@ const express = require('express');
 const middlewares = require("./middlewares/middlewares");
 const ControllerUsers = require('./controllers/ControllerUsers');
 const app = express();
-const port = 3000;
+const port = 3001;
 app.use(express.json());
 
 // Aplica los middlewares
 middlewares(app);
+
 /**
  * El rutado inicial de la apliccion 
  */
