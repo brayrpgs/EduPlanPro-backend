@@ -35,9 +35,11 @@ class User {
         } catch (e) {
             console.error(e);
         }
-        finally{
+        finally {
             this.conn.disconnect();
         }
     }
+
+    
 }
 module.exports = User;

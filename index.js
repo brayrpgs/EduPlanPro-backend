@@ -1,7 +1,8 @@
 const express = require('express');
 const middlewares = require("./middlewares/middlewares");
-const session = require('./router/Session');
+const session = require('./router/session');
 const rutesError = require('./router/rutesError');
+const person = require('./router/person');
 const app = express();
 const port = 3001;
 app.use(express.json());
@@ -25,6 +26,11 @@ app.get('/index', (req, res) => {
  * modulo de sessiones
  */
 session(app);
+
+/**
+ * modulo de personas
+ */
+person(app);
 
 /**
  * modulo de captura de rutas erroneas
