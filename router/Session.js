@@ -1,8 +1,9 @@
 const ControllerUsers = require("../controllers/ControllerUsers");
 
-// Ruta para iniciar la sesión y asignar una variable de sesión
+
 const session = (app) => {
     app.route("/session")
+        // Ruta para iniciar la sesión y asignar una variable de sesión
         .post(async (req, res) => {
             const controller = new ControllerUsers();
             req.session.usernameData = await controller.auth(req.body.idcard, req.body.password);
@@ -12,6 +13,7 @@ const session = (app) => {
             };
             res.json(response);
         })
+        //optener datos que sean valiosos en el proceso de inicio de sesion
         .get((req, res) => {
             if (req.session.usernameData) {
                 res.send(`Bienvenida, ${req.session.usernameData.DSC_NAME}`);
@@ -19,6 +21,7 @@ const session = (app) => {
                 res.send('Por favor inicia sesión');
             }
         })
+        //para cerrar la session
         .delete((req, res) => {
             req.session.destroy((err) => {
                 if (err) {
