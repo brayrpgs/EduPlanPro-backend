@@ -24,6 +24,29 @@ class Person {
         }
 
     }
+
+    async getAll() {
+        try {
+            const sql = `SELECT
+                        P1."DSC_NAME",
+                        P1."DSC_SECOND_NAME",
+                        P1."IDCARD",
+                        P2."DSC_NAME" AS "UPDATE_BY",
+                        P1."UPDATED_AT",
+                        P1."CREATED_AT",
+                        P1."STATE"
+                        FROM public."EPPM_PERSON" P1
+                        INNER JOIN public."EPPM_PERSON" P2
+                        ON
+                        P1."UPDATED_BY"  = P2."ID_PERSON";`;
+            const stmt = await this.conn.connect();
+            const result = await stmt.query(sql);
+            return result.rows;
+        } catch (error) {
+            console.log(error);
+            return false;
+        }
+    }
 }
 
 module.exports = Person;

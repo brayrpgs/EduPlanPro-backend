@@ -9,6 +9,10 @@ class ControllerPerson {
         return await this.data.insert(name, secondName, idcard, updatedBy);
     }
 
+    async getAll() {
+        return await this.data.getAll();
+    }
+
 }
 
 module.exports = ControllerPerson;

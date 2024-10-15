@@ -6,7 +6,7 @@ const person = (app) => {
         "code": "code"
     };
     app.route("/person")
-        // Ruta para iniciar la sesión y asignar una variable de sesión
+        // creacion de usuarios
         .post(async (req, res) => {
             const controller = new ControllerPerson();
             if (await controller.insert(req.body.name, req.body.secondName, req.body.idcard, req.body.updatedBy) !== false) {
@@ -14,19 +14,16 @@ const person = (app) => {
                 response.code = "200";
                 res.send(response);
             }
-            else{
+            else {
                 response.data = "La persona No fue creada";
                 response.code = "400";
                 res.send(response);
             }
         })
-        //hay que cambiar
-        .get((req, res) => {
-            if (req.session.usernameData) {
-                res.send(`Bienvenida, ${req.session.usernameData.DSC_NAME}`);
-            } else {
-                res.send('Por favor inicia sesión');
-            }
+        //optener todos los usuarios
+        .get(async (req, res) => {
+            const controller = new ControllerPerson();
+            res.send(await controller.getAll());
         })
         //hay que cambiar
         .delete((req, res) => {
