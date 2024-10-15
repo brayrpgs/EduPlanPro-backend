@@ -2,16 +2,25 @@ const ControllerUsers = require("../controllers/ControllerUsers");
 
 
 const session = (app) => {
+    let response = {
+        "message": "message",
+        "code": "code"
+    };
     app.route("/session")
         // Ruta para iniciar la sesión y asignar una variable de sesión
         .post(async (req, res) => {
             const controller = new ControllerUsers();
             req.session.usernameData = await controller.auth(req.body.idcard, req.body.password);
-            const response = {
-                "data": "Sesión iniciada y username asignado",
-                "code": "200"
-            };
-            res.json(response);
+            if(req.session.usernameData === false){
+                response.code = "400";
+                response.message = "Lo sentimos intentelo de nuevo";
+                res.json(response);
+            }
+            else{
+                response.code = "200";
+                response.message = "Sesión iniciada y username asignado";
+                res.json(response);
+            }
         })
         //optener datos que sean valiosos en el proceso de inicio de sesion
         .get((req, res) => {

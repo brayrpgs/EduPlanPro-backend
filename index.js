@@ -12,16 +12,6 @@ app.use(express.json());
  */
 middlewares(app);
 
-//SE VA USAR LUEGO MAS ADELANTE NO BORRAR
-/*
-//index servira los datos del index
-app.get('/index', (req, res) => {
-  res.contentType('application/json');
-  console.debug(req.session);
-  res.send(JSON.stringify({ mensaje: 'Hola mundo EduPlanPro!' }));
-});
-*/
-
 /**
  * modulo de sessiones
  */
