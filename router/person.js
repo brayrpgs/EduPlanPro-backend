@@ -9,7 +9,7 @@ const person = (app) => {
         // Ruta para iniciar la sesión y asignar una variable de sesión
         .post(async (req, res) => {
             const controller = new ControllerPerson();
-            if (await controller.insert(req.body.name, req.body.secondName, req.body.idcard, req.body.updatedBy) != false) {
+            if (await controller.insert(req.body.name, req.body.secondName, req.body.idcard, req.body.updatedBy) !== false) {
                 response.data = "La persona fue creada correctamente";
                 response.code = "200";
                 res.send(response);
@@ -20,7 +20,7 @@ const person = (app) => {
                 res.send(response);
             }
         })
-        //optener datos que sean valiosos en el proceso de inicio de sesion
+        //hay que cambiar
         .get((req, res) => {
             if (req.session.usernameData) {
                 res.send(`Bienvenida, ${req.session.usernameData.DSC_NAME}`);
@@ -28,7 +28,7 @@ const person = (app) => {
                 res.send('Por favor inicia sesión');
             }
         })
-        //para cerrar la session
+        //hay que cambiar
         .delete((req, res) => {
             req.session.destroy((err) => {
                 if (err) {

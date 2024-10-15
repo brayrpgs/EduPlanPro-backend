@@ -9,10 +9,11 @@ class Person {
             const sql = `INSERT INTO
              public."EPPM_PERSON"("DSC_NAME", "DSC_SECOND_NAME", "IDCARD", "UPDATED_BY")
                     VALUES (
-                    $1::text,$2::text, $3::text, $4::text
+                    $1::text,$2::text, $3::text, $4::integer
                     );`;
             const stmt = await this.conn.connect();
-            const result = await stmt.query(sql, { name, secondName, idcard, updatedBy });
+            const values = [name, secondName, idcard, parseInt(updatedBy, 10)];
+            const result = await stmt.query(sql, values);
             return result.rows;
         } catch (error) {
             console.log(error);
