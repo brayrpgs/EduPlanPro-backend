@@ -1,8 +1,8 @@
 const express = require('express');
 const middlewares = require("./middlewares/middlewares");
-const session = require('./router/session');
 const rutesError = require('./router/rutesError');
 const person = require('./router/person');
+const session = require('./router/Session');
 const app = express();
 const port = 3001;
 app.use(express.json());

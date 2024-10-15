@@ -46,6 +46,9 @@ class Person {
             console.log(error);
             return false;
         }
+        finally{
+            this.conn.disconnect();
+        }
     }
 }
 

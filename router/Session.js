@@ -1,6 +1,4 @@
 const ControllerUsers = require("../controllers/ControllerUsers");
-
-
 const session = (app) => {
     let response = {
         "message": "message",
@@ -11,12 +9,12 @@ const session = (app) => {
         .post(async (req, res) => {
             const controller = new ControllerUsers();
             req.session.usernameData = await controller.auth(req.body.idcard, req.body.password);
-            if(req.session.usernameData === false){
+            if (req.session.usernameData === false) {
                 response.code = "400";
                 response.message = "Lo sentimos intentelo de nuevo";
                 res.json(response);
             }
-            else{
+            else {
                 response.code = "200";
                 response.message = "Sesión iniciada y username asignado";
                 res.json(response);
@@ -40,5 +38,4 @@ const session = (app) => {
             });
         });
 }
-
 module.exports = session
