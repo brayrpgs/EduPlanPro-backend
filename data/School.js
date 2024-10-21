@@ -28,8 +28,8 @@ class School {
         try {
             const sql = `SELECT
                             T1."ID_SCHOOL",
-                            T1."DSC_SCHOOL",
-                            T2."DSC_FACULTY"
+                            T1."DSC_SCHOOL" AS "NOMBRE ESCUELA",
+                            T2."DSC_FACULTY" AS "NOMBRE FACULTAD"
                         FROM
                             PUBLIC."EPPM_SCHOOL" T1
                             INNER JOIN PUBLIC."EPPM_FACULTY" T2 ON T1."ID_FACULTY" = T2."ID_FACULTY"

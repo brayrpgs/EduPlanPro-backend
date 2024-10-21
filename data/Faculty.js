@@ -28,8 +28,8 @@ class Faculty {
         try {
             const sql = `SELECT
                             "EPPM_FACULTY"."ID_FACULTY",
-                            "DSC_FACULTY",
-                            T3."IDCARD" AS "UPDATED_BY"
+                            "DSC_FACULTY" AS "NOMBRE FACULTAD",
+                            T3."IDCARD" AS "ACTUALIZADO POR"
                         FROM
                             PUBLIC."EPPM_FACULTY"
                             INNER JOIN PUBLIC."EPPM_USER" T2 ON "EPPM_FACULTY"."UPDATED_BY" = T2."ID_PERSON"
