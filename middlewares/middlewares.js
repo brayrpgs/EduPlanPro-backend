@@ -13,6 +13,6 @@ const middlewares = (app) => {
         saveUninitialized: true,
         cookie: { secure: false }
     }));
-};
 
+};
 module.exports = middlewares;

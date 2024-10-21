@@ -1,24 +1,23 @@
-const ControllerPerson = require("../controllers/ControllerPerson");
+const ControllerFaculty = require("../controllers/ControllerFaculty");
 const validateSession = require("../middlewares/validateSession");
 
-
-const person = (app) => {
+const faculty = (app) => {
     let response = {
         "data": "message",
         "code": "code"
     };
-    app.route("/person")
+    app.route("/faculty")
         // creacion de usuarios
         .post(async (req, res) => {
             if (!(await validateSession(req, res, response))) return;
-            const controller = new ControllerPerson();
-            if (await controller.insert(req.body.name, req.body.secondName, req.body.idcard, req.body.updatedBy) !== false) {
-                response.data = "La persona fue creada correctamente";
+            const controller = new ControllerFaculty();
+            if (await controller.insertFaculty(req.body.name,req.session.usernameData[0].ID_USER) !== false) {
+                response.data = "La facultad fue creada correctamente";
                 response.code = "200";
                 res.send(response);
             }
             else {
-                response.data = "La persona No fue creada";
+                response.data = "La facultad No fue creada";
                 response.code = "400";
                 res.send(response);
             }
@@ -26,8 +25,10 @@ const person = (app) => {
         //optener todos los usuarios
         .get(async (req, res) => {
             if (!(await validateSession(req, res, response))) return;
-            const controller = new ControllerPerson();
-            res.send(await controller.getAll());
+            const controller = new ControllerFaculty();
+            response.data = await controller.getAllFaculty();
+            response.code = "200";
+            res.send(response);
         })
         //hay que cambiar
         .delete((req, res) => {
@@ -40,4 +41,4 @@ const person = (app) => {
         });
 }
 
-module.exports = person;
+module.exports = faculty;
