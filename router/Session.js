@@ -21,17 +21,25 @@ const session = (app) => {
         })
         .get((req, res) => {
             if (req.session.usernameData) {
-                res.send(`Bienvenida, ${req.session.usernameData[0].DSC_NAME}`);
+                response.message = `Bienvenido(a), ${req.session.usernameData[0].DSC_NAME}`;
+                response.code = "200";
+                res.send(response);
             } else {
-                res.send('Por favor inicia sesión');
+                response.message = "Por favor inicia sesión";
+                response.code = "400";
+                res.send(response);
             }
         })
         .delete((req, res) => {
             req.session.destroy((err) => {
                 if (err) {
-                    return res.status(500).send('Error al cerrar la sesión');
+                    response.message = "Error al cerrar la sesión";
+                    response.code = "500";
+                    return res.status(500).send(response);
                 }
-                res.send('Sesión cerrada');
+                response.message = "Sesión cerrada";
+                response.code = "200";
+                res.send(response);
             });
         });
 }
