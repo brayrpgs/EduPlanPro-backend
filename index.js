@@ -5,6 +5,7 @@ const person = require('./router/person');
 const session = require('./router/Session');
 const faculty = require('./router/faculty');
 const validateSession = require('./middlewares/validateSession');
+const school = require('./router/school');
 const app = express();
 const port = 3001;
 app.use(express.json());
@@ -28,6 +29,11 @@ person(app);
  * modulo de facultades
  */
 faculty(app);
+
+/**
+ * modulo de escuelas
+ */
+school(app);
 
 /**
  * modulo de captura de rutas erroneas
