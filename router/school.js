@@ -30,27 +30,27 @@ const school = (app) => {
         .delete(async (req, res) => {
             if (!(await validateSession(req, res, response))) return;
             const controller = new ControllerSchool();
-            if (await controller.deleteFacultyByID(req.body.id) !== false) {
-                response.data = "La facultad fue Eliminada correctamente";
+            if (await controller.deleteschoolByID(req.body.id) !== false) {
+                response.data = "La Escuela fue Eliminada correctamente";
                 response.code = "200";
                 res.send(response);
             }
             else {
-                response.data = "La facultad No fue eliminada";
+                response.data = "La Escuela No fue eliminada";
                 response.code = "400";
                 res.send(response);
             }
         })
         .patch(async (req, res) => {
             if (!(await validateSession(req, res, response))) return;
-            const controller = new ControllerSchool();
-            if (await controller.updateFacultyByID(req.body.desc, req.session.usernameData[0].ID_USER, req.body.stat, req.body.id) !== false) {
-                response.data = "La facultad fue Actualizada correctamente";
+            const controller = new ControllerSchool();//desc, faculty, user, stat, id
+            if (await controller.updateschoolByID(req.body.desc, req.body.facu, req.session.usernameData[0].ID_USER, req.body.stat, req.body.id) !== false) {
+                response.data = "La Escuela fue Actualizada correctamente";
                 response.code = "200";
                 res.send(response);
             }
             else {
-                response.data = "La facultad No fue Actualizada";
+                response.data = "La Escuela No fue Actualizada";
                 response.code = "400";
                 res.send(response);
             }

@@ -4,14 +4,14 @@ class School {
     constructor(parameters) {
         this.conn = new ConnectionDB();
     }
-    async insert(desc,id, user) {
+    async insert(desc, id, user) {
         try {
             const sql = `INSERT INTO
                             PUBLIC."EPPM_SCHOOL" ("DSC_SCHOOL", "ID_FACULTY", "UPDATED_BY")
                         VALUES
                             ($1::text, $2::integer, $3::integer);`;
             const stmt = await this.conn.connect();
-            const values = [desc,id, user];
+            const values = [desc, id, user];
             const result = await stmt.query(sql, values);
             return result.rows;
         } catch (error) {
@@ -49,8 +49,8 @@ class School {
 
     async deleteById(id) {
         try {
-            const sql = `DELETE FROM public."EPPM_FACULTY"
-	                    WHERE "ID_FACULTY" = $1::integer;`;
+            const sql = `DELETE FROM public."EPPM_SCHOOL"
+	                    WHERE "ID_SCHOOL" = $1::integer;`;
             const stmt = await this.conn.connect();
             const values = [id];
             const result = await stmt.query(sql, values);
@@ -64,18 +64,19 @@ class School {
         }
     }
 
-    async updateById(desc, user, stat, id) {
+    async updateById(desc, faculty, user, stat, id) {
         try {
-            const sql = `UPDATE PUBLIC."EPPM_FACULTY"
+            const sql = `UPDATE PUBLIC."EPPM_SCHOOL"
                         SET
-                            "DSC_FACULTY" = $1::text,
-                            "UPDATED_BY" = $2::integer,
-                            "UPDATED_AT" = CURRENT_TIMESTAMP,
-                            "STATE" = $3::char
+                            "DSC_SCHOOL" = $1::text,
+                            "ID_FACULTY" = $2::integer,
+                            "UPDATED_BY" = $3::integer,
+                            "STATE" = $4::char,
+                            "UPDATED_AT" = CURRENT_TIMESTAMP
                         WHERE
-                            "ID_FACULTY" = $4::integer`;
+                            "ID_SCHOOL" = $5::integer;`;
             const stmt = await this.conn.connect();
-            const values = [desc, user, stat, id];
+            const values = [desc, faculty, user, stat, id];
             const result = await stmt.query(sql, values);
             return result.rows;
         } catch (error) {

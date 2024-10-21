@@ -16,8 +16,8 @@ class ControllerSchool {
         return await this.school.deleteById(id);
     }
 
-    async updateschoolByID(desc, user, stat, id) {
-        return await this.school.updateById(desc, user, stat, id);
+    async updateschoolByID(desc, faculty, user, stat, id) {
+        return await this.school.updateById(desc, faculty, user, stat, id);
     }
 
 
