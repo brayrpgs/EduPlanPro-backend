@@ -27,6 +27,7 @@ class Faculty {
     async getAll() {
         try {
             const sql = `SELECT
+                            "EPPM_FACULTY"."ID_FACULTY",
                             "DSC_FACULTY",
                             T3."IDCARD" AS "UPDATED_BY"
                         FROM
@@ -37,6 +38,46 @@ class Faculty {
                             "EPPM_FACULTY"."STATE" = '1'`;
             const stmt = await this.conn.connect();
             const result = await stmt.query(sql);
+            return result.rows;
+        } catch (error) {
+            console.log(error);
+            return false;
+        }
+        finally {
+            this.conn.disconnect();
+        }
+    }
+
+    async deleteById(id) {
+        try {
+            const sql = `DELETE FROM public."EPPM_FACULTY"
+	                    WHERE "ID_FACULTY" = $1::integer;`;
+            const stmt = await this.conn.connect();
+            const values = [id];
+            const result = await stmt.query(sql, values);
+            return result.rows;
+        } catch (error) {
+            console.log(error);
+            return false;
+        }
+        finally {
+            this.conn.disconnect();
+        }
+    }
+
+    async updateById(desc, user, stat, id) {
+        try {
+            const sql = `UPDATE PUBLIC."EPPM_FACULTY"
+                        SET
+                            "DSC_FACULTY" = $1::text,
+                            "UPDATED_BY" = $2::integer,
+                            "UPDATED_AT" = CURRENT_TIMESTAMP,
+                            "STATE" = $3::char
+                        WHERE
+                            "ID_FACULTY" = $4::integer`;
+            const stmt = await this.conn.connect();
+            const values = [desc, user, stat, id];
+            const result = await stmt.query(sql, values);
             return result.rows;
         } catch (error) {
             console.log(error);
