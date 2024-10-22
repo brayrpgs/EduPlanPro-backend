@@ -6,6 +6,7 @@ const session = require('./router/Session');
 const faculty = require('./router/faculty');
 const school = require('./router/school');
 const searchfaculty = require('./router/searchfaculty');
+const searchschool = require('./router/searchSchool');
 const app = express();
 const port = 3001;
 app.use(express.json());
@@ -39,6 +40,11 @@ searchfaculty(app);
  * modulo de escuelas
  */
 school(app);
+
+/**
+ * modulo de busquedas de escuela
+ */
+searchschool(app);
 
 /**
  * modulo de captura de rutas erroneas
