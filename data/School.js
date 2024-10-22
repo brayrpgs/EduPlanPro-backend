@@ -29,12 +29,13 @@ class School {
             const sql = `SELECT
                             T1."ID_SCHOOL",
                             T1."DSC_SCHOOL" AS "NOMBRE ESCUELA",
-                            T2."DSC_FACULTY" AS "NOMBRE FACULTAD"
+                            T2."DSC_FACULTY" AS "NOMBRE FACULTAD",
+                            T2."ID_FACULTY"
                         FROM
                             PUBLIC."EPPM_SCHOOL" T1
                             INNER JOIN PUBLIC."EPPM_FACULTY" T2 ON T1."ID_FACULTY" = T2."ID_FACULTY"
                         WHERE
-                            T1."STATE" = '1';`;
+                            T1."STATE" = '1'`;
             const stmt = await this.conn.connect();
             const result = await stmt.query(sql);
             return result.rows;

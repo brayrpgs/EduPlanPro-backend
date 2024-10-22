@@ -4,8 +4,8 @@ const rutesError = require('./router/rutesError');
 const person = require('./router/person');
 const session = require('./router/Session');
 const faculty = require('./router/faculty');
-const validateSession = require('./middlewares/validateSession');
 const school = require('./router/school');
+const searchfaculty = require('./router/searchfaculty');
 const app = express();
 const port = 3001;
 app.use(express.json());
@@ -29,6 +29,11 @@ person(app);
  * modulo de facultades
  */
 faculty(app);
+
+/**
+ * modulo de facultades busqueda
+ */
+searchfaculty(app);
 
 /**
  * modulo de escuelas
