@@ -21,7 +21,7 @@ const session = (app) => {
         })
         .get((req, res) => {
             if (req.session.usernameData) {
-                response.message = `Bienvenido(a), ${req.session.usernameData.DSC_NAME}`;
+                response.message = `Bienvenido(a), ${req.session.usernameData[0].DSC_NAME}`;
                 response.code = "200";
                 res.send(response);
             } else {

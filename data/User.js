@@ -34,10 +34,10 @@ class User {
                 return false;  // No se encontró el usuario
             }
 
-            const result = res.rows[0];  // Tomamos la primera fila
+            const result = res.rows;  // Tomamos la primera fila
 
             // Comparar la contraseña usando bcrypt
-            const passwordMatch = await bcrypt.compare(password, result.PASSWORD);
+            const passwordMatch = await bcrypt.compare(password, result[0].PASSWORD);
 
             if (passwordMatch) {
                 return result;  // Contraseña coincide, devolver datos del usuario
