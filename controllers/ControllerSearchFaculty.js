@@ -2,7 +2,10 @@ const SearchFaculty = require("../data/SearchFaculty");
 
 class ControllerSearchFaculty {
     constructor(parameters) {
-        this.search = new SearchFaculty();
+        this.SearchFaculty = new SearchFaculty();
+    }
+    async search(name) {
+        return await this.SearchFaculty.search(name);
     }
 }
 module.exports = ControllerSearchFaculty;
