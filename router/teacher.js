@@ -47,12 +47,12 @@ const teacher = (app) => {
             if (!(await validateSession(req, res, response))) return;
             const controller = new ControllerTeacher();
             if (await controller.updateTeacherByID(req.body.id, req.body.name, req.body.secName, req.body.idcard, req.body.email, req.session.usernameData[0].ID_USER, req.body.stat) !== false) {
-                response.data = "La facultad fue Actualizada correctamente";
+                response.data = "El Profesor fue Actualizado correctamente";
                 response.code = "200";
                 res.send(response);
             }
             else {
-                response.data = "La facultad No fue Actualizada";
+                response.data = "El Profesor No fue Actualizado";
                 response.code = "400";
                 res.send(response);
             }
