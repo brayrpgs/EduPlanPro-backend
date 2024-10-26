@@ -32,13 +32,13 @@ const teacher = (app) => {
         .delete(async (req, res) => {
             if (!(await validateSession(req, res, response))) return;
             const controller = new ControllerTeacher();
-            if (await controller.deleteFacultyByID(req.body.id) !== false) {
-                response.data = "La facultad fue Eliminada correctamente";
+            if (await controller.deleteTeacherByID(req.body.id) !== false) {
+                response.data = "El Profesor fue Eliminado correctamente";
                 response.code = "200";
                 res.send(response);
             }
             else {
-                response.data = "La facultad No fue eliminada";
+                response.data = "El Profesor No fue eliminado";
                 response.code = "400";
                 res.send(response);
             }
@@ -46,7 +46,7 @@ const teacher = (app) => {
         .patch(async (req, res) => {
             if (!(await validateSession(req, res, response))) return;
             const controller = new ControllerTeacher();
-            if (await controller.updateFacultyByID(req.body.desc, req.session.usernameData[0].ID_USER, req.body.stat, req.body.id) !== false) {
+            if (await controller.updateTeacherByID(req.body.desc, req.session.usernameData[0].ID_USER, req.body.stat, req.body.id) !== false) {
                 response.data = "La facultad fue Actualizada correctamente";
                 response.code = "200";
                 res.send(response);

@@ -8,7 +8,7 @@ class Teacher {
         const client = await this.conn.connect();
         try {
             await client.query('BEGIN');
-    
+
             // Insertar persona
             const insertPersonQuery = `
                 INSERT INTO PUBLIC."EPPM_PERSON" (
@@ -19,14 +19,14 @@ class Teacher {
             `;
             const personResult = await client.query(insertPersonQuery, [name, secName, idcard, idUser]);
             const personId = personResult.rows[0].ID_PERSON;
-    
+
             // Insertar profesor usando el ID de la persona creada
             const insertTeacherQuery = `
                 INSERT INTO PUBLIC."EPPM_TEACHER" ("ID_PERSON", "EMAIL", "UPDATED_BY")
                 VALUES ($1::integer, $2::text, $3::integer);
             `;
             await client.query(insertTeacherQuery, [personId, email, idUser]);
-    
+
             await client.query('COMMIT');
             return true;
         } catch (error) {
@@ -37,7 +37,7 @@ class Teacher {
             this.conn.disconnect();
         }
     }
-    
+
 
     async getAll() {
         try {
@@ -52,7 +52,9 @@ class Teacher {
                             PUBLIC."EPPM_TEACHER"
                             INNER JOIN "EPPM_PERSON" ON "EPPM_PERSON"."ID_PERSON" = "EPPM_TEACHER"."ID_PERSON"
                             INNER JOIN "EPPM_USER" ON "EPPM_USER"."ID_PERSON" = "EPPM_PERSON"."UPDATED_BY"
-                            INNER JOIN "EPPM_PERSON" "EPPM_PERSON2" ON "EPPM_PERSON2"."ID_PERSON" = "EPPM_USER"."ID_PERSON"`;
+                            INNER JOIN "EPPM_PERSON" "EPPM_PERSON2" ON "EPPM_PERSON2"."ID_PERSON" = "EPPM_USER"."ID_PERSON"
+                            WHERE 
+                            "EPPM_TEACHER"."STATE" = '1'`;
             const stmt = await this.conn.connect();
             const result = await stmt.query(sql);
             return result.rows;
@@ -67,12 +69,20 @@ class Teacher {
 
     async deleteById(id) {
         try {
-            const sql = `DELETE FROM public."EPPM_FACULTY"
-	                    WHERE "ID_FACULTY" = $1::integer;`;
+            //elimino el profesor
+            const sql = `DELETE FROM public."EPPM_TEACHER"
+                        WHERE "ID_TEACHER" = $1::integer
+                        RETURNING "ID_PERSON";`;
             const stmt = await this.conn.connect();
             const values = [id];
             const result = await stmt.query(sql, values);
-            return result.rows;
+            const idPerson = result.rows[0].ID_PERSON;
+            //ahora elimino la persona 
+            const sql2 = `DELETE FROM public."EPPM_PERSON"
+                            WHERE "ID_PERSON" = $1::integer;`;
+            const values2 = [idPerson];
+            const result2 = await stmt.query(sql2, values2);
+            return result2.rows;
         } catch (error) {
             console.log(error);
             return false;
