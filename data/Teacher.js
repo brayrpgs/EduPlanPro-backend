@@ -92,20 +92,40 @@ class Teacher {
         }
     }
 
-    async updateById(desc, user, stat, id) {
+    async updateById(id, name, secName, idcard, email, idUser, stat) {
         try {
-            const sql = `UPDATE PUBLIC."EPPM_FACULTY"
+            /**
+             * actualizamos el profesor
+             */
+            const sql = `UPDATE PUBLIC."EPPM_TEACHER"
                         SET
-                            "DSC_FACULTY" = $1::text,
+                            "EMAIL" = $1::text,
                             "UPDATED_BY" = $2::integer,
-                            "UPDATED_AT" = CURRENT_TIMESTAMP,
-                            "STATE" = $3::char
+                            "STATE" = $3::char,
+                            "UPDATED_AT" = CURRENT_TIMESTAMP
                         WHERE
-                            "ID_FACULTY" = $4::integer`;
+                            "ID_TEACHER" = $4::integer
+                        RETURNING
+                            "ID_PERSON"`;
             const stmt = await this.conn.connect();
-            const values = [desc, user, stat, id];
+            const values = [email, idUser, stat, id];
             const result = await stmt.query(sql, values);
-            return result.rows;
+            const idPerson = result.rows[0].ID_PERSON;
+            /**
+             * ahora la persona
+             */
+            const sql2 = `UPDATE PUBLIC."EPPM_PERSON"
+                            SET
+                                "DSC_NAME" = $1::text,
+                                "DSC_SECOND_NAME" = $2::text,
+                                "IDCARD" = $3::text,
+                                "UPDATED_BY" = $4::integer,
+                                "UPDATED_AT" = CURRENT_TIMESTAMP
+                            WHERE
+                                "ID_PERSON" = $5::integer`;
+            const values2 = [name, secName, idcard, idUser, idPerson];
+            const result2 = await stmt.query(sql2, values2);
+            return result2.rows;
         } catch (error) {
             console.log(error);
             return false;

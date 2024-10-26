@@ -17,8 +17,8 @@ class ControllerTeacher {
         return await this.teacher.deleteById(id);
     }
 
-    async updateTeacherByID(desc, user, stat, id) {
-        return await this.teacher.updateById(desc, user, stat, id);
+    async updateTeacherByID(id, name, secName, idcard, email, idUser, stat) {
+        return await this.teacher.updateById(id, name, secName, idcard, email, idUser, stat);
     }
 
 

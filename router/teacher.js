@@ -46,7 +46,7 @@ const teacher = (app) => {
         .patch(async (req, res) => {
             if (!(await validateSession(req, res, response))) return;
             const controller = new ControllerTeacher();
-            if (await controller.updateTeacherByID(req.body.desc, req.session.usernameData[0].ID_USER, req.body.stat, req.body.id) !== false) {
+            if (await controller.updateTeacherByID(req.body.id, req.body.name, req.body.secName, req.body.idcard, req.body.email, req.session.usernameData[0].ID_USER, req.body.stat) !== false) {
                 response.data = "La facultad fue Actualizada correctamente";
                 response.code = "200";
                 res.send(response);
