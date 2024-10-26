@@ -43,13 +43,16 @@ class Teacher {
         try {
             const sql = `SELECT
                             "EPPM_TEACHER"."ID_TEACHER",
-                            "EPPM_PERSON"."DSC_NAME" AS "Nombre",
-                            "EPPM_PERSON"."DSC_SECOND_NAME" AS "Apellidos",
-                            "EPPM_PERSON"."IDCARD" AS "Cedula",
-                            "EPPM_TEACHER"."EMAIL" AS "Correo"
+                            "EPPM_PERSON"."DSC_NAME" AS "NOMBRE",
+                            "EPPM_PERSON"."DSC_SECOND_NAME" AS "APELLIDOS",
+                            "EPPM_PERSON"."IDCARD" AS "CEDULA",
+                            "EPPM_TEACHER"."EMAIL" AS "CORREO",
+                            "EPPM_PERSON2"."DSC_NAME" AS "ACTUALIZADO POR"
                         FROM
                             PUBLIC."EPPM_TEACHER"
-                            INNER JOIN "EPPM_PERSON" ON "EPPM_PERSON"."ID_PERSON" = "EPPM_TEACHER"."ID_PERSON"`;
+                            INNER JOIN "EPPM_PERSON" ON "EPPM_PERSON"."ID_PERSON" = "EPPM_TEACHER"."ID_PERSON"
+                            INNER JOIN "EPPM_USER" ON "EPPM_USER"."ID_PERSON" = "EPPM_PERSON"."UPDATED_BY"
+                            INNER JOIN "EPPM_PERSON" "EPPM_PERSON2" ON "EPPM_PERSON2"."ID_PERSON" = "EPPM_USER"."ID_PERSON"`;
             const stmt = await this.conn.connect();
             const result = await stmt.query(sql);
             return result.rows;
