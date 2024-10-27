@@ -1,4 +1,4 @@
-const ControllerUsers = require("../controllers/ControllerUsers");
+const ControllerUsers = require("../controllers/ControllerUser");
 const session = (app) => {
     let response = {
         "message": "message",

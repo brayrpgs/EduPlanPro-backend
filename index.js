@@ -9,6 +9,7 @@ const searchfaculty = require('./router/searchfaculty');
 const searchschool = require('./router/searchSchool');
 const teacher = require('./router/teacher');
 const rol = require('./router/Rol');
+const user = require('./router/user');
 const app = express();
 const port = 3001;
 app.use(express.json());
@@ -57,6 +58,12 @@ teacher(app);
  * modulo de roles
  */
 rol(app);
+
+/**
+ * modulo de usuarios
+ */
+user(app);
+
 /**
  * modulo de captura de rutas erroneas
  * siempre al final

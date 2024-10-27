@@ -47,29 +47,34 @@ class User {
         }
     }
 
-    async insert(name, secName, idcard, idUser, email) {
+    async insert(name, secName, idcard, idUser, idRol, pass) {
         const client = await this.conn.connect();
         try {
             await client.query('BEGIN');
-
-            // Insertar persona
-            const insertPersonQuery = `
+            const sql1 = `
                 INSERT INTO PUBLIC."EPPM_PERSON" (
                     "DSC_NAME", "DSC_SECOND_NAME", "IDCARD", "UPDATED_BY"
                 )
                 VALUES ($1::text, $2::text, $3::text, $4::integer)
                 RETURNING "ID_PERSON";
             `;
-            const personResult = await client.query(insertPersonQuery, [name, secName, idcard, idUser]);
-            const personId = personResult.rows[0].ID_PERSON;
+            const values = [name, secName, idcard, idUser];
+            const Result1 = await client.query(sql1, values);
+            const ID_PERSON = Result1.rows[0].ID_PERSON;
 
-            // Insertar profesor usando el ID de la persona creada
-            const insertTeacherQuery = `
-                INSERT INTO PUBLIC."EPPM_TEACHER" ("ID_PERSON", "EMAIL", "UPDATED_BY")
-                VALUES ($1::integer, $2::text, $3::integer);
-            `;
-            await client.query(insertTeacherQuery, [personId, email, idUser]);
-
+            // Insertar el usuario usando el ID_PERSON de la persona creada
+            const sql2 = `INSERT INTO
+                            PUBLIC."EPPM_USER" (
+                                "ID_PERSON",
+                                "ID_ROL",
+                                "PASSWORD",
+                                "UPDATED_BY"
+                            )
+                        VALUES
+                            ($1::integer, $2::integer, $3::text, $4::integer);`;
+            const encPass = await bcrypt.hash(pass, 10);
+            const values2 = [ID_PERSON, idRol, encPass, idUser];
+            await client.query(sql2, values2);
             await client.query('COMMIT');
             return true;
         } catch (error) {
