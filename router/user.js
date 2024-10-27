@@ -25,8 +25,8 @@ const user = (app) => {
         })
         .get(async (req, res) => {
             if (!(await validateSession(req, res, response))) return;
-            const controller = new ControllerRol();
-            response.data = await controller.getAllRol();
+            const controller = new ControllerUser();
+            response.data = await controller.getAllUser();
             response.code = "200";
             res.send(response);
         })

@@ -90,19 +90,19 @@ class User {
     async getAll() {
         try {
             const sql = `SELECT
-                            "EPPM_TEACHER"."ID_TEACHER",
-                            "EPPM_PERSON"."DSC_NAME" AS "NOMBRE",
-                            "EPPM_PERSON"."DSC_SECOND_NAME" AS "APELLIDOS",
-                            "EPPM_PERSON"."IDCARD" AS "CEDULA",
-                            "EPPM_TEACHER"."EMAIL" AS "CORREO",
-                            "EPPM_PERSON2"."DSC_NAME" AS "ACTUALIZADO POR"
+                            T1."ID_USER",
+                            T2."DSC_NAME",
+                            T2."DSC_SECOND_NAME",
+                            T2."IDCARD",
+                            T3."DSC_NAME",
+                            T4."DSC_NAME"
                         FROM
-                            PUBLIC."EPPM_TEACHER"
-                            INNER JOIN "EPPM_PERSON" ON "EPPM_PERSON"."ID_PERSON" = "EPPM_TEACHER"."ID_PERSON"
-                            INNER JOIN "EPPM_USER" ON "EPPM_USER"."ID_PERSON" = "EPPM_PERSON"."UPDATED_BY"
-                            INNER JOIN "EPPM_PERSON" "EPPM_PERSON2" ON "EPPM_PERSON2"."ID_PERSON" = "EPPM_USER"."ID_PERSON"
-                            WHERE 
-                            "EPPM_TEACHER"."STATE" = '1'`;
+                            PUBLIC."EPPM_USER" T1
+                            INNER JOIN "EPPM_PERSON" T2 ON T2."ID_PERSON" = T1."ID_PERSON"
+                            INNER JOIN "EPPM_ROL" T3 ON T3."ID_ROL" = T1."ID_ROL"
+                            INNER JOIN "EPPM_PERSON" T4 ON T4."ID_PERSON" = T1."ID_PERSON"
+                        WHERE
+                            T1."STATE" = '1';`;
             const stmt = await this.conn.connect();
             const result = await stmt.query(sql);
             return result.rows;
