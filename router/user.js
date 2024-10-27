@@ -32,14 +32,14 @@ const user = (app) => {
         })
         .delete(async (req, res) => {
             if (!(await validateSession(req, res, response))) return;
-            const controller = new ControllerRol();
-            if (await controller.deleteTeacherByID(req.body.id) !== false) {
-                response.data = "El Profesor fue Eliminado correctamente";
+            const controller = new ControllerUser();
+            if (await controller.deleteUserByID(req.body.id) !== false) {
+                response.data = "El Usuario fue Eliminado correctamente";
                 response.code = "200";
                 res.send(response);
             }
             else {
-                response.data = "El Profesor No fue eliminado";
+                response.data = "El Usuario No fue eliminado";
                 response.code = "400";
                 res.send(response);
             }

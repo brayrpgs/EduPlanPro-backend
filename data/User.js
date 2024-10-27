@@ -118,17 +118,20 @@ class User {
     async deleteById(id) {
         try {
             //elimino el profesor
-            const sql = `DELETE FROM public."EPPM_TEACHER"
-                        WHERE "ID_TEACHER" = $1::integer
-                        RETURNING "ID_PERSON";`;
+            const sql = `DELETE FROM PUBLIC."EPPM_USER"
+                        WHERE
+                            "ID_USER" = $1::integer
+                        RETURNING
+                            "ID_USER"`;
             const stmt = await this.conn.connect();
             const values = [id];
             const result = await stmt.query(sql, values);
-            const idPerson = result.rows[0].ID_PERSON;
+            const idUser = result.rows[0].ID_PERSON;
             //ahora elimino la persona 
-            const sql2 = `DELETE FROM public."EPPM_PERSON"
-                            WHERE "ID_PERSON" = $1::integer;`;
-            const values2 = [idPerson];
+            const sql2 = `DELETE FROM PUBLIC."EPPP_PREFERENCES"
+                            WHERE
+                                "ID_USER" = $1::integer;`;
+            const values2 = [idUser];
             const result2 = await stmt.query(sql2, values2);
             return result2.rows;
         } catch (error) {
