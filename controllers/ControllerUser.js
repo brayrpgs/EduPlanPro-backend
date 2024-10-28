@@ -20,8 +20,8 @@ class ControllerUser {
         return await this.userdata.deleteById(id);
     }
 
-    async updateUserByID(id, name, secName, idcard, email, idUser, stat) {
-        return await this.userdata.updateById(id, name, secName, idcard, email, idUser, stat);
+    async updateUserByID(id, name, secName, idcard, idRol, pass, idUser, stat, flagPass) {
+        return await this.userdata.updateById(id, name, secName, idcard, idRol, pass, idUser, stat, flagPass);
     }
 
 }

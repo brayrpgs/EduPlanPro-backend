@@ -143,48 +143,57 @@ class User {
         }
     }
 
-    async updateById(id, name, secName, idcard, email, idUser, stat) {
-        try {
-            /**
-             * actualizamos el profesor
-             */
-            const sql = `UPDATE PUBLIC."EPPM_TEACHER"
-                        SET
-                            "EMAIL" = $1::text,
-                            "UPDATED_BY" = $2::integer,
-                            "STATE" = $3::char,
-                            "UPDATED_AT" = CURRENT_TIMESTAMP
-                        WHERE
-                            "ID_TEACHER" = $4::integer
-                        RETURNING
-                            "ID_PERSON"`;
-            const stmt = await this.conn.connect();
-            const values = [email, idUser, stat, id];
-            const result = await stmt.query(sql, values);
-            const idPerson = result.rows[0].ID_PERSON;
-            /**
-             * ahora la persona
-             */
-            const sql2 = `UPDATE PUBLIC."EPPM_PERSON"
-                            SET
-                                "DSC_NAME" = $1::text,
-                                "DSC_SECOND_NAME" = $2::text,
-                                "IDCARD" = $3::text,
-                                "UPDATED_BY" = $4::integer,
-                                "UPDATED_AT" = CURRENT_TIMESTAMP
-                            WHERE
-                                "ID_PERSON" = $5::integer`;
-            const values2 = [name, secName, idcard, idUser, idPerson];
-            const result2 = await stmt.query(sql2, values2);
-            return result2.rows;
-        } catch (error) {
-            console.log(error);
-            return false;
-        }
-        finally {
-            this.conn.disconnect();
-        }
+    async updateById(id, name, secName, idcard, idRol, pass, idUser, stat, flagPass) {
+    const stmt = await this.conn.connect(); // Conectar una vez
+    try {
+        const encPass = flagPass ? await bcrypt.hash(pass, 10) : null;
+
+        // Primera sentencia UPDATE
+        const sql1 = `UPDATE PUBLIC."EPPM_PERSON"
+                      SET
+                          "DSC_NAME" = $1::text,
+                          "DSC_SECOND_NAME" = $2::text,
+                          "IDCARD" = $3::text,
+                          "UPDATED_BY" = $4::integer,
+                          "UPDATED_AT" = CURRENT_TIMESTAMP
+                      WHERE
+                          "ID_PERSON" = (
+                              SELECT
+                                  "ID_PERSON"
+                              FROM
+                                  "EPPM_USER"
+                              WHERE
+                                  "ID_USER" = $5::integer
+                          )`;
+
+        const values1 = [name, secName, idcard, idUser, id];
+        await stmt.query(sql1, values1);
+
+        // Segunda sentencia UPDATE
+        const sql2 = `UPDATE PUBLIC."EPPM_USER"
+                      SET
+                          "ID_ROL" = $1::integer,
+                          ${flagPass ? `"PASSWORD" = $2::text,` : ''}
+                          "UPDATED_BY" = $3::integer,
+                          "UPDATED_AT" = CURRENT_TIMESTAMP,
+                          "CREATED_AT" = CURRENT_TIMESTAMP,
+                          "STATE" = $4::char
+                      WHERE
+                          "ID_USER" = $5::integer`;
+
+        const values2 = flagPass
+            ? [idRol, encPass, idUser, stat, id]
+            : [idRol, idUser, stat, id];
+        await stmt.query(sql2, values2);
+
+        return true;
+    } catch (error) {
+        console.log(error);
+        return false;
+    } finally {
+        this.conn.disconnect()// Liberar la conexión al finalizar
     }
+}
 
 }
 module.exports = User;

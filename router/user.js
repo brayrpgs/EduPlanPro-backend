@@ -46,14 +46,14 @@ const user = (app) => {
         })
         .patch(async (req, res) => {
             if (!(await validateSession(req, res, response))) return;
-            const controller = new ControllerRol();
-            if (await controller.updateTeacherByID(req.body.id, req.body.name, req.body.secName, req.body.idcard, req.body.email, req.session.usernameData[0].ID_USER, req.body.stat) !== false) {
-                response.data = "El Profesor fue Actualizado correctamente";
+            const controller = new ControllerUser();//id, name, secName, idcard, idRol, pass, idUser, stat, flagPass
+            if (await controller.updateUserByID(req.body.id, req.body.name, req.body.secName, req.body.idcard, req.body.idrol, req.body.pass, req.session.usernameData[0].ID_USER, req.body.stat, req.body.flagPass) !== false) {
+                response.data = "El Usuario fue Actualizado correctamente";
                 response.code = "200";
                 res.send(response);
             }
             else {
-                response.data = "El Profesor No fue Actualizado";
+                response.data = "El Usuario No fue Actualizado";
                 response.code = "400";
                 res.send(response);
             }
