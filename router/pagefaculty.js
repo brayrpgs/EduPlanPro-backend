@@ -13,7 +13,6 @@ const pagefaculty = (app) => {
             const numPage = req.body.numPage;
             const sizePage = req.body.sizePage;
             const offset = (sizePage * numPage) - sizePage;
-            console.log([sizePage,offset]);
             const result = await controller.getPage(sizePage, offset);
             if (result !== false) {
                 response.data = result;
@@ -29,7 +28,12 @@ const pagefaculty = (app) => {
         .get(async (req, res) => {
             if (!(await validateSession(req, res, response))) return;
             const controller = new ControllerPageFaculty();
-            console.log(req.query.size);
+            if (req.query.size == 0) {
+                response.data = "Seleccione un Tamaño de Datos Apropiado";
+                response.code = "400";
+                res.send(response);
+                return;
+            }
             const result = await controller.getPageInfo(req.query.size);
             if (result !== false) {
                 response.data = result;
