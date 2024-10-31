@@ -15,10 +15,15 @@ class SearchSchool {
                             PUBLIC."EPPM_SCHOOL" T1
                             INNER JOIN PUBLIC."EPPM_FACULTY" T2 ON T1."ID_FACULTY" = T2."ID_FACULTY"
                         WHERE
-                            T1."STATE" = '1' AND T1."DSC_SCHOOL" LIKE $1::text;`;
+                            (
+                                T1."DSC_SCHOOL" LIKE $1::text
+                                OR T2."DSC_FACULTY" LIKE $2::text
+                            )
+                            AND T1."STATE" = '1';`;
+                            console.log(sql);
             const stmt = await this.conn.connect();
-            const values = [`${name}%`];
-            const result = await stmt.query(sql, values);
+            const values = [`%${name}%`,`%${name}%`];
+            const result = await stmt.query(sql,values);
             return result.rows;
         } catch (error) {
             console.log(error);

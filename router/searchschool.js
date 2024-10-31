@@ -1,4 +1,3 @@
-const ControllerSearchFaculty = require("../controllers/ControllerSearchFaculty");
 const ControllerSearchSchool = require("../controllers/ControllerSearchSchool");
 const validateSession = require("../middlewares/validateSession");
 /**
