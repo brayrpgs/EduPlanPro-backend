@@ -15,9 +15,9 @@ class SearchFaculty {
                             INNER JOIN PUBLIC."EPPM_USER" T2 ON "EPPM_FACULTY"."UPDATED_BY" = T2."ID_PERSON"
                             INNER JOIN "EPPM_PERSON" T3 ON T2."ID_USER" = T3."ID_PERSON"
                         WHERE
-                            "EPPM_FACULTY"."STATE" = '1' AND "EPPM_FACULTY"."DSC_FACULTY" LIKE $1::text;`;
+                            "EPPM_FACULTY"."STATE" = '1' AND "EPPM_FACULTY"."DSC_FACULTY" ILIKE $1::text;`;
             const stmt = await this.conn.connect();
-            const values = [`%${name}%`];
+            const values = [`${name}%`];
             const result = await stmt.query(sql, values);
             return result.rows;
         } catch (error) {

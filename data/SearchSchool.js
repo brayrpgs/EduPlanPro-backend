@@ -21,7 +21,7 @@ class SearchSchool {
                             )
                             AND T1."STATE" = '1';`;
             const stmt = await this.conn.connect();
-            const values = [`%${name}%`,`%${name2}%`];
+            const values = [`${name}%`,`${name2}%`];
             const result = await stmt.query(sql,values);
             return result.rows;
         } catch (error) {
