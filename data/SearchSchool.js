@@ -4,7 +4,7 @@ class SearchSchool {
     constructor(parameters) {
         this.conn = new ConnectionDB();
     }
-    async search(name) {
+    async search(name , name2) {
         try {
             const sql = `SELECT
                             T1."ID_SCHOOL",
@@ -20,9 +20,8 @@ class SearchSchool {
                                 OR T2."DSC_FACULTY" LIKE $2::text
                             )
                             AND T1."STATE" = '1';`;
-                            console.log(sql);
             const stmt = await this.conn.connect();
-            const values = [`%${name}%`,`%${name}%`];
+            const values = [`%${name}%`,`%${name2}%`];
             const result = await stmt.query(sql,values);
             return result.rows;
         } catch (error) {

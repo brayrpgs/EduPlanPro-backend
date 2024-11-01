@@ -15,7 +15,7 @@ const searchschool = (app) => {
             if (req.query.name === "search") {
                 const controller = new ControllerSearchSchool();
                 response.code = "200";
-                response.data = await controller.search(req.query.data);
+                response.data = await controller.search(req.query.data, req.query.data2);
                 res.send(response);
             }
             else if (req.query.name === "filter-update") {
