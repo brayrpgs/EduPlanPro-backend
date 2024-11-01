@@ -16,8 +16,8 @@ class SearchSchool {
                             INNER JOIN PUBLIC."EPPM_FACULTY" T2 ON T1."ID_FACULTY" = T2."ID_FACULTY"
                         WHERE
                             (
-                                T1."DSC_SCHOOL" LIKE $1::text
-                                OR T2."DSC_FACULTY" LIKE $2::text
+                                T1."DSC_SCHOOL" ILIKE $1::text
+                                AND T2."DSC_FACULTY" ILIKE $2::text
                             )
                             AND T1."STATE" = '1';`;
             const stmt = await this.conn.connect();
