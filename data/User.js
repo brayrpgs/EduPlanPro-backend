@@ -91,11 +91,11 @@ class User {
         try {
             const sql = `SELECT
                             T1."ID_USER",
-                            T2."DSC_NAME",
-                            T2."DSC_SECOND_NAME",
-                            T2."IDCARD",
-                            T3."DSC_NAME",
-                            T4."DSC_NAME"
+                            T2."DSC_NAME" AS "NOMBRE",
+                            T2."DSC_SECOND_NAME" AS "APELLIDOS",
+                            T2."IDCARD" AS "IDENTIFICACION",
+                            T3."DSC_NAME" AS "ROL",
+                            T4."DSC_NAME" AS "ACTUALIZADO POR"
                         FROM
                             PUBLIC."EPPM_USER" T1
                             INNER JOIN "EPPM_PERSON" T2 ON T2."ID_PERSON" = T1."ID_PERSON"
