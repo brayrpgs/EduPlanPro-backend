@@ -31,8 +31,7 @@ class Teacher {
             return true;
         } catch (error) {
             await client.query('ROLLBACK');
-            console.error('Error occurred:', error);
-            return false;
+            return error.code;
         } finally {
             this.conn.disconnect();
         }

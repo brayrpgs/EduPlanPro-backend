@@ -11,9 +11,15 @@ const teacher = (app) => {
         .post(async (req, res) => {
             if (!(await validateSession(req, res, response))) return;
             const controller = new ControllerTeacher();
-            if (await controller.insertTeacher(req.body.name, req.body.secName, req.body.idcard, req.session.usernameData[0].ID_USER, req.body.email) !== false) {
+            const result = await controller.insertTeacher(req.body.name, req.body.secName, req.body.idcard, req.session.usernameData[0].ID_USER, req.body.email)
+            if (result === true) {
                 response.data = "El Profesor fue creado correctamente";
                 response.code = "200";
+                res.send(response);
+            }
+            else if (result === '23505') {
+                response.data = "El Correo del Profesor ya Existe";
+                response.code = "500";
                 res.send(response);
             }
             else {
