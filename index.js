@@ -65,10 +65,6 @@ rol(app);
  */
 user(app);
 
-/**
- * modulo de paginacion de facultades
- */
-pagefaculty(app);
 
 /**
  * modulo de captura de rutas erroneas
