@@ -31,8 +31,13 @@ const searchfaculty = (app) => {
                     return;
                 }
                 response.code = "200";
-                console.log(sizePage,offset,req.query.search)
                 response.data = await controller.getPageBySearch(sizePage, offset, req.query.search);
+                res.send(response);
+            }
+            else if (req.query.name === "info-page") {
+                const controller = new ControllerSearchFaculty();
+                response.code = "200";
+                response.data = await controller.getPageInfo();
                 res.send(response);
             }
             else if (req.query.name === "filter-update") {

@@ -19,5 +19,8 @@ class ControllerSearchSchool {
     async searchId(id) {
         return await this.SearchSchool.searchId(id);
     }
+    async getPageBySearch(limit, offset, search, search2) {
+        return await this.SearchSchool.getPageBySearch(limit, offset, search, search2);
+    }
 }
 module.exports = ControllerSearchSchool;

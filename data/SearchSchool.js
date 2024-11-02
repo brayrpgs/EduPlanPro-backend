@@ -4,7 +4,7 @@ class SearchSchool {
     constructor(parameters) {
         this.conn = new ConnectionDB();
     }
-    async search(name , name2) {
+    async search(name, name2) {
         try {
             const sql = `SELECT
                             T1."ID_SCHOOL",
@@ -21,8 +21,8 @@ class SearchSchool {
                             )
                             AND T1."STATE" = '1';`;
             const stmt = await this.conn.connect();
-            const values = [`${name}%`,`${name2}%`];
-            const result = await stmt.query(sql,values);
+            const values = [`${name}%`, `${name2}%`];
+            const result = await stmt.query(sql, values);
             return result.rows;
         } catch (error) {
             console.log(error);
@@ -127,6 +127,57 @@ class SearchSchool {
             return false;
         }
         finally {
+            this.conn.disconnect();
+        }
+    }
+
+    async getPageBySearch(limit, offset, search, search2) {
+        try {
+            const sql = `SELECT
+                            T1."ID_SCHOOL",
+                            T1."DSC_SCHOOL" AS "NOMBRE ESCUELA",
+                            T2."DSC_FACULTY" AS "NOMBRE FACULTAD",
+                            T2."ID_FACULTY"
+                        FROM
+                            PUBLIC."EPPM_SCHOOL" T1
+                            INNER JOIN PUBLIC."EPPM_FACULTY" T2 ON T1."ID_FACULTY" = T2."ID_FACULTY"
+                        WHERE
+                            (
+                                T1."DSC_SCHOOL" ILIKE $1::text
+                                AND T2."DSC_FACULTY" ILIKE $2::text
+                            )
+                            AND T1."STATE" = '1'
+                        ORDER BY
+                            T1."DSC_SCHOOL"
+                        LIMIT
+                            $3::integer
+                        OFFSET
+                            $4::integer`;
+            const stmt = await this.conn.connect();
+            const result = await stmt.query(sql, [`${search}%`, `${search2}%`, limit, offset]);
+            //ahora voy por el total de resultados
+            const sql2 = `SELECT
+                            COUNT(T1."ID_SCHOOL") AS "TOTAL COINCIDENCIAS"
+                        FROM
+                            PUBLIC."EPPM_SCHOOL" T1
+                            INNER JOIN PUBLIC."EPPM_FACULTY" T2 ON T1."ID_FACULTY" = T2."ID_FACULTY"
+                        WHERE
+                            (
+                                T1."DSC_SCHOOL" ILIKE $1::text
+                                AND T2."DSC_FACULTY" ILIKE $2::text
+                            )
+                            AND T1."STATE" = '1'`;
+            const result2 = await stmt.query(sql2, [`${search}%`, `${search2}%`]);
+            console.log(result2);
+            //envio los dos datos
+            return {
+                rows: result.rows,
+                totalMatches: result2.rows[0]["TOTAL COINCIDENCIAS"]
+            };
+        } catch (error) {
+            console.log(error);
+            return false;
+        } finally {
             this.conn.disconnect();
         }
     }

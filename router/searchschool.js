@@ -18,6 +18,21 @@ const searchschool = (app) => {
                 response.data = await controller.search(req.query.data, req.query.data2);
                 res.send(response);
             }
+            else if (req.query.name === "search-page") {
+                const controller = new ControllerSearchSchool();
+                const numPage = req.query.numPage;//enviar siempre el 0 
+                const sizePage = 8;
+                const offset = (sizePage * numPage) - sizePage;
+                if (offset < 0) {
+                    response.data = "Seleccione un Tamaño de Datos Apropiado";
+                    response.code = "400";
+                    res.send(response);
+                    return;
+                }
+                response.code = "200";
+                response.data = await controller.getPageBySearch(sizePage, offset, req.query.search, req.query.search2);
+                res.send(response);
+            }
             else if (req.query.name === "filter-update") {
                 const controller = new ControllerSearchSchool();
                 response.code = "200";
