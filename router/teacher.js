@@ -22,6 +22,11 @@ const teacher = (app) => {
                 response.code = "500";
                 res.send(response);
             }
+            else if (result === undefined) {
+                response.data = "Campos invalidos";
+                response.code = "501";
+                res.send(response);
+            }
             else {
                 response.data = "El Profesor No fue creado";
                 response.code = "400";

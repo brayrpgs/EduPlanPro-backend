@@ -1,9 +1,10 @@
 const validateFields = (field, type) => {
     console.log(typeof field);
-    if(typeof field === type){
+    console.log(typeof type);
+    if (typeof field === type) {
         return true;
     }
-    else{
+    else {
         return false;
     }
 }

@@ -9,9 +9,21 @@ const school = (app) => {
         .post(async (req, res) => {
             if (!(await validateSession(req, res, response))) return;
             const controller = new ControllerSchool();
-            if (await controller.insertSchool(req.body.desc, req.body.id, req.session.usernameData[0].ID_USER) !== false) {
+            const result = await controller.insertSchool(req.body.desc, req.body.id, req.session.usernameData[0].ID_USER)
+            console.log(result);
+            if (result === true) {
                 response.data = "La Escuela fue creada correctamente";
                 response.code = "200";
+                res.send(response);
+            }
+            else if (result === '23505') {
+                response.data = "La Escuela Ya Esta Registrada";
+                response.code = "500";
+                res.send(response);
+            }
+            else if (result === undefined) {
+                response.data = "Campos invalidos";
+                response.code = "501";
                 res.send(response);
             }
             else {

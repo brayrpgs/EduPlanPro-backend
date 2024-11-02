@@ -6,7 +6,7 @@ class Faculty {
         this.conn = new ConnectionDB();
     }
     async insert(name, user) {
-        if (!validateFields(name, String) && !validateFields(user, Number)) {
+        if (!validateFields(name, "string") || !validateFields(user, "number")) {
             return undefined;
         };
         try {

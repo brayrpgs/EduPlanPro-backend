@@ -11,7 +11,7 @@ const faculty = (app) => {
             if (!(await validateSession(req, res, response))) return;
             const controller = new ControllerFaculty();
             const result = await controller.insertFaculty(req.body.name, req.session.usernameData[0].ID_USER);
-            console.debug(result);
+            
             if (result === true) {
                 response.data = "La facultad fue creada correctamente";
                 response.code = "200";

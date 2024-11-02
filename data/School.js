@@ -1,3 +1,4 @@
+const validateFields = require("../services/validateFields");
 const ConnectionDB = require("./ConnectionDB");
 
 class School {
@@ -5,6 +6,9 @@ class School {
         this.conn = new ConnectionDB();
     }
     async insert(desc, id, user) {
+        if (!validateFields(desc, "string") || !validateFields(id, "number") || !validateFields(user, "number")) {
+            return undefined;
+        };
         try {
             const sql = `INSERT INTO
                             PUBLIC."EPPM_SCHOOL" ("DSC_SCHOOL", "ID_FACULTY", "UPDATED_BY")
@@ -13,10 +17,9 @@ class School {
             const stmt = await this.conn.connect();
             const values = [desc, id, user];
             const result = await stmt.query(sql, values);
-            return result.rows;
+            return true;
         } catch (error) {
-            console.log(error);
-            return false;
+            return error.code;
         }
         finally {
             this.conn.disconnect();

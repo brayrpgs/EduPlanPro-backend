@@ -1,7 +1,6 @@
 const express = require('express');
 const middlewares = require("./middlewares/middlewares");
 const rutesError = require('./router/rutesError');
-const person = require('./router/person');
 const session = require('./router/Session');
 const faculty = require('./router/faculty');
 const school = require('./router/school');

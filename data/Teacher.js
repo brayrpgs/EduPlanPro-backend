@@ -1,3 +1,4 @@
+const validateFields = require("../services/validateFields");
 const ConnectionDB = require("./ConnectionDB");
 
 class Teacher {
@@ -5,6 +6,9 @@ class Teacher {
         this.conn = new ConnectionDB();
     }
     async insert(name, secName, idcard, idUser, email) {
+        if (!validateFields(name, "string") || !validateFields(secName, "string") || !validateFields(idUser, "number") || !validateFields(email, "string")) {
+            return undefined;
+        };
         const client = await this.conn.connect();
         try {
             await client.query('BEGIN');

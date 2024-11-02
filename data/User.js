@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt');
 const ConnectionDB = require('./ConnectionDB');
+const validateFields = require('../services/validateFields');
 
 class User {
     constructor() {
@@ -48,6 +49,9 @@ class User {
     }
 
     async insert(name, secName, idcard, idUser, idRol, pass) {
+        if (!validateFields(name, "string") || !validateFields(secName, "string") || !validateFields(idUser, "number") || !validateFields(idRol, "number")) {
+            return undefined;
+        };
         const client = await this.conn.connect();
         try {
             await client.query('BEGIN');
@@ -144,12 +148,12 @@ class User {
     }
 
     async updateById(id, name, secName, idcard, idRol, pass, idUser, stat, flagPass) {
-    const stmt = await this.conn.connect(); // Conectar una vez
-    try {
-        const encPass = flagPass ? await bcrypt.hash(pass, 10) : null;
+        const stmt = await this.conn.connect(); // Conectar una vez
+        try {
+            const encPass = flagPass ? await bcrypt.hash(pass, 10) : null;
 
-        // Primera sentencia UPDATE
-        const sql1 = `UPDATE PUBLIC."EPPM_PERSON"
+            // Primera sentencia UPDATE
+            const sql1 = `UPDATE PUBLIC."EPPM_PERSON"
                       SET
                           "DSC_NAME" = $1::text,
                           "DSC_SECOND_NAME" = $2::text,
@@ -166,11 +170,11 @@ class User {
                                   "ID_USER" = $5::integer
                           )`;
 
-        const values1 = [name, secName, idcard, idUser, id];
-        await stmt.query(sql1, values1);
+            const values1 = [name, secName, idcard, idUser, id];
+            await stmt.query(sql1, values1);
 
-        // Segunda sentencia UPDATE
-        const sql2 = `UPDATE PUBLIC."EPPM_USER"
+            // Segunda sentencia UPDATE
+            const sql2 = `UPDATE PUBLIC."EPPM_USER"
                       SET
                           "ID_ROL" = $1::integer,
                           ${flagPass ? `"PASSWORD" = $2::text,` : ''}
@@ -181,19 +185,19 @@ class User {
                       WHERE
                           "ID_USER" = $5::integer`;
 
-        const values2 = flagPass
-            ? [idRol, encPass, idUser, stat, id]
-            : [idRol, idUser, stat, id];
-        await stmt.query(sql2, values2);
+            const values2 = flagPass
+                ? [idRol, encPass, idUser, stat, id]
+                : [idRol, idUser, stat, id];
+            await stmt.query(sql2, values2);
 
-        return true;
-    } catch (error) {
-        console.log(error);
-        return false;
-    } finally {
-        this.conn.disconnect()// Liberar la conexión al finalizar
+            return true;
+        } catch (error) {
+            console.log(error);
+            return false;
+        } finally {
+            this.conn.disconnect()// Liberar la conexión al finalizar
+        }
     }
-}
 
 }
 module.exports = User;
