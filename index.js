@@ -27,11 +27,6 @@ middlewares(app);
 session(app);
 
 /**
- * modulo de personas
- */
-person(app);
-
-/**
  * modulo de facultades
  */
 faculty(app);
