@@ -11,6 +11,7 @@ const teacher = require('./router/teacher');
 const rol = require('./router/Rol');
 const user = require('./router/user');
 const searchuser = require('./router/searchuser');
+const searchteacher = require('./router/searchteacher');
 const app = express();
 const port = 3001;
 app.use(express.json());
@@ -54,6 +55,11 @@ searchschool(app);
  * modulo de profesores
  */
 teacher(app);
+
+/**
+ * modulo de busqueda de profesores
+ */
+searchteacher(app);
 
 /**
  * modulo de roles

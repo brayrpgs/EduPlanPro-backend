@@ -1,4 +1,3 @@
-
 const ControllerSearchUser = require("../controllers/ControllerSearchUser");
 const validateSession = require("../middlewares/validateSession");
 /**
