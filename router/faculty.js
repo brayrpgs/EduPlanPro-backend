@@ -10,9 +10,21 @@ const faculty = (app) => {
         .post(async (req, res) => {
             if (!(await validateSession(req, res, response))) return;
             const controller = new ControllerFaculty();
-            if (await controller.insertFaculty(req.body.name, req.session.usernameData[0].ID_USER) !== false) {
+            const result = await controller.insertFaculty(req.body.name, req.session.usernameData[0].ID_USER);
+            console.debug(result);
+            if (result === true) {
                 response.data = "La facultad fue creada correctamente";
                 response.code = "200";
+                res.send(response);
+            }
+            else if (result === '23505') {
+                response.data = "La facultad Ya Esta Registrada";
+                response.code = "500";
+                res.send(response);
+            }
+            else if (result === undefined) {
+                response.data = "Campos invalidos";
+                response.code = "501";
                 res.send(response);
             }
             else {
@@ -62,7 +74,7 @@ const faculty = (app) => {
         .put(async (req, res) => {
             if (!(await validateSession(req, res, response))) return;
             const controller = new ControllerFaculty();
-            res.send({"code" : "200"});
+            res.send({ "code": "200" });
         });
 }
 module.exports = faculty;
