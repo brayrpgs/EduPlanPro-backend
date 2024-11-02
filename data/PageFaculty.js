@@ -50,7 +50,5 @@ class PageFaculty {
             this.conn.disconnect();
         }
     }
-
-
 }
 module.exports = PageFaculty;
