@@ -181,5 +181,27 @@ class SearchSchool {
             this.conn.disconnect();
         }
     }
+
+    async getPageInfo(pageSize = 8) {
+        try {
+            const sql = `SELECT COUNT("STATE") AS total FROM "EPPM_SCHOOL" WHERE "STATE" = '1';`;
+            const stmt = await this.conn.connect();
+            const result = await stmt.query(sql);
+
+            const totalRecords = parseInt(result.rows[0].total, 10);
+            const totalPages = Math.ceil(totalRecords / pageSize);
+
+            return {
+                totalRecords,
+                totalPages,
+                pageSize
+            };
+        } catch (error) {
+            console.log(error);
+            return false;
+        } finally {
+            this.conn.disconnect();
+        }
+    }
 }
 module.exports = SearchSchool;

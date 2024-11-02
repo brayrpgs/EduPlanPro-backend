@@ -33,6 +33,12 @@ const searchschool = (app) => {
                 response.data = await controller.getPageBySearch(sizePage, offset, req.query.search, req.query.search2);
                 res.send(response);
             }
+            else if (req.query.name === "info-page") {
+                const controller = new ControllerSearchSchool();
+                response.code = "200";
+                response.data = await controller.getPageInfo(pageSize = 8);
+                res.send(response);
+            }
             else if (req.query.name === "filter-update") {
                 const controller = new ControllerSearchSchool();
                 response.code = "200";

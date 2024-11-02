@@ -22,5 +22,8 @@ class ControllerSearchSchool {
     async getPageBySearch(limit, offset, search, search2) {
         return await this.SearchSchool.getPageBySearch(limit, offset, search, search2);
     }
+    async getPageInfo(pageSize = 8) {
+        return await this.SearchSchool.getPageInfo(pageSize = 8);
+    }
 }
 module.exports = ControllerSearchSchool;
