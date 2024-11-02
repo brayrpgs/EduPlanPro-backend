@@ -63,92 +63,22 @@ class SearchUser {
             this.conn.disconnect();
         }
     }
-
-    async searchUpdateAt(date1, date2) {
-        try {
-            const sql = `SELECT
-                            T1."ID_SCHOOL",
-                            T1."DSC_SCHOOL" AS "NOMBRE ESCUELA",
-                            T2."DSC_FACULTY" AS "NOMBRE FACULTAD",
-                            T2."ID_FACULTY"
-                        FROM
-                            PUBLIC."EPPM_SCHOOL" T1
-                            INNER JOIN PUBLIC."EPPM_FACULTY" T2 ON T1."ID_FACULTY" = T2."ID_FACULTY"
-                        WHERE
-                            T1."UPDATED_AT" BETWEEN $1::date AND $2::date;`;
-            const stmt = await this.conn.connect();
-            const values = [date1, date2];
-            const result = await stmt.query(sql, values);
-            return result.rows;
-        } catch (error) {
-            console.log(error);
-            return false;
-        }
-        finally {
-            this.conn.disconnect();
-        }
-    }
-    async searchCreatedAt(date1, date2) {
-        try {
-            const sql = `SELECT
-                            T1."ID_SCHOOL",
-                            T1."DSC_SCHOOL" AS "NOMBRE ESCUELA",
-                            T2."DSC_FACULTY" AS "NOMBRE FACULTAD",
-                            T2."ID_FACULTY"
-                        FROM
-                            PUBLIC."EPPM_SCHOOL" T1
-                            INNER JOIN PUBLIC."EPPM_FACULTY" T2 ON T1."ID_FACULTY" = T2."ID_FACULTY"
-                        WHERE
-                            T1."CREATED_AT" BETWEEN $1::date AND $2::date;`;
-            const stmt = await this.conn.connect();
-            const values = [date1, date2];
-            const result = await stmt.query(sql, values);
-            return result.rows;
-        } catch (error) {
-            console.log(error);
-            return false;
-        }
-        finally {
-            this.conn.disconnect();
-        }
-    }
-    async searchState(state) {
-        try {
-            const sql = `SELECT
-                            T1."ID_SCHOOL",
-                            T1."DSC_SCHOOL" AS "NOMBRE ESCUELA",
-                            T2."DSC_FACULTY" AS "NOMBRE FACULTAD",
-                            T2."ID_FACULTY"
-                        FROM
-                            PUBLIC."EPPM_SCHOOL" T1
-                            INNER JOIN PUBLIC."EPPM_FACULTY" T2 ON T1."ID_FACULTY" = T2."ID_FACULTY"
-                        WHERE
-                            T1."STATE" = $1::char;`;
-            const stmt = await this.conn.connect();
-            const values = [state];
-            const result = await stmt.query(sql, values);
-            return result.rows;
-        } catch (error) {
-            console.log(error);
-            return false;
-        }
-        finally {
-            this.conn.disconnect();
-        }
-    }
-
     async searchId(id) {
         try {
             const sql = `SELECT
-                            T1."ID_SCHOOL",
-                            T1."DSC_SCHOOL" AS "NOMBRE ESCUELA",
-                            T2."DSC_FACULTY" AS "NOMBRE FACULTAD",
-                            T2."ID_FACULTY"
+                            T1."ID_USER",
+                            T2."DSC_NAME" AS "NOMBRE",
+                            T2."DSC_SECOND_NAME" AS "APELLIDOS",
+                            T2."IDCARD" AS "IDENTIFICACION",
+                            T3."DSC_NAME" AS "ROL",
+                            T4."DSC_NAME" AS "ACTUALIZADO POR"
                         FROM
-                            PUBLIC."EPPM_SCHOOL" T1
-                            INNER JOIN PUBLIC."EPPM_FACULTY" T2 ON T1."ID_FACULTY" = T2."ID_FACULTY"
+                            PUBLIC."EPPM_USER" T1
+                            INNER JOIN "EPPM_PERSON" T2 ON T2."ID_PERSON" = T1."ID_PERSON"
+                            INNER JOIN "EPPM_ROL" T3 ON T3."ID_ROL" = T1."ID_ROL"
+                            INNER JOIN "EPPM_PERSON" T4 ON T4."ID_PERSON" = T1."ID_PERSON"
                         WHERE
-                            T1."ID_SCHOOL" = $1::integer;`;
+                            T1."ID_USER" = $1::INTEGER`;
             const stmt = await this.conn.connect();
             const values = [id];
             const result = await stmt.query(sql, values);
@@ -183,6 +113,8 @@ class SearchUser {
             this.conn.disconnect();
         }
     }
+
+
 }
 
 module.exports = SearchUser;

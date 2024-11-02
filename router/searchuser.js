@@ -34,24 +34,6 @@ const searchuser = (app) => {
                 response.data = await controller.getPageInfo(pageSize = 8);
                 res.send(response);
             }
-            else if (req.query.name === "filter-update") {
-                const controller = new ControllerSearchUser();
-                response.code = "200";
-                response.data = await controller.searchUpdateAt(req.query.date1, req.query.date2);
-                res.send(response);
-            }
-            else if (req.query.name === "filter-create") {
-                const controller = new ControllerSearchUser();
-                response.code = "200";
-                response.data = await controller.searchCreatedAt(req.query.date1, req.query.date2);
-                res.send(response);
-            }
-            else if (req.query.name === "filter-state") {
-                const controller = new ControllerSearchUser();
-                response.code = "200";
-                response.data = await controller.searchState(req.query.stat);
-                res.send(response);
-            }
             else {
                 response.code = "400";
                 response.data = "Parametros de busqueda incorrecto";

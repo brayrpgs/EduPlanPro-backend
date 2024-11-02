@@ -11,6 +11,9 @@ class ControllerSearchUser {
     async getPageInfo(pageSize = 8) {
         return this.searchUser.getPageInfo(pageSize = 8);
     }
+    async searchId(id) {
+        return this.searchUser.searchId(id);
+    }
 }
 
 module.exports = ControllerSearchUser;
