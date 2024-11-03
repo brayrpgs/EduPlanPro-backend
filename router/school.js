@@ -10,7 +10,6 @@ const school = (app) => {
             if (!(await validateSession(req, res, response))) return;
             const controller = new ControllerSchool();
             const result = await controller.insertSchool(req.body.desc, req.body.id, req.session.usernameData[0].ID_USER)
-            console.log(result);
             if (result === true) {
                 response.data = "La Escuela fue creada correctamente";
                 response.code = "200";
