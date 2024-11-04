@@ -151,8 +151,6 @@ class User {
         const stmt = await this.conn.connect(); // Conectar una vez
         try {
             const encPass = flagPass ? await bcrypt.hash(pass, 10) : null;
-
-            // Primera sentencia UPDATE
             const sql1 = `UPDATE PUBLIC."EPPM_PERSON"
                       SET
                           "DSC_NAME" = $1::text,
@@ -173,31 +171,32 @@ class User {
             const values1 = [name, secName, idcard, idUser, id];
             await stmt.query(sql1, values1);
 
-            // Segunda sentencia UPDATE
-            const sql2 = `UPDATE PUBLIC."EPPM_USER"
+            // Construcción dinámica de la segunda sentencia UPDATE
+            let sql2 = `UPDATE PUBLIC."EPPM_USER"
                       SET
-                          "ID_ROL" = $1::integer,
-                          ${flagPass ? `"PASSWORD" = $2::text,` : ''}
-                          "UPDATED_BY" = $3::integer,
+                          "ID_ROL" = $1::integer,`;
+            const values2 = [idRol];
+            if (flagPass) {
+                sql2 += `"PASSWORD" = $2::text, `;
+                values2.push(encPass); // Añadir la contraseña encriptada a values2
+            }
+            sql2 += `"UPDATED_BY" = $${values2.length + 1}::integer,
                           "UPDATED_AT" = CURRENT_TIMESTAMP,
                           "CREATED_AT" = CURRENT_TIMESTAMP,
-                          "STATE" = $4::char
+                          "STATE" = $${values2.length + 2}::char
                       WHERE
-                          "ID_USER" = $5::integer`;
-
-            const values2 = flagPass
-                ? [idRol, encPass, idUser, stat, id]
-                : [idRol, idUser, stat, id];
+                          "ID_USER" = $${values2.length + 3}::integer`;
+            values2.push(idUser, stat, id);
             await stmt.query(sql2, values2);
-
             return true;
         } catch (error) {
             console.log(error);
             return false;
         } finally {
-            this.conn.disconnect()// Liberar la conexión al finalizar
+            this.conn.disconnect()
         }
     }
+
 
 }
 module.exports = User;
