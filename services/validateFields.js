@@ -1,17 +1,21 @@
 const validateFields = (field, type) => {
-    if (type == "string") {
-        const data = parseInt(field);
-        if (!isNaN(data)) {
+    if (type === "string") {
+        // Verifica que el campo sea un string y no un número
+        if (typeof field !== "string" || !isNaN(Number(field))) {
+            console.log(`Invalidado: el campo "${field}" no es un string válido`);
             return false;
         }
-    }
-    if (type == "number") {
-        const data = parseInt(field);
-        if (isNaN(data)) {
+    } else if (type === "number") {
+        // Verifica que el campo sea un número o un string convertible a número
+        if (typeof field !== "number" && (typeof field !== "string" || isNaN(Number(field)))) {
+            console.log(`Invalidado: el campo "${field}" no es un número válido`);
             return false;
         }
+    } else {
+        console.log(`Tipo no soportado: "${type}"`);
+        return false;
     }
     return true;
-}
+};
 
 module.exports = validateFields;

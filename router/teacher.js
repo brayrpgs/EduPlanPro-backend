@@ -57,11 +57,18 @@ const teacher = (app) => {
         .patch(async (req, res) => {
             if (!(await validateSession(req, res, response))) return;
             const controller = new ControllerTeacher();
-            if (await controller.updateTeacherByID(req.body.id, req.body.name, req.body.secName, req.body.idcard, req.body.email, req.session.usernameData[0].ID_USER, req.body.stat) !== false) {
+            const result = await controller.updateTeacherByID(req.body.id, req.body.name, req.body.secName, req.body.idcard, req.body.email, req.session.usernameData[0].ID_USER, req.body.stat);
+            console.log(result);
+            if (result === true) {
                 response.data = "El Profesor fue Actualizado correctamente";
                 response.code = "200";
                 res.send(response);
             }
+            if (result === undefined) {
+                response.data = "Campos invalidos";
+                response.code = "501";
+                res.send(response);
+            } 
             else {
                 response.data = "El Profesor No fue Actualizado";
                 response.code = "400";

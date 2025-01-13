@@ -1,3 +1,4 @@
+const validateEmail = require("../services/validateEmail");
 const validateFields = require("../services/validateFields");
 const ConnectionDB = require("./ConnectionDB");
 
@@ -7,8 +8,14 @@ class Teacher {
     }
     async insert(name, secName, idcard, idUser, email) {
         if (!validateFields(name, "string") || !validateFields(secName, "string") || !validateFields(idUser, "number") || !validateFields(email, "string")) {
+            console.log("invalidado por Validador de campos");
             return undefined;
         };
+        //validacion de emails
+        if (!validateEmail(email)) {
+            console.log("invalidado por parche");
+            return undefined;
+        }
         const client = await this.conn.connect();
         try {
             await client.query('BEGIN');
@@ -96,6 +103,12 @@ class Teacher {
     }
 
     async updateById(id, name, secName, idcard, email, idUser, stat) {
+        console.log("ll51");
+        //validacion de emails
+        if (!validateEmail(email)) {
+            console.log("invalidado por parche");
+            return undefined;
+        }
         try {
             /**
              * actualizamos el profesor
