@@ -11,6 +11,7 @@ const rol = require('./router/Rol');
 const user = require('./router/user');
 const searchuser = require('./router/searchuser');
 const searchteacher = require('./router/searchteacher');
+const carreer = require('./router/carreer');
 const app = express();
 const port = 3001;
 app.use(express.json());
@@ -69,6 +70,11 @@ user(app);
  * modulo de busquedas de usuarios
  */
 searchuser(app);
+
+/**
+ * modulo de carreras
+ */
+carreer(app);
 
 /**
  * modulo de captura de rutas erroneas
