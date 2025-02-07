@@ -88,6 +88,7 @@ class Carreer {
             const stmt = await this.conn.connect();
             const values = [DSC_CARRER, DSC_CODE, ID_SCHOOL, UPDATED_BY, STATE, ID_CAREER];
             const result = await stmt.query(sql, values);
+            console.log(result);
             return result.rows;
         } catch (error) {
             console.log(error);

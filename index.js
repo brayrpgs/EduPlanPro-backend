@@ -12,6 +12,7 @@ const user = require('./router/user');
 const searchuser = require('./router/searchuser');
 const searchteacher = require('./router/searchteacher');
 const carreer = require('./router/carreer');
+const studyPlan = require('./router/studyplan');
 const app = express();
 const port = 3001;
 app.use(express.json());
@@ -75,6 +76,11 @@ searchuser(app);
  * modulo de carreras
  */
 carreer(app);
+
+/**
+ * modulo de planes de estudio
+ */
+studyPlan(app);
 
 /**
  * modulo de captura de rutas erroneas
