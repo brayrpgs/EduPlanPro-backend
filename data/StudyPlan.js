@@ -100,10 +100,8 @@ class StudyPlan {
             const stmt = await this.conn.connect();
             const values = [DSC_NAME, DAT_INIT, DAT_MAX, ID_CAREER, UPDATED_BY, PDF_URL, STATE, ID_STUDY_PLAN];
             const result = await stmt.query(sql, values);
-            console.log(result);
             return result.rows;
         } catch (error) {
-            console.log(error);
             return false;
         }
         finally {
