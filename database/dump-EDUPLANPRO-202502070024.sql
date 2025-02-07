@@ -5,7 +5,7 @@
 -- Dumped from database version 17.0
 -- Dumped by pg_dump version 17.0
 
--- Started on 2024-11-02 17:01:19
+-- Started on 2025-02-07 00:24:57
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -21,7 +21,7 @@ SET row_security = off;
 
 DROP DATABASE "EDUPLANPRO";
 --
--- TOC entry 5051 (class 1262 OID 16388)
+-- TOC entry 5054 (class 1262 OID 16388)
 -- Name: EDUPLANPRO; Type: DATABASE; Schema: -; Owner: postgres
 --
 
@@ -55,7 +55,7 @@ CREATE SCHEMA public;
 ALTER SCHEMA public OWNER TO pg_database_owner;
 
 --
--- TOC entry 5052 (class 0 OID 0)
+-- TOC entry 5055 (class 0 OID 0)
 -- Dependencies: 4
 -- Name: SCHEMA public; Type: COMMENT; Schema: -; Owner: pg_database_owner
 --
@@ -142,7 +142,7 @@ CREATE SEQUENCE public."EPPM_COURSE_PROGRAM_ID_COURSE_PROGRAM_seq"
 ALTER SEQUENCE public."EPPM_COURSE_PROGRAM_ID_COURSE_PROGRAM_seq" OWNER TO postgres;
 
 --
--- TOC entry 5053 (class 0 OID 0)
+-- TOC entry 5056 (class 0 OID 0)
 -- Dependencies: 226
 -- Name: EPPM_COURSE_PROGRAM_ID_COURSE_PROGRAM_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -199,7 +199,7 @@ CREATE SEQUENCE public."EPPM_FACULTY_ID_FACULTY_seq"
 ALTER SEQUENCE public."EPPM_FACULTY_ID_FACULTY_seq" OWNER TO postgres;
 
 --
--- TOC entry 5054 (class 0 OID 0)
+-- TOC entry 5057 (class 0 OID 0)
 -- Dependencies: 219
 -- Name: EPPM_FACULTY_ID_FACULTY_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -258,7 +258,7 @@ CREATE SEQUENCE public."EPPM_PERSON_ID_PERSON_seq"
 ALTER SEQUENCE public."EPPM_PERSON_ID_PERSON_seq" OWNER TO postgres;
 
 --
--- TOC entry 5055 (class 0 OID 0)
+-- TOC entry 5058 (class 0 OID 0)
 -- Dependencies: 230
 -- Name: EPPM_PERSON_ID_PERSON_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -315,7 +315,7 @@ CREATE SEQUENCE public."EPPM_PHONE_ID_PHONE_seq"
 ALTER SEQUENCE public."EPPM_PHONE_ID_PHONE_seq" OWNER TO postgres;
 
 --
--- TOC entry 5056 (class 0 OID 0)
+-- TOC entry 5059 (class 0 OID 0)
 -- Dependencies: 217
 -- Name: EPPM_PHONE_ID_PHONE_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -373,7 +373,7 @@ CREATE SEQUENCE public."EPPM_ROL_ID_ROL_seq"
 ALTER SEQUENCE public."EPPM_ROL_ID_ROL_seq" OWNER TO postgres;
 
 --
--- TOC entry 5057 (class 0 OID 0)
+-- TOC entry 5060 (class 0 OID 0)
 -- Dependencies: 234
 -- Name: EPPM_ROL_ID_ROL_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -431,7 +431,7 @@ CREATE SEQUENCE public."EPPM_SCHOOL_ID_SCHOOL_seq"
 ALTER SEQUENCE public."EPPM_SCHOOL_ID_SCHOOL_seq" OWNER TO postgres;
 
 --
--- TOC entry 5058 (class 0 OID 0)
+-- TOC entry 5061 (class 0 OID 0)
 -- Dependencies: 221
 -- Name: EPPM_SCHOOL_ID_SCHOOL_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -466,10 +466,10 @@ CREATE TABLE public."EPPM_STUDY_PLAN" (
     "DAT_MAX" date,
     "ID_CAREER" integer,
     "UPDATED_BY" integer NOT NULL,
-    "UPDATED_AT" timestamp without time zone,
-    "CREATED_AT" timestamp without time zone,
+    "UPDATED_AT" timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
+    "CREATED_AT" timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
     "PDF_URL" text,
-    "STATE" "char"
+    "STATE" "char" DEFAULT '1'::"char"
 );
 
 
@@ -492,7 +492,7 @@ CREATE SEQUENCE public."EPPM_STUDY_PLAN_ID_STUDY_PLAN_seq"
 ALTER SEQUENCE public."EPPM_STUDY_PLAN_ID_STUDY_PLAN_seq" OWNER TO postgres;
 
 --
--- TOC entry 5059 (class 0 OID 0)
+-- TOC entry 5062 (class 0 OID 0)
 -- Dependencies: 224
 -- Name: EPPM_STUDY_PLAN_ID_STUDY_PLAN_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -550,7 +550,7 @@ CREATE SEQUENCE public."EPPM_TEACHER_ID_TEACHER_seq"
 ALTER SEQUENCE public."EPPM_TEACHER_ID_TEACHER_seq" OWNER TO postgres;
 
 --
--- TOC entry 5060 (class 0 OID 0)
+-- TOC entry 5063 (class 0 OID 0)
 -- Dependencies: 228
 -- Name: EPPM_TEACHER_ID_TEACHER_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -610,7 +610,7 @@ CREATE SEQUENCE public."EPPM_USER_ID_USER_seq"
 ALTER SEQUENCE public."EPPM_USER_ID_USER_seq" OWNER TO postgres;
 
 --
--- TOC entry 5061 (class 0 OID 0)
+-- TOC entry 5064 (class 0 OID 0)
 -- Dependencies: 232
 -- Name: EPPM_USER_ID_USER_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -664,7 +664,7 @@ CREATE SEQUENCE public."EPPP_PREFERENCES_ID_PREFERENCES_seq"
 ALTER SEQUENCE public."EPPP_PREFERENCES_ID_PREFERENCES_seq" OWNER TO postgres;
 
 --
--- TOC entry 5062 (class 0 OID 0)
+-- TOC entry 5065 (class 0 OID 0)
 -- Dependencies: 242
 -- Name: EPPP_PREFERENCES_ID_PREFERENCES_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -718,7 +718,7 @@ CREATE SEQUENCE public."EPPT_FACULTY_PHONE_ID_FACULTY_PHONE_seq"
 ALTER SEQUENCE public."EPPT_FACULTY_PHONE_ID_FACULTY_PHONE_seq" OWNER TO postgres;
 
 --
--- TOC entry 5063 (class 0 OID 0)
+-- TOC entry 5066 (class 0 OID 0)
 -- Dependencies: 240
 -- Name: EPPT_FACULTY_PHONE_ID_FACULTY_PHONE_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -772,7 +772,7 @@ CREATE SEQUENCE public."EPPT_PHONE_SCHOOL_ID_PHONE_SCHOOL_seq"
 ALTER SEQUENCE public."EPPT_PHONE_SCHOOL_ID_PHONE_SCHOOL_seq" OWNER TO postgres;
 
 --
--- TOC entry 5064 (class 0 OID 0)
+-- TOC entry 5067 (class 0 OID 0)
 -- Dependencies: 238
 -- Name: EPPT_PHONE_SCHOOL_ID_PHONE_SCHOOL_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -826,7 +826,7 @@ CREATE SEQUENCE public."EPPT_TEACHER_COURSE_PROGRAM_ID_TEACHER_COUSE_PROGRAM_seq
 ALTER SEQUENCE public."EPPT_TEACHER_COURSE_PROGRAM_ID_TEACHER_COUSE_PROGRAM_seq" OWNER TO postgres;
 
 --
--- TOC entry 5065 (class 0 OID 0)
+-- TOC entry 5068 (class 0 OID 0)
 -- Dependencies: 236
 -- Name: EPPT_TEACHER_COURSE_PROGRAM_ID_TEACHER_COUSE_PROGRAM_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -850,15 +850,16 @@ ALTER TABLE public."EPPT_TEACHER_COURSE_PROGRAM" ALTER COLUMN "ID_TEACHER_COUSE_
 
 
 --
--- TOC entry 5011 (class 0 OID 16453)
+-- TOC entry 5014 (class 0 OID 16453)
 -- Dependencies: 223
 -- Data for Name: EPPM_CAREER; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
+INSERT INTO public."EPPM_CAREER" VALUES ('Ingenieria en Sistemas de la Informacion', '85', 37, 1, '2025-02-07 00:15:40.943614', '2025-02-06 02:42:17.348206', '1', 7);
 
 
 --
--- TOC entry 5015 (class 0 OID 16472)
+-- TOC entry 5018 (class 0 OID 16472)
 -- Dependencies: 227
 -- Data for Name: EPPM_COURSE_PROGRAM; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -866,7 +867,7 @@ ALTER TABLE public."EPPT_TEACHER_COURSE_PROGRAM" ALTER COLUMN "ID_TEACHER_COUSE_
 
 
 --
--- TOC entry 5008 (class 0 OID 16435)
+-- TOC entry 5011 (class 0 OID 16435)
 -- Dependencies: 220
 -- Data for Name: EPPM_FACULTY; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -888,7 +889,7 @@ INSERT INTO public."EPPM_FACULTY" VALUES (24, 'PRUEBA4', 1, '2024-11-01 23:00:34
 
 
 --
--- TOC entry 5019 (class 0 OID 16490)
+-- TOC entry 5022 (class 0 OID 16490)
 -- Dependencies: 231
 -- Data for Name: EPPM_PERSON; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -896,7 +897,6 @@ INSERT INTO public."EPPM_FACULTY" VALUES (24, 'PRUEBA4', 1, '2024-11-01 23:00:34
 INSERT INTO public."EPPM_PERSON" VALUES (1, 'root', 'root', 'root', NULL, '2024-10-14 13:26:21.525194', '2024-10-14 13:26:21.525194', '1');
 INSERT INTO public."EPPM_PERSON" VALUES (50, 'pepe', 'pepe', 'pepe', 1, '2024-10-26 16:17:57.297689', '2024-10-26 16:11:28.193575', '1');
 INSERT INTO public."EPPM_PERSON" VALUES (53, 'brayan', 'rosales', '702770470', 1, '2024-10-27 00:45:31.957574', '2024-10-27 00:45:31.957574', '1');
-INSERT INTO public."EPPM_PERSON" VALUES (54, 'brayan', 'Rosales', '702770470', 1, '2024-10-27 20:49:59.033953', '2024-10-27 17:53:45.410448', '1');
 INSERT INTO public."EPPM_PERSON" VALUES (55, 'prueba', 'prueba', '12345678', 1, '2024-11-02 14:18:20.88868', '2024-11-02 14:18:20.88868', '1');
 INSERT INTO public."EPPM_PERSON" VALUES (56, 'prueba2', 'prueba2', '12345678', 1, '2024-11-02 14:18:25.951996', '2024-11-02 14:18:25.951996', '1');
 INSERT INTO public."EPPM_PERSON" VALUES (57, 'prueba3', 'prueba4', '12345678', 1, '2024-11-02 14:19:10.525487', '2024-11-02 14:19:10.525487', '1');
@@ -908,10 +908,12 @@ INSERT INTO public."EPPM_PERSON" VALUES (62, 'prueba9', 'prueba9', '12345678', 1
 INSERT INTO public."EPPM_PERSON" VALUES (63, 'prueba10', 'prueba10', '12345678', 1, '2024-11-02 14:19:47.304327', '2024-11-02 14:19:47.304327', '1');
 INSERT INTO public."EPPM_PERSON" VALUES (64, 'CARLOS', 'ORELLANA', '12345678', 1, '2024-11-02 14:49:43.617315', '2024-11-02 14:49:43.617315', '1');
 INSERT INTO public."EPPM_PERSON" VALUES (73, 'BRAYAN', 'ROSALES', '12345678', 1, '2024-11-02 16:47:48.104294', '2024-11-02 16:47:48.104294', '1');
+INSERT INTO public."EPPM_PERSON" VALUES (75, 'kennet', 'moreira', '703030376', 1, '2024-11-03 01:54:51.888069', '2024-11-03 01:54:51.888069', '1');
+INSERT INTO public."EPPM_PERSON" VALUES (54, 'brayan', 'Rosales', '702770470', 1, '2024-11-03 20:05:02.78564', '2024-10-27 17:53:45.410448', '1');
 
 
 --
--- TOC entry 5006 (class 0 OID 16425)
+-- TOC entry 5009 (class 0 OID 16425)
 -- Dependencies: 218
 -- Data for Name: EPPM_PHONE; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -920,7 +922,7 @@ INSERT INTO public."EPPM_PHONE" VALUES (1, '12345678', 1, '2024-10-13 17:49:05.4
 
 
 --
--- TOC entry 5023 (class 0 OID 16508)
+-- TOC entry 5026 (class 0 OID 16508)
 -- Dependencies: 235
 -- Data for Name: EPPM_ROL; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -932,28 +934,28 @@ INSERT INTO public."EPPM_ROL" VALUES (15, 'CLIENT', 'admin', 1, '2024-10-26 23:4
 
 
 --
--- TOC entry 5010 (class 0 OID 16444)
+-- TOC entry 5013 (class 0 OID 16444)
 -- Dependencies: 222
 -- Data for Name: EPPM_SCHOOL; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO public."EPPM_SCHOOL" VALUES (6, 'Escuela de Filosofía', 9, 1, '1', '2024-10-22 07:47:24.747847', '2024-10-22 07:47:24.747847');
-INSERT INTO public."EPPM_SCHOOL" VALUES (7, 'Escuela de Informática', 19, 1, '1', '2024-10-22 07:48:24.410185', '2024-10-22 07:48:24.410185');
-INSERT INTO public."EPPM_SCHOOL" VALUES (8, 'Escuela de Matemática', 19, 1, '1', '2024-10-22 07:48:41.869568', '2024-10-22 07:48:41.869568');
-INSERT INTO public."EPPM_SCHOOL" VALUES (9, 'Escuela de Ciencias Biológicas', 19, 1, '1', '2024-10-22 07:49:07.26317', '2024-10-22 07:49:07.26317');
-INSERT INTO public."EPPM_SCHOOL" VALUES (16, 'PRUEBA', 9, 1, '1', '2024-11-02 16:32:40.605832', '2024-11-02 16:32:40.605832');
+INSERT INTO public."EPPM_SCHOOL" VALUES (37, 'escuela de informatica', 9, 1, '1', '2024-11-03 01:56:18.595454', '2024-11-03 01:56:18.595454');
+INSERT INTO public."EPPM_SCHOOL" VALUES (39, 'Escuela de Literatura y Ciencias del Lenguaje', 9, 1, '1', '2024-11-03 02:08:42.938097', '2024-11-03 02:08:42.938097');
+INSERT INTO public."EPPM_SCHOOL" VALUES (40, 'Escuela Ecuménica de Ciencias de la Religión', 9, 1, '1', '2024-11-03 02:09:27.300122', '2024-11-03 02:09:27.300122');
+INSERT INTO public."EPPM_SCHOOL" VALUES (41, 'prueba', 13, 1, '0', '2024-11-03 02:10:18.562174', '2024-11-03 02:12:12.954454');
 
 
 --
--- TOC entry 5013 (class 0 OID 16462)
+-- TOC entry 5016 (class 0 OID 16462)
 -- Dependencies: 225
 -- Data for Name: EPPM_STUDY_PLAN; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
+INSERT INTO public."EPPM_STUDY_PLAN" VALUES (2, 'Ingenieria en Sistemas', '2012-01-01', '2020-01-01', 7, 1, '2025-02-07 00:22:23.722837', '2025-02-06 23:52:28.135662', 'www.unpdf.com', '1');
 
 
 --
--- TOC entry 5017 (class 0 OID 16481)
+-- TOC entry 5020 (class 0 OID 16481)
 -- Dependencies: 229
 -- Data for Name: EPPM_TEACHER; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -963,17 +965,18 @@ INSERT INTO public."EPPM_TEACHER" VALUES (36, 73, 'PRUEBA@PRUEBA.COM', 1, '2024-
 
 
 --
--- TOC entry 5021 (class 0 OID 16499)
+-- TOC entry 5024 (class 0 OID 16499)
 -- Dependencies: 233
 -- Data for Name: EPPM_USER; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
 INSERT INTO public."EPPM_USER" VALUES (1, 1, 1, '$2a$10$G1nIrht5pq.sd06IjdbfoeUz9ySD8gs.41t.X92Cuh1zY0fOKvzwi', 1, '2024-10-14 13:32:29.512893', '2024-10-14 13:32:29.512893', '1', NULL);
-INSERT INTO public."EPPM_USER" VALUES (25, 54, 1, '$2b$10$uMM2BbyM3gK91NvxmDsS1elZEoZj3mWGtMokN1wstQ9anj3e2Pz9S', 1, '2024-10-27 20:49:59.074208', '2024-10-27 20:49:59.074208', '1', NULL);
+INSERT INTO public."EPPM_USER" VALUES (27, 75, 5, '$2b$10$.4M5u8WUZCk2hvKSQE1KA.4NRec8yDrU9EquSl1KFQVJuOBHvoE1W', 1, '2024-11-03 01:54:51.888069', '2024-11-03 01:54:51.888069', '1', NULL);
+INSERT INTO public."EPPM_USER" VALUES (25, 54, 5, '$2b$10$uMM2BbyM3gK91NvxmDsS1elZEoZj3mWGtMokN1wstQ9anj3e2Pz9S', 1, '2024-11-03 20:05:02.827491', '2024-11-03 20:05:02.827491', '1', NULL);
 
 
 --
--- TOC entry 5031 (class 0 OID 16538)
+-- TOC entry 5034 (class 0 OID 16538)
 -- Dependencies: 243
 -- Data for Name: EPPP_PREFERENCES; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -981,7 +984,7 @@ INSERT INTO public."EPPM_USER" VALUES (25, 54, 1, '$2b$10$uMM2BbyM3gK91NvxmDsS1e
 
 
 --
--- TOC entry 5029 (class 0 OID 16531)
+-- TOC entry 5032 (class 0 OID 16531)
 -- Dependencies: 241
 -- Data for Name: EPPT_FACULTY_PHONE; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -989,7 +992,7 @@ INSERT INTO public."EPPM_USER" VALUES (25, 54, 1, '$2b$10$uMM2BbyM3gK91NvxmDsS1e
 
 
 --
--- TOC entry 5027 (class 0 OID 16524)
+-- TOC entry 5030 (class 0 OID 16524)
 -- Dependencies: 239
 -- Data for Name: EPPT_PHONE_SCHOOL; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -997,7 +1000,7 @@ INSERT INTO public."EPPM_USER" VALUES (25, 54, 1, '$2b$10$uMM2BbyM3gK91NvxmDsS1e
 
 
 --
--- TOC entry 5025 (class 0 OID 16517)
+-- TOC entry 5028 (class 0 OID 16517)
 -- Dependencies: 237
 -- Data for Name: EPPT_TEACHER_COURSE_PROGRAM; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -1005,16 +1008,16 @@ INSERT INTO public."EPPM_USER" VALUES (25, 54, 1, '$2b$10$uMM2BbyM3gK91NvxmDsS1e
 
 
 --
--- TOC entry 5066 (class 0 OID 0)
+-- TOC entry 5069 (class 0 OID 0)
 -- Dependencies: 244
 -- Name: EPPM_CAREER_ID_CAREER_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public."EPPM_CAREER_ID_CAREER_seq"', 5, true);
+SELECT pg_catalog.setval('public."EPPM_CAREER_ID_CAREER_seq"', 7, true);
 
 
 --
--- TOC entry 5067 (class 0 OID 0)
+-- TOC entry 5070 (class 0 OID 0)
 -- Dependencies: 226
 -- Name: EPPM_COURSE_PROGRAM_ID_COURSE_PROGRAM_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -1023,7 +1026,7 @@ SELECT pg_catalog.setval('public."EPPM_COURSE_PROGRAM_ID_COURSE_PROGRAM_seq"', 1
 
 
 --
--- TOC entry 5068 (class 0 OID 0)
+-- TOC entry 5071 (class 0 OID 0)
 -- Dependencies: 245
 -- Name: EPPM_COURSE_PROGRAM_ID_COURSE_PROGRAM_seq1; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -1032,7 +1035,7 @@ SELECT pg_catalog.setval('public."EPPM_COURSE_PROGRAM_ID_COURSE_PROGRAM_seq1"', 
 
 
 --
--- TOC entry 5069 (class 0 OID 0)
+-- TOC entry 5072 (class 0 OID 0)
 -- Dependencies: 219
 -- Name: EPPM_FACULTY_ID_FACULTY_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -1041,7 +1044,7 @@ SELECT pg_catalog.setval('public."EPPM_FACULTY_ID_FACULTY_seq"', 1, false);
 
 
 --
--- TOC entry 5070 (class 0 OID 0)
+-- TOC entry 5073 (class 0 OID 0)
 -- Dependencies: 246
 -- Name: EPPM_FACULTY_ID_FACULTY_seq1; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -1050,7 +1053,7 @@ SELECT pg_catalog.setval('public."EPPM_FACULTY_ID_FACULTY_seq1"', 38, true);
 
 
 --
--- TOC entry 5071 (class 0 OID 0)
+-- TOC entry 5074 (class 0 OID 0)
 -- Dependencies: 230
 -- Name: EPPM_PERSON_ID_PERSON_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -1059,16 +1062,16 @@ SELECT pg_catalog.setval('public."EPPM_PERSON_ID_PERSON_seq"', 1, false);
 
 
 --
--- TOC entry 5072 (class 0 OID 0)
+-- TOC entry 5075 (class 0 OID 0)
 -- Dependencies: 247
 -- Name: EPPM_PERSON_ID_PERSON_seq1; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public."EPPM_PERSON_ID_PERSON_seq1"', 73, true);
+SELECT pg_catalog.setval('public."EPPM_PERSON_ID_PERSON_seq1"', 77, true);
 
 
 --
--- TOC entry 5073 (class 0 OID 0)
+-- TOC entry 5076 (class 0 OID 0)
 -- Dependencies: 217
 -- Name: EPPM_PHONE_ID_PHONE_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -1077,7 +1080,7 @@ SELECT pg_catalog.setval('public."EPPM_PHONE_ID_PHONE_seq"', 1, true);
 
 
 --
--- TOC entry 5074 (class 0 OID 0)
+-- TOC entry 5077 (class 0 OID 0)
 -- Dependencies: 248
 -- Name: EPPM_PHONE_ID_PHONE_seq1; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -1086,7 +1089,7 @@ SELECT pg_catalog.setval('public."EPPM_PHONE_ID_PHONE_seq1"', 1, false);
 
 
 --
--- TOC entry 5075 (class 0 OID 0)
+-- TOC entry 5078 (class 0 OID 0)
 -- Dependencies: 234
 -- Name: EPPM_ROL_ID_ROL_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -1095,7 +1098,7 @@ SELECT pg_catalog.setval('public."EPPM_ROL_ID_ROL_seq"', 1, false);
 
 
 --
--- TOC entry 5076 (class 0 OID 0)
+-- TOC entry 5079 (class 0 OID 0)
 -- Dependencies: 249
 -- Name: EPPM_ROL_ID_ROL_seq1; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -1104,7 +1107,7 @@ SELECT pg_catalog.setval('public."EPPM_ROL_ID_ROL_seq1"', 16, true);
 
 
 --
--- TOC entry 5077 (class 0 OID 0)
+-- TOC entry 5080 (class 0 OID 0)
 -- Dependencies: 221
 -- Name: EPPM_SCHOOL_ID_SCHOOL_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -1113,16 +1116,16 @@ SELECT pg_catalog.setval('public."EPPM_SCHOOL_ID_SCHOOL_seq"', 1, false);
 
 
 --
--- TOC entry 5078 (class 0 OID 0)
+-- TOC entry 5081 (class 0 OID 0)
 -- Dependencies: 250
 -- Name: EPPM_SCHOOL_ID_SCHOOL_seq1; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public."EPPM_SCHOOL_ID_SCHOOL_seq1"', 18, true);
+SELECT pg_catalog.setval('public."EPPM_SCHOOL_ID_SCHOOL_seq1"', 41, true);
 
 
 --
--- TOC entry 5079 (class 0 OID 0)
+-- TOC entry 5082 (class 0 OID 0)
 -- Dependencies: 224
 -- Name: EPPM_STUDY_PLAN_ID_STUDY_PLAN_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -1131,16 +1134,16 @@ SELECT pg_catalog.setval('public."EPPM_STUDY_PLAN_ID_STUDY_PLAN_seq"', 1, false)
 
 
 --
--- TOC entry 5080 (class 0 OID 0)
+-- TOC entry 5083 (class 0 OID 0)
 -- Dependencies: 251
 -- Name: EPPM_STUDY_PLAN_ID_STUDY_PLAN_seq1; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public."EPPM_STUDY_PLAN_ID_STUDY_PLAN_seq1"', 1, false);
+SELECT pg_catalog.setval('public."EPPM_STUDY_PLAN_ID_STUDY_PLAN_seq1"', 2, true);
 
 
 --
--- TOC entry 5081 (class 0 OID 0)
+-- TOC entry 5084 (class 0 OID 0)
 -- Dependencies: 228
 -- Name: EPPM_TEACHER_ID_TEACHER_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -1149,16 +1152,16 @@ SELECT pg_catalog.setval('public."EPPM_TEACHER_ID_TEACHER_seq"', 1, false);
 
 
 --
--- TOC entry 5082 (class 0 OID 0)
+-- TOC entry 5085 (class 0 OID 0)
 -- Dependencies: 252
 -- Name: EPPM_TEACHER_ID_TEACHER_seq1; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public."EPPM_TEACHER_ID_TEACHER_seq1"', 36, true);
+SELECT pg_catalog.setval('public."EPPM_TEACHER_ID_TEACHER_seq1"', 38, true);
 
 
 --
--- TOC entry 5083 (class 0 OID 0)
+-- TOC entry 5086 (class 0 OID 0)
 -- Dependencies: 232
 -- Name: EPPM_USER_ID_USER_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -1167,16 +1170,16 @@ SELECT pg_catalog.setval('public."EPPM_USER_ID_USER_seq"', 1, false);
 
 
 --
--- TOC entry 5084 (class 0 OID 0)
+-- TOC entry 5087 (class 0 OID 0)
 -- Dependencies: 253
 -- Name: EPPM_USER_ID_USER_seq1; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public."EPPM_USER_ID_USER_seq1"', 25, true);
+SELECT pg_catalog.setval('public."EPPM_USER_ID_USER_seq1"', 27, true);
 
 
 --
--- TOC entry 5085 (class 0 OID 0)
+-- TOC entry 5088 (class 0 OID 0)
 -- Dependencies: 242
 -- Name: EPPP_PREFERENCES_ID_PREFERENCES_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -1185,7 +1188,7 @@ SELECT pg_catalog.setval('public."EPPP_PREFERENCES_ID_PREFERENCES_seq"', 1, fals
 
 
 --
--- TOC entry 5086 (class 0 OID 0)
+-- TOC entry 5089 (class 0 OID 0)
 -- Dependencies: 254
 -- Name: EPPP_PREFERENCES_ID_PREFERENCES_seq1; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -1194,7 +1197,7 @@ SELECT pg_catalog.setval('public."EPPP_PREFERENCES_ID_PREFERENCES_seq1"', 1, tru
 
 
 --
--- TOC entry 5087 (class 0 OID 0)
+-- TOC entry 5090 (class 0 OID 0)
 -- Dependencies: 240
 -- Name: EPPT_FACULTY_PHONE_ID_FACULTY_PHONE_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -1203,7 +1206,7 @@ SELECT pg_catalog.setval('public."EPPT_FACULTY_PHONE_ID_FACULTY_PHONE_seq"', 1, 
 
 
 --
--- TOC entry 5088 (class 0 OID 0)
+-- TOC entry 5091 (class 0 OID 0)
 -- Dependencies: 255
 -- Name: EPPT_FACULTY_PHONE_ID_FACULTY_PHONE_seq1; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -1212,7 +1215,7 @@ SELECT pg_catalog.setval('public."EPPT_FACULTY_PHONE_ID_FACULTY_PHONE_seq1"', 1,
 
 
 --
--- TOC entry 5089 (class 0 OID 0)
+-- TOC entry 5092 (class 0 OID 0)
 -- Dependencies: 238
 -- Name: EPPT_PHONE_SCHOOL_ID_PHONE_SCHOOL_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -1221,7 +1224,7 @@ SELECT pg_catalog.setval('public."EPPT_PHONE_SCHOOL_ID_PHONE_SCHOOL_seq"', 1, fa
 
 
 --
--- TOC entry 5090 (class 0 OID 0)
+-- TOC entry 5093 (class 0 OID 0)
 -- Dependencies: 256
 -- Name: EPPT_PHONE_SCHOOL_ID_PHONE_SCHOOL_seq1; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -1230,7 +1233,7 @@ SELECT pg_catalog.setval('public."EPPT_PHONE_SCHOOL_ID_PHONE_SCHOOL_seq1"', 1, f
 
 
 --
--- TOC entry 5091 (class 0 OID 0)
+-- TOC entry 5094 (class 0 OID 0)
 -- Dependencies: 236
 -- Name: EPPT_TEACHER_COURSE_PROGRAM_ID_TEACHER_COUSE_PROGRAM_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -1239,7 +1242,7 @@ SELECT pg_catalog.setval('public."EPPT_TEACHER_COURSE_PROGRAM_ID_TEACHER_COUSE_P
 
 
 --
--- TOC entry 5092 (class 0 OID 0)
+-- TOC entry 5095 (class 0 OID 0)
 -- Dependencies: 257
 -- Name: EPPT_TEACHER_COURSE_PROGRAM_ID_TEACHER_COUSE_PROGRAM_seq1; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -1248,7 +1251,7 @@ SELECT pg_catalog.setval('public."EPPT_TEACHER_COURSE_PROGRAM_ID_TEACHER_COUSE_P
 
 
 --
--- TOC entry 4832 (class 2606 OID 24930)
+-- TOC entry 4835 (class 2606 OID 24930)
 -- Name: EPPM_ROL DSC_NAME_UNIQUE; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1257,7 +1260,7 @@ ALTER TABLE ONLY public."EPPM_ROL"
 
 
 --
--- TOC entry 4811 (class 2606 OID 16563)
+-- TOC entry 4814 (class 2606 OID 16563)
 -- Name: EPPM_CAREER PK_CAREER; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1266,7 +1269,7 @@ ALTER TABLE ONLY public."EPPM_CAREER"
 
 
 --
--- TOC entry 4818 (class 2606 OID 16587)
+-- TOC entry 4821 (class 2606 OID 16587)
 -- Name: EPPM_COURSE_PROGRAM PK_COURSE_PROGRAM; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1275,7 +1278,7 @@ ALTER TABLE ONLY public."EPPM_COURSE_PROGRAM"
 
 
 --
--- TOC entry 4803 (class 2606 OID 16589)
+-- TOC entry 4806 (class 2606 OID 16589)
 -- Name: EPPM_FACULTY PK_FACULTY; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1284,7 +1287,7 @@ ALTER TABLE ONLY public."EPPM_FACULTY"
 
 
 --
--- TOC entry 4841 (class 2606 OID 16605)
+-- TOC entry 4844 (class 2606 OID 16605)
 -- Name: EPPT_FACULTY_PHONE PK_FACULTY_PHONE; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1293,7 +1296,7 @@ ALTER TABLE ONLY public."EPPT_FACULTY_PHONE"
 
 
 --
--- TOC entry 4826 (class 2606 OID 16634)
+-- TOC entry 4829 (class 2606 OID 16634)
 -- Name: EPPM_PERSON PK_PERSON; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1302,7 +1305,7 @@ ALTER TABLE ONLY public."EPPM_PERSON"
 
 
 --
--- TOC entry 4801 (class 2606 OID 16591)
+-- TOC entry 4804 (class 2606 OID 16591)
 -- Name: EPPM_PHONE PK_PHONE; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1311,7 +1314,7 @@ ALTER TABLE ONLY public."EPPM_PHONE"
 
 
 --
--- TOC entry 4839 (class 2606 OID 16607)
+-- TOC entry 4842 (class 2606 OID 16607)
 -- Name: EPPT_PHONE_SCHOOL PK_PHONE_SCHOOL; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1320,7 +1323,7 @@ ALTER TABLE ONLY public."EPPT_PHONE_SCHOOL"
 
 
 --
--- TOC entry 4843 (class 2606 OID 16603)
+-- TOC entry 4846 (class 2606 OID 16603)
 -- Name: EPPP_PREFERENCES PK_PREFERENCES; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1329,7 +1332,7 @@ ALTER TABLE ONLY public."EPPP_PREFERENCES"
 
 
 --
--- TOC entry 4834 (class 2606 OID 16593)
+-- TOC entry 4837 (class 2606 OID 16593)
 -- Name: EPPM_ROL PK_ROL; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1338,7 +1341,7 @@ ALTER TABLE ONLY public."EPPM_ROL"
 
 
 --
--- TOC entry 4807 (class 2606 OID 16595)
+-- TOC entry 4810 (class 2606 OID 16595)
 -- Name: EPPM_SCHOOL PK_SCHOOL; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1347,7 +1350,7 @@ ALTER TABLE ONLY public."EPPM_SCHOOL"
 
 
 --
--- TOC entry 4814 (class 2606 OID 16597)
+-- TOC entry 4817 (class 2606 OID 16597)
 -- Name: EPPM_STUDY_PLAN PK_STUDY_PLAN; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1356,7 +1359,7 @@ ALTER TABLE ONLY public."EPPM_STUDY_PLAN"
 
 
 --
--- TOC entry 4821 (class 2606 OID 16599)
+-- TOC entry 4824 (class 2606 OID 16599)
 -- Name: EPPM_TEACHER PK_TEACHER; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1365,7 +1368,7 @@ ALTER TABLE ONLY public."EPPM_TEACHER"
 
 
 --
--- TOC entry 4836 (class 2606 OID 16609)
+-- TOC entry 4839 (class 2606 OID 16609)
 -- Name: EPPT_TEACHER_COURSE_PROGRAM PK_TEACHER_COURSE_PROGRAM; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1374,7 +1377,7 @@ ALTER TABLE ONLY public."EPPT_TEACHER_COURSE_PROGRAM"
 
 
 --
--- TOC entry 4828 (class 2606 OID 16601)
+-- TOC entry 4831 (class 2606 OID 16601)
 -- Name: EPPM_USER PK_USER; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1383,7 +1386,7 @@ ALTER TABLE ONLY public."EPPM_USER"
 
 
 --
--- TOC entry 4823 (class 2606 OID 33117)
+-- TOC entry 4826 (class 2606 OID 33117)
 -- Name: EPPM_TEACHER UNIQUE_EMAIL; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1392,7 +1395,7 @@ ALTER TABLE ONLY public."EPPM_TEACHER"
 
 
 --
--- TOC entry 4805 (class 2606 OID 33119)
+-- TOC entry 4808 (class 2606 OID 33119)
 -- Name: EPPM_FACULTY UNIQUE_FACULTY; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1401,7 +1404,7 @@ ALTER TABLE ONLY public."EPPM_FACULTY"
 
 
 --
--- TOC entry 4809 (class 2606 OID 33121)
+-- TOC entry 4812 (class 2606 OID 33121)
 -- Name: EPPM_SCHOOL UNIQUE_SCHOOL; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1410,7 +1413,7 @@ ALTER TABLE ONLY public."EPPM_SCHOOL"
 
 
 --
--- TOC entry 4815 (class 1259 OID 16569)
+-- TOC entry 4818 (class 1259 OID 16569)
 -- Name: fki_FK; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -1418,7 +1421,7 @@ CREATE INDEX "fki_FK" ON public."EPPM_STUDY_PLAN" USING btree ("ID_CAREER");
 
 
 --
--- TOC entry 4816 (class 1259 OID 16651)
+-- TOC entry 4819 (class 1259 OID 16651)
 -- Name: fki_FK_CAREER; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -1426,7 +1429,7 @@ CREATE INDEX "fki_FK_CAREER" ON public."EPPM_STUDY_PLAN" USING btree ("ID_CAREER
 
 
 --
--- TOC entry 4837 (class 1259 OID 16711)
+-- TOC entry 4840 (class 1259 OID 16711)
 -- Name: fki_FK_COURSE_PROGRAM; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -1434,7 +1437,7 @@ CREATE INDEX "fki_FK_COURSE_PROGRAM" ON public."EPPT_TEACHER_COURSE_PROGRAM" USI
 
 
 --
--- TOC entry 4824 (class 1259 OID 16657)
+-- TOC entry 4827 (class 1259 OID 16657)
 -- Name: fki_FK_PERSON; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -1442,7 +1445,7 @@ CREATE INDEX "fki_FK_PERSON" ON public."EPPM_TEACHER" USING btree ("ID_PERSON");
 
 
 --
--- TOC entry 4844 (class 1259 OID 16674)
+-- TOC entry 4847 (class 1259 OID 16674)
 -- Name: fki_FK_PREFERENCES; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -1450,7 +1453,7 @@ CREATE INDEX "fki_FK_PREFERENCES" ON public."EPPP_PREFERENCES" USING btree ("ID_
 
 
 --
--- TOC entry 4829 (class 1259 OID 16680)
+-- TOC entry 4832 (class 1259 OID 16680)
 -- Name: fki_FK_PREFERENCES_USER; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -1458,7 +1461,7 @@ CREATE INDEX "fki_FK_PREFERENCES_USER" ON public."EPPM_USER" USING btree ("ID_PR
 
 
 --
--- TOC entry 4830 (class 1259 OID 16668)
+-- TOC entry 4833 (class 1259 OID 16668)
 -- Name: fki_FK_ROL; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -1466,7 +1469,7 @@ CREATE INDEX "fki_FK_ROL" ON public."EPPM_USER" USING btree ("ID_ROL");
 
 
 --
--- TOC entry 4812 (class 1259 OID 16558)
+-- TOC entry 4815 (class 1259 OID 16558)
 -- Name: fki_FK_SCHOOL; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -1474,7 +1477,7 @@ CREATE INDEX "fki_FK_SCHOOL" ON public."EPPM_CAREER" USING btree ("ID_SCHOOL");
 
 
 --
--- TOC entry 4819 (class 1259 OID 16626)
+-- TOC entry 4822 (class 1259 OID 16626)
 -- Name: fki_FK_STUDY_PLAN; Type: INDEX; Schema: public; Owner: postgres
 --
 
@@ -1482,7 +1485,7 @@ CREATE INDEX "fki_FK_STUDY_PLAN" ON public."EPPM_COURSE_PROGRAM" USING btree ("I
 
 
 --
--- TOC entry 4847 (class 2606 OID 16646)
+-- TOC entry 4850 (class 2606 OID 16646)
 -- Name: EPPM_STUDY_PLAN FK_CAREER; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1491,7 +1494,7 @@ ALTER TABLE ONLY public."EPPM_STUDY_PLAN"
 
 
 --
--- TOC entry 4853 (class 2606 OID 16706)
+-- TOC entry 4856 (class 2606 OID 16706)
 -- Name: EPPT_TEACHER_COURSE_PROGRAM FK_COURSE_PROGRAM; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1500,7 +1503,7 @@ ALTER TABLE ONLY public."EPPT_TEACHER_COURSE_PROGRAM"
 
 
 --
--- TOC entry 4845 (class 2606 OID 16641)
+-- TOC entry 4848 (class 2606 OID 16641)
 -- Name: EPPM_SCHOOL FK_FACULTY; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1509,7 +1512,7 @@ ALTER TABLE ONLY public."EPPM_SCHOOL"
 
 
 --
--- TOC entry 4857 (class 2606 OID 16681)
+-- TOC entry 4860 (class 2606 OID 16681)
 -- Name: EPPT_FACULTY_PHONE FK_FACULTY; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1518,7 +1521,7 @@ ALTER TABLE ONLY public."EPPT_FACULTY_PHONE"
 
 
 --
--- TOC entry 4849 (class 2606 OID 16652)
+-- TOC entry 4852 (class 2606 OID 16652)
 -- Name: EPPM_TEACHER FK_PERSON; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1527,7 +1530,7 @@ ALTER TABLE ONLY public."EPPM_TEACHER"
 
 
 --
--- TOC entry 4850 (class 2606 OID 16658)
+-- TOC entry 4853 (class 2606 OID 16658)
 -- Name: EPPM_USER FK_PERSON; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1536,7 +1539,7 @@ ALTER TABLE ONLY public."EPPM_USER"
 
 
 --
--- TOC entry 4858 (class 2606 OID 16686)
+-- TOC entry 4861 (class 2606 OID 16686)
 -- Name: EPPT_FACULTY_PHONE FK_PHONE; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1545,7 +1548,7 @@ ALTER TABLE ONLY public."EPPT_FACULTY_PHONE"
 
 
 --
--- TOC entry 4855 (class 2606 OID 16696)
+-- TOC entry 4858 (class 2606 OID 16696)
 -- Name: EPPT_PHONE_SCHOOL FK_PHONE; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1554,7 +1557,7 @@ ALTER TABLE ONLY public."EPPT_PHONE_SCHOOL"
 
 
 --
--- TOC entry 4859 (class 2606 OID 16669)
+-- TOC entry 4862 (class 2606 OID 16669)
 -- Name: EPPP_PREFERENCES FK_PREFERENCES; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1563,7 +1566,7 @@ ALTER TABLE ONLY public."EPPP_PREFERENCES"
 
 
 --
--- TOC entry 4851 (class 2606 OID 16675)
+-- TOC entry 4854 (class 2606 OID 16675)
 -- Name: EPPM_USER FK_PREFERENCES_USER; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1572,7 +1575,7 @@ ALTER TABLE ONLY public."EPPM_USER"
 
 
 --
--- TOC entry 4852 (class 2606 OID 16663)
+-- TOC entry 4855 (class 2606 OID 16663)
 -- Name: EPPM_USER FK_ROL; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1581,7 +1584,7 @@ ALTER TABLE ONLY public."EPPM_USER"
 
 
 --
--- TOC entry 4846 (class 2606 OID 16610)
+-- TOC entry 4849 (class 2606 OID 16610)
 -- Name: EPPM_CAREER FK_SCHOOL; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1590,7 +1593,7 @@ ALTER TABLE ONLY public."EPPM_CAREER"
 
 
 --
--- TOC entry 4856 (class 2606 OID 16691)
+-- TOC entry 4859 (class 2606 OID 16691)
 -- Name: EPPT_PHONE_SCHOOL FK_SCHOOL; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1599,7 +1602,7 @@ ALTER TABLE ONLY public."EPPT_PHONE_SCHOOL"
 
 
 --
--- TOC entry 4848 (class 2606 OID 16621)
+-- TOC entry 4851 (class 2606 OID 16621)
 -- Name: EPPM_COURSE_PROGRAM FK_STUDY_PLAN; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1608,7 +1611,7 @@ ALTER TABLE ONLY public."EPPM_COURSE_PROGRAM"
 
 
 --
--- TOC entry 4854 (class 2606 OID 16701)
+-- TOC entry 4857 (class 2606 OID 16701)
 -- Name: EPPT_TEACHER_COURSE_PROGRAM FK_TEACHER; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -1616,7 +1619,7 @@ ALTER TABLE ONLY public."EPPT_TEACHER_COURSE_PROGRAM"
     ADD CONSTRAINT "FK_TEACHER" FOREIGN KEY ("ID_TEACHER") REFERENCES public."EPPM_TEACHER"("ID_TEACHER");
 
 
--- Completed on 2024-11-02 17:01:19
+-- Completed on 2025-02-07 00:24:57
 
 --
 -- PostgreSQL database dump complete
