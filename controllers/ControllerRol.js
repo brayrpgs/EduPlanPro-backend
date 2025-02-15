@@ -16,8 +16,8 @@ class ControllerRol {
         return await this.rol.deleteById(id);
     }
 
-    async updateRolByID(desc, user, stat, id) {
-        return await this.rol.updateById(desc, user, stat, id);
+    async updateRolByID(DSC_NAME, DSC_DESCRIPTION, UPDATED_BY, STATE, ID_ROL) {
+        return await this.rol.updateById(DSC_NAME, DSC_DESCRIPTION, UPDATED_BY, STATE, ID_ROL);
     }
 
 

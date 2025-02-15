@@ -53,22 +53,14 @@ class Rol {
 
     async deleteById(id) {
         try {
-            //elimino el profesor
-            const sql = `DELETE FROM public."EPPM_TEACHER"
-                        WHERE "ID_TEACHER" = $1::integer
-                        RETURNING "ID_PERSON";`;
+            const sql = `DELETE FROM PUBLIC."EPPM_ROL"
+                            WHERE
+                                "ID_ROL" = $1::INTEGER;`;
             const stmt = await this.conn.connect();
             const values = [id];
-            const result = await stmt.query(sql, values);
-            const idPerson = result.rows[0].ID_PERSON;
-            //ahora elimino la persona 
-            const sql2 = `DELETE FROM public."EPPM_PERSON"
-                            WHERE "ID_PERSON" = $1::integer;`;
-            const values2 = [idPerson];
-            const result2 = await stmt.query(sql2, values2);
-            return result2.rows;
+            await stmt.query(sql, values);
+            return true;
         } catch (error) {
-            console.log(error);
             return false;
         }
         finally {
@@ -76,43 +68,24 @@ class Rol {
         }
     }
 
-    async updateById(id, name, secName, idcard, email, idUser, stat) {
+    async updateById(DSC_NAME, DSC_DESCRIPTION, UPDATED_BY, STATE, ID_ROL) {
         try {
-            /**
-             * actualizamos el profesor
-             */
-            const sql = `UPDATE PUBLIC."EPPM_TEACHER"
+            const sql = `UPDATE PUBLIC."EPPM_ROL"
                         SET
-                            "EMAIL" = $1::text,
-                            "UPDATED_BY" = $2::integer,
-                            "STATE" = $3::char,
-                            "UPDATED_AT" = CURRENT_TIMESTAMP
+                            "DSC_NAME" = $1::TEXT,
+                            "DSC_DESCRIPTION" = $2::TEXT,
+                            "UPDATED_BY" = $3::INTEGER,
+                            "UPDATED_AT" = CURRENT_TIMESTAMP,
+                            "STATE" = $4::CHAR
                         WHERE
-                            "ID_TEACHER" = $4::integer
-                        RETURNING
-                            "ID_PERSON"`;
+                            "ID_ROL" = $5::INTEGER;`;
             const stmt = await this.conn.connect();
-            const values = [email, idUser, stat, id];
-            const result = await stmt.query(sql, values);
-            const idPerson = result.rows[0].ID_PERSON;
-            /**
-             * ahora la persona
-             */
-            const sql2 = `UPDATE PUBLIC."EPPM_PERSON"
-                            SET
-                                "DSC_NAME" = $1::text,
-                                "DSC_SECOND_NAME" = $2::text,
-                                "IDCARD" = $3::text,
-                                "UPDATED_BY" = $4::integer,
-                                "UPDATED_AT" = CURRENT_TIMESTAMP
-                            WHERE
-                                "ID_PERSON" = $5::integer`;
-            const values2 = [name, secName, idcard, idUser, idPerson];
-            const result2 = await stmt.query(sql2, values2);
-            return result2.rows;
+            const values = [DSC_NAME, DSC_DESCRIPTION, UPDATED_BY, STATE, ID_ROL];
+            await stmt.query(sql, values);
+            return true;
         } catch (error) {
-            console.log(error);
-            return false;
+            console.error('Error occurred:', error);
+            return error.code;
         }
         finally {
             this.conn.disconnect();

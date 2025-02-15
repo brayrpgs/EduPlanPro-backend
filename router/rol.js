@@ -38,13 +38,13 @@ const rol = (app) => {
         .delete(async (req, res) => {
             if (!(await validateSession(req, res, response))) return;
             const controller = new ControllerRol();
-            if (await controller.deleteTeacherByID(req.body.id) !== false) {
-                response.data = "El Profesor fue Eliminado correctamente";
+            if (await controller.deleteRolByID(req.body.id)) {
+                response.data = "El Rol fue Eliminado correctamente";
                 response.code = "200";
                 res.send(response);
             }
             else {
-                response.data = "El Profesor No fue eliminado";
+                response.data = "El Rol No fue eliminado";
                 response.code = "400";
                 res.send(response);
             }
@@ -52,13 +52,19 @@ const rol = (app) => {
         .patch(async (req, res) => {
             if (!(await validateSession(req, res, response))) return;
             const controller = new ControllerRol();
-            if (await controller.updateTeacherByID(req.body.id, req.body.name, req.body.secName, req.body.idcard, req.body.email, req.session.usernameData[0].ID_USER, req.body.stat) !== false) {
-                response.data = "El Profesor fue Actualizado correctamente";
+            const result = await controller.updateRolByID(req.body.DSC_NAME, req.body.DSC_DESCRIPTION, req.session.usernameData[0].ID_USER, req.body.STATE, req.body.ID_ROL);
+            if (result) {
+                response.data = "El Rol fue Actualizado correctamente";
                 response.code = "200";
                 res.send(response);
             }
+            else if (result == 23505) {
+                response.data = "El Rol No fue creado, porque ya existe uno con ese nombre";
+                response.code = "500";
+                res.send(response);
+            }
             else {
-                response.data = "El Profesor No fue Actualizado";
+                response.data = "El Rol No fue Actualizado";
                 response.code = "400";
                 res.send(response);
             }
