@@ -10,11 +10,12 @@ class Phone {
             const sql = `INSERT INTO
                             PUBLIC."EPPM_PHONE" ("NUM_PHONE_NUMBER", "UPDATE_BY")
                         VALUES
-                            ($1::TEXT, $2::INTEGER);`;
+                            ($1::TEXT, $2::INTEGER)
+                            RETURNING "ID_PHONE";`;
             const stmt = await this.conn.connect();
             const values = [NUM_PHONE_NUMBER, UPDATE_BY];
             const result = await stmt.query(sql, values);
-            return true;
+            return result.rows[0];
         } catch (error) {
             return error.code;
         }

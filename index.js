@@ -16,6 +16,7 @@ const studyPlan = require('./router/studyplan');
 const phone = require('./router/phone');
 const searchcarreer = require('./router/searchcarreer');
 const searchstudyplan = require('./router/searchstudyplan');
+const facultyphone = require('./router/FacultyPhone');
 const app = express();
 const port = 3001;
 app.use(express.json());
@@ -99,6 +100,11 @@ searchstudyplan(app);
  * modulo de telefonos
  */
 phone(app);
+
+/**
+ * modulo relacional de telefonos y facultades
+ */
+facultyphone(app);
 
 /**
  * modulo de captura de rutas erroneas
