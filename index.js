@@ -14,6 +14,8 @@ const searchteacher = require('./router/searchteacher');
 const carreer = require('./router/carreer');
 const studyPlan = require('./router/studyplan');
 const phone = require('./router/phone');
+const searchcarreer = require('./router/searchcarreer');
+const searchstudyplan = require('./router/searchstudyplan');
 const app = express();
 const port = 3001;
 app.use(express.json());
@@ -79,9 +81,19 @@ searchuser(app);
 carreer(app);
 
 /**
+ * modulo de busquedas de carreras
+ */
+searchcarreer(app);
+
+/**
  * modulo de planes de estudio
  */
 studyPlan(app);
+
+/**
+ * modulo de busquedas de carreras
+ */
+searchstudyplan(app);
 
 /**
  * modulo de telefonos
