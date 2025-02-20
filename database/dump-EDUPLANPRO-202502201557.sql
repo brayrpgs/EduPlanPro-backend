@@ -5,7 +5,7 @@
 -- Dumped from database version 17.0
 -- Dumped by pg_dump version 17.0
 
--- Started on 2025-02-15 15:43:51
+-- Started on 2025-02-20 15:57:34
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -291,7 +291,7 @@ CREATE TABLE public."EPPM_PHONE" (
     "NUM_PHONE_NUMBER" text NOT NULL,
     "UPDATE_BY" integer NOT NULL,
     "UPDATE_AT" timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
-    "CREATED_AT" time without time zone DEFAULT CURRENT_TIMESTAMP,
+    "CREATED_AT" timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
     "STATE" "char" DEFAULT '1'::"char"
 );
 
@@ -918,8 +918,13 @@ INSERT INTO public."EPPM_PERSON" VALUES (54, 'brayan', 'Rosales', '702770470', 1
 -- Data for Name: EPPM_PHONE; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
-INSERT INTO public."EPPM_PHONE" VALUES (8, '83185484', 1, '2025-02-15 14:41:25.018937', '14:41:25.018937', '1');
-INSERT INTO public."EPPM_PHONE" VALUES (20, '11225588', 1, '2025-02-15 15:12:57.111971', '15:07:58.707827', '1');
+INSERT INTO public."EPPM_PHONE" VALUES (8, '83185484', 1, '2025-02-15 14:41:25.018937', '2025-02-19 14:41:25.018937', '1');
+INSERT INTO public."EPPM_PHONE" VALUES (20, '11225588', 1, '2025-02-15 15:12:57.111971', '2025-02-19 15:07:58.707827', '1');
+INSERT INTO public."EPPM_PHONE" VALUES (21, '11223344', 1, '2025-02-19 14:36:46.845659', '2025-02-19 14:36:46.845659', '1');
+INSERT INTO public."EPPM_PHONE" VALUES (22, '11223341', 1, '2025-02-19 14:38:13.988924', '2025-02-19 14:38:13.988924', '1');
+INSERT INTO public."EPPM_PHONE" VALUES (23, '11223342', 1, '2025-02-19 14:42:10.277921', '2025-02-19 14:42:10.277921', '1');
+INSERT INTO public."EPPM_PHONE" VALUES (24, '11223343', 1, '2025-02-19 14:43:39.972742', '2025-02-19 14:43:39.972742', '1');
+INSERT INTO public."EPPM_PHONE" VALUES (27, '11223345', 1, '2025-02-19 14:45:14.770284', '2025-02-19 14:45:14.770284', '1');
 
 
 --
@@ -989,6 +994,10 @@ INSERT INTO public."EPPM_USER" VALUES (25, 54, 5, '$2b$10$uMM2BbyM3gK91NvxmDsS1e
 -- Data for Name: EPPT_FACULTY_PHONE; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
+INSERT INTO public."EPPT_FACULTY_PHONE" VALUES (2, 12, 22);
+INSERT INTO public."EPPT_FACULTY_PHONE" VALUES (3, 13, 23);
+INSERT INTO public."EPPT_FACULTY_PHONE" VALUES (4, 14, 24);
+INSERT INTO public."EPPT_FACULTY_PHONE" VALUES (5, 12, 22);
 
 
 --
@@ -997,6 +1006,7 @@ INSERT INTO public."EPPM_USER" VALUES (25, 54, 5, '$2b$10$uMM2BbyM3gK91NvxmDsS1e
 -- Data for Name: EPPT_PHONE_SCHOOL; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
+INSERT INTO public."EPPT_PHONE_SCHOOL" VALUES (2, 37, 8);
 
 
 --
@@ -1085,7 +1095,7 @@ SELECT pg_catalog.setval('public."EPPM_PHONE_ID_PHONE_seq"', 1, true);
 -- Name: EPPM_PHONE_ID_PHONE_seq1; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public."EPPM_PHONE_ID_PHONE_seq1"', 20, true);
+SELECT pg_catalog.setval('public."EPPM_PHONE_ID_PHONE_seq1"', 27, true);
 
 
 --
@@ -1211,7 +1221,7 @@ SELECT pg_catalog.setval('public."EPPT_FACULTY_PHONE_ID_FACULTY_PHONE_seq"', 1, 
 -- Name: EPPT_FACULTY_PHONE_ID_FACULTY_PHONE_seq1; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public."EPPT_FACULTY_PHONE_ID_FACULTY_PHONE_seq1"', 1, false);
+SELECT pg_catalog.setval('public."EPPT_FACULTY_PHONE_ID_FACULTY_PHONE_seq1"', 5, true);
 
 
 --
@@ -1229,7 +1239,7 @@ SELECT pg_catalog.setval('public."EPPT_PHONE_SCHOOL_ID_PHONE_SCHOOL_seq"', 1, fa
 -- Name: EPPT_PHONE_SCHOOL_ID_PHONE_SCHOOL_seq1; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public."EPPT_PHONE_SCHOOL_ID_PHONE_SCHOOL_seq1"', 1, false);
+SELECT pg_catalog.setval('public."EPPT_PHONE_SCHOOL_ID_PHONE_SCHOOL_seq1"', 2, true);
 
 
 --
@@ -1628,7 +1638,7 @@ ALTER TABLE ONLY public."EPPT_TEACHER_COURSE_PROGRAM"
     ADD CONSTRAINT "FK_TEACHER" FOREIGN KEY ("ID_TEACHER") REFERENCES public."EPPM_TEACHER"("ID_TEACHER");
 
 
--- Completed on 2025-02-15 15:43:52
+-- Completed on 2025-02-20 15:57:34
 
 --
 -- PostgreSQL database dump complete
