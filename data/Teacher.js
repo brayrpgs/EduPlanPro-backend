@@ -13,7 +13,6 @@ class Teacher {
         };
         //validacion de emails
         if (!validateEmail(email)) {
-            console.log("invalidado por parche");
             return undefined;
         }
         const client = await this.conn.connect();
@@ -103,9 +102,8 @@ class Teacher {
     }
 
     async updateById(id, name, secName, idcard, email, idUser, stat) {
-        console.log("ll51");
         //validacion de emails
-        if (!validateEmail(email)) {
+        if (!validateEmail(email)) {//agreagr segunda capa
             console.log("invalidado por parche");
             return undefined;
         }
@@ -141,7 +139,7 @@ class Teacher {
                                 "ID_PERSON" = $5::integer`;
             const values2 = [name, secName, idcard, idUser, idPerson];
             const result2 = await stmt.query(sql2, values2);
-            return result2.rows;
+            return true;
         } catch (error) {
             console.log(error);
             return false;

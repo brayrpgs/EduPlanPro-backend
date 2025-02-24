@@ -64,7 +64,7 @@ const teacher = (app) => {
                 response.code = "200";
                 res.send(response);
             }
-            if (result === undefined) {
+            else if (result === undefined) {
                 response.data = "Campos invalidos";
                 response.code = "501";
                 res.send(response);
