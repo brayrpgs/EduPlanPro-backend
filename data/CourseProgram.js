@@ -39,7 +39,7 @@ class CourseProgram {
             await stmt.query(sql, values);
             return true;
         } catch (error) {
-            console.log(error);
+            //console.log(error);
             return error.code;
         }
         finally {
