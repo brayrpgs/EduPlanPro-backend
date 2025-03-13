@@ -18,7 +18,7 @@ const studyPlan = (app) => {
                 res.send(response);
             }
             else if (result === '23505') {
-                response.data = "El Correo del Plan de estudios ya Existe";
+                response.data = "El Plan de estudios ya Existe";
                 response.code = "500";
                 res.send(response);
             }
