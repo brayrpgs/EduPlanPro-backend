@@ -100,7 +100,7 @@ class CourseProgram {
                             SET
                                 "DSC_NAME" = $1::TEXT,
                                 "DAT_YEAR" = $2::DATE,
-                                "ID_STUDY_PLAN" = $3::,
+                                "ID_STUDY_PLAN" = $3::INTEGER,
                                 "NRC" = $4::TEXT,
                                 "CICLE" = $5::CHAR,
                                 "NUM_CREDITS" = $6::INTEGER,
@@ -114,7 +114,7 @@ class CourseProgram {
             const stmt = await this.conn.connect();
             const values = [DSC_NAME, DAT_YEAR, ID_STUDY_PLAN, NRC, CICLE, NUM_CREDITS, SIGNATURE, UPDATED_BY, PDF_URL, STATE, ID_COURSE_PROGRAM];
             const result = await stmt.query(sql, values);
-            console.log(result);
+            //console.log(result);
             return result.rows;
         } catch (error) {
             console.log(error);

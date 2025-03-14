@@ -61,7 +61,7 @@ const courseprogram = (app) => {
             const controller = new ControllerCourseProgram();
             const result = await controller.updateCourseProgramByID(req.body.DSC_NAME,
                 req.body.DAT_YEAR, req.body.ID_STUDY_PLAN, req.body.NRC, req.body.CICLE,
-                req.body.NUM_CREDITS, req.body.SIGNATURE, req.session.usernameData[0].ID_USER, req.body.PDF_URL);
+                req.body.NUM_CREDITS, req.body.SIGNATURE, req.session.usernameData[0].ID_USER, req.body.PDF_URL , req.body.ID_COURSE_PROGRAM ,req.body.STATE );
 
             if (result) {
                 response.data = "El programa de curso fue Actualizado correctamente";
