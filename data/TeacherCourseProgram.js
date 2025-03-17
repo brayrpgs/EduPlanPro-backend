@@ -74,6 +74,23 @@ class TeacherCourseProgram {
             this.conn.disconnect();
         }
     }
+
+    async delete_from_id_teacher(id) {
+        try {
+            const sql = `DELETE FROM PUBLIC."EPPT_TEACHER_COURSE_PROGRAM"
+                            WHERE
+                               "ID_TEACHER" = $1::INTEGER;`;
+            const stmt = await this.conn.connect();
+            const values = [id];
+            const result = await stmt.query(sql, values);
+            return result.rows;
+        } catch (error) {
+            return false;
+        }
+        finally {
+            this.conn.disconnect();
+        }
+    }
 }
 
 module.exports = TeacherCourseProgram;
