@@ -20,6 +20,7 @@ const facultyphone = require('./router/FacultyPhone');
 const schoolphone = require('./router/schoolphone');
 const searchfacultyphone = require('./router/searchfacultyphone');
 const courseprogram = require('./router/courseprogram');
+const teachercourseprogram = require('./router/teachercourseprogram');
 const app = express();
 const port = 3001;
 app.use(express.json());
@@ -125,6 +126,11 @@ schoolphone(app);
  * modulo de programas del curso
  */
 courseprogram(app)
+
+/**
+ * modulo relacional de programas del curso y profesores
+ */
+teachercourseprogram(app);
 
 /**
  * modulo de captura de rutas erroneas

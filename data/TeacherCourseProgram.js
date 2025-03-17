@@ -32,14 +32,21 @@ class TeacherCourseProgram {
     async getAll() {
         try {
             const sql = `SELECT
-                            "DSC_CARRER" AS "NOMBRE DE LA CARRERA",
-                            "DSC_CODE" AS "CODIGO",
-                            "ID_SCHOOL",
-                            "UPDATED_BY" AS "ACTUALIZADO POR",
-                            "STATE",
-                            "ID_CAREER" 
+                            "ID_TEACHER_COUSE_PROGRAM",
+                            "EPPM_COURSE_PROGRAM"."ID_COURSE_PROGRAM",
+                            "EPPM_COURSE_PROGRAM"."DAT_YEAR" AS "AÑO",
+                            "EPPM_COURSE_PROGRAM"."CICLE" AS "CICLO",
+                            "EPPM_COURSE_PROGRAM"."NRC",
+                            "EPPM_COURSE_PROGRAM"."DSC_NAME" AS "NOMBRE DEL PROGRAMA",
+                            "EPPM_TEACHER"."ID_TEACHER",
+                            "EPPM_PERSON"."DSC_NAME" AS "NOMBRE DEL PROFESOR",
+                            "EPPM_PERSON"."DSC_SECOND_NAME" AS "APELLIDOS",
+                            "EPPM_TEACHER"."EMAIL" AS "CORREO ELECTRONICO"
                         FROM
-                            PUBLIC."EPPM_CAREER";`;
+                            "EPPT_TEACHER_COURSE_PROGRAM"
+                            INNER JOIN "EPPM_COURSE_PROGRAM" ON "EPPM_COURSE_PROGRAM"."ID_COURSE_PROGRAM" = "EPPT_TEACHER_COURSE_PROGRAM"."ID_COURSE_PROGRAM"
+                            INNER JOIN "EPPM_TEACHER" ON "EPPM_TEACHER"."ID_TEACHER" = "EPPT_TEACHER_COURSE_PROGRAM"."ID_TEACHER"
+                            INNER JOIN "EPPM_PERSON" ON "EPPM_PERSON"."ID_PERSON" = "EPPM_TEACHER"."ID_PERSON"`;
             const stmt = await this.conn.connect();
             const result = await stmt.query(sql);
             return result.rows;
@@ -53,41 +60,14 @@ class TeacherCourseProgram {
 
     async deleteById(id) {
         try {
-            const sql = `DELETE FROM PUBLIC."EPPM_CAREER"
+            const sql = `DELETE FROM PUBLIC."EPPT_TEACHER_COURSE_PROGRAM"
                             WHERE
-                        "ID_CAREER" = $1::INTEGER;`;
+                               "ID_TEACHER_COUSE_PROGRAM" = $1::INTEGER;`;
             const stmt = await this.conn.connect();
             const values = [id];
             const result = await stmt.query(sql, values);
             return result.rows;
         } catch (error) {
-            return false;
-        }
-        finally {
-            this.conn.disconnect();
-        }
-    }
-
-    async updateById(DSC_CARRER, DSC_CODE, ID_SCHOOL, UPDATED_BY, STATE, ID_CAREER) {
-        try {
-            const sql = `UPDATE PUBLIC."EPPM_CAREER"
-                            SET
-                                "DSC_CARRER" = $1::TEXT,
-                                "DSC_CODE" = $2::TEXT,
-                                "ID_SCHOOL" = $3::INTEGER,
-                                "UPDATED_BY" = $4::INTEGER,
-                                "UPDATED AT" = CURRENT_TIMESTAMP,
-                                "STATE" = $5::CHAR
-                            WHERE
-                                "ID_CAREER" = $6::INTEGER;`;
-            const stmt = await this.conn.connect();
-            const values = [DSC_CARRER, DSC_CODE, ID_SCHOOL, UPDATED_BY, STATE, ID_CAREER];
-            const result = await stmt.query(sql, values);
-            console.log(result);
-            return result.rows;
-        } catch (error) {
-            console.log(error);
-
             return false;
         }
         finally {
