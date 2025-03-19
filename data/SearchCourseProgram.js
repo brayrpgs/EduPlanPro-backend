@@ -5,6 +5,7 @@ class SearchCourseProgram {
         this.conn = new ConnectionDB();
     }
     async search(DSC_NAME, DAT_YEAR, NRC, CICLE, NUM_CREDITS, SIGNATURE) {
+        console.log(typeof DAT_YEAR || null);
         try {
             const sql = `SELECT
                             "ID_COURSE_PROGRAM",
@@ -24,14 +25,14 @@ class SearchCourseProgram {
                             "STATE" = '1'
                             AND (
                                 "DSC_NAME" ILIKE $1::TEXT
-                                AND ($2::DATE IS NULL OR "DAT_YEAR" BETWEEN $2::DATE AND $2::DATE )
+                                AND ($2::DATE IS NULL OR "DAT_YEAR" = $2::DATE)
                                 AND "NRC" ILIKE $3::TEXT
                                 AND "CICLE" ILIKE $4::CHAR
-                                AND ($2::DATE IS NULL OR "NUM_CREDITS" BETWEEN $5::INTEGER AND $5::INTEGER)
+                                AND ($5::INTEGER IS NULL OR "NUM_CREDITS" = $5::INTEGER)
                                 AND "SIGNATURE" ILIKE $6::CHAR
                             )`;
             const stmt = await this.conn.connect();
-            const values = [`${DSC_NAME}%`, DAT_YEAR || null, `${NRC}%`, `${CICLE}%`, NUM_CREDITS || null, `${SIGNATURE}%`];
+            const values = [`${DSC_NAME}%`, DAT_YEAR || null, `${NRC}%`, `${CICLE}%` , NUM_CREDITS || null, `${SIGNATURE}%` || null];
             const result = await stmt.query(sql, values);
             return result.rows;
         } catch (error) {
@@ -187,13 +188,13 @@ class SearchCourseProgram {
                         FROM
                             PUBLIC."EPPM_COURSE_PROGRAM"
                         WHERE
-                            "STATE" = '1'
+                           "STATE" = '1'
                             AND (
-                                 "DSC_NAME" ILIKE $1::TEXT
-                                AND "DAT_YEAR" BETWEEN $2::DATE AND $2::DATE
+                                "DSC_NAME" ILIKE $1::TEXT
+                                AND ($2::DATE IS NULL OR "DAT_YEAR" = $2::DATE)
                                 AND "NRC" ILIKE $3::TEXT
                                 AND "CICLE" ILIKE $4::CHAR
-                                AND "NUM_CREDITS" BETWEEN $5::INTEGER AND $5::INTEGER
+                                AND ($5::INTEGER IS NULL OR "NUM_CREDITS" = $5::INTEGER)
                                 AND "SIGNATURE" ILIKE $6::CHAR
                             )
                         ORDER BY
