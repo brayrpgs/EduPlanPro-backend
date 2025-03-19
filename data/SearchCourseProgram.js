@@ -27,11 +27,11 @@ class SearchCourseProgram {
                                 AND ($2::DATE IS NULL OR "DAT_YEAR" BETWEEN $2::DATE AND $2::DATE )
                                 AND "NRC" ILIKE $3::TEXT
                                 AND "CICLE" ILIKE $4::CHAR
-                                AND "NUM_CREDITS" BETWEEN $5::INTEGER AND $5::INTEGER
+                                AND ($2::DATE IS NULL OR "NUM_CREDITS" BETWEEN $5::INTEGER AND $5::INTEGER)
                                 AND "SIGNATURE" ILIKE $6::CHAR
                             )`;
             const stmt = await this.conn.connect();
-            const values = [`${DSC_NAME}%`, DAT_YEAR || null, `${NRC}%`, `${CICLE}%`, NUM_CREDITS, `${SIGNATURE}%`];
+            const values = [`${DSC_NAME}%`, DAT_YEAR || null, `${NRC}%`, `${CICLE}%`, NUM_CREDITS || null, `${SIGNATURE}%`];
             const result = await stmt.query(sql, values);
             return result.rows;
         } catch (error) {
