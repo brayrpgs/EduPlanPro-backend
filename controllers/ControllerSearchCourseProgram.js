@@ -1,23 +1,29 @@
-const Carreer = require("../data/Carreer");
+const SearchCourseProgram = require("../data/SearchCourseProgram");
 
 class ControllerSearchCourseProgram {
     constructor(parameters) {
-        this.Carreer = new Carreer();
+        this.SearchCourseProgram = new SearchCourseProgram();
     }
-    async insertCarreer(DSC_CARRER, DSC_CODE, ID_SCHOOL, UPDATED_BY) {
-        return await this.Carreer.insert(DSC_CARRER, DSC_CODE, ID_SCHOOL, UPDATED_BY);
+    async search(DSC_NAME, DAT_YEAR, NRC, CICLE, NUM_CREDITS, SIGNATURE) {
+        return await this.SearchCourseProgram.search(DSC_NAME, DAT_YEAR, NRC, CICLE, NUM_CREDITS, SIGNATURE);
     }
-
-    async getAllCarreer() {
-        return await this.Carreer.getAll();
+    async searchUpdateAt(date1, date2) {
+        return await this.SearchCourseProgram.searchUpdateAt(date1, date2);
     }
-
-    async deleteCarreerByID(id) {
-        return await this.Carreer.deleteById(id);
+    async searchCreatedAt(date1, date2) {
+        return await this.SearchCourseProgram.searchCreatedAt(date1, date2);
     }
-
-    async updateCarreerByID(DSC_CARRER, DSC_CODE, ID_SCHOOL, UPDATED_BY, STATE, ID_CAREER) {
-        return await this.Carreer.updateById(DSC_CARRER, DSC_CODE, ID_SCHOOL, UPDATED_BY, STATE, ID_CAREER);
+    async searchState(state) {
+        return await this.SearchCourseProgram.searchState(state);
+    }
+    async searchId(id) {
+        return await this.SearchCourseProgram.searchId(id);
+    }
+    async getPageBySearch(limit, offset, DSC_NAME, DAT_YEAR, NRC, CICLE, NUM_CREDITS, SIGNATURE) {
+        return await this.SearchCourseProgram.getPageBySearch(limit, offset, DSC_NAME, DAT_YEAR, NRC, CICLE, NUM_CREDITS, SIGNATURE);
+    }
+    async getPageInfo(pageSize = 8) {
+        return await this.SearchCourseProgram.getPageInfo(pageSize = 8);
     }
 
 

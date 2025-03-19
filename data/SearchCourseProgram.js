@@ -4,29 +4,34 @@ class SearchCourseProgram {
     constructor(parameters) {
         this.conn = new ConnectionDB();
     }
-    async search(DSC_CARRER, DSC_CODE, DSC_SCHOOL, DSC_FACULTY) {
+    async search(DSC_NAME, DAT_YEAR, NRC, CICLE, NUM_CREDITS, SIGNATURE) {
         try {
             const sql = `SELECT
-                            "EPPM_CAREER"."DSC_CARRER" AS "NOMBRE DE CARRERA",
-                            "EPPM_CAREER"."DSC_CODE" AS "CODIGO DE CARRERA",
-                            "EPPM_CAREER"."UPDATED AT" AS "ACTUALIZADO POR",
-                            "EPPM_CAREER"."ID_CAREER",
-                            "EPPM_SCHOOL"."DSC_SCHOOL" AS "NOMBRE DE LA ESCUELA",
-                            "EPPM_FACULTY"."DSC_FACULTY" AS "NOMBRE DE LA FACULTAD"
+                            "ID_COURSE_PROGRAM",
+                            "DSC_NAME" AS "NOMBRE DEL PROGRAMA",
+                            "DAT_YEAR" AS "FECHA",
+                            "ID_STUDY_PLAN",
+                            "NRC",
+                            "CICLE" AS "CICLO",
+                            "NUM_CREDITS" AS "CREDITOS",
+                            "SIGNATURE" AS "FIRMA",
+                            "UPDATED_AT" AS "FECHA DE ACTUALIZACION",
+                            "CREATED_AT" AS "FECHA DE CREACION",
+                            "PDF_URL" AS "PDF"
                         FROM
-                            PUBLIC."EPPM_CAREER"
-                            INNER JOIN "EPPM_SCHOOL" ON "EPPM_SCHOOL"."ID_SCHOOL" = "EPPM_CAREER"."ID_SCHOOL"
-                            INNER JOIN "EPPM_FACULTY" ON "EPPM_SCHOOL"."ID_FACULTY" = "EPPM_FACULTY"."ID_FACULTY"
+                            PUBLIC."EPPM_COURSE_PROGRAM"
                         WHERE
-                            "EPPM_CAREER"."STATE" = '1'
+                            "STATE" = '1'
                             AND (
-                                "EPPM_CAREER"."DSC_CARRER" ILIKE $1::TEXT
-                                AND "EPPM_CAREER"."DSC_CODE" ILIKE $2::TEXT
-                                AND "EPPM_SCHOOL"."DSC_SCHOOL" ILIKE $3::TEXT
-                                AND "EPPM_FACULTY"."DSC_FACULTY" ILIKE $4::TEXT
-                            );`;
+                                "DSC_NAME" ILIKE $1::TEXT
+                                AND "DAT_YEAR" BETWEEN $2::DATE AND $2::DATE
+                                AND "NRC" ILIKE $3::TEXT
+                                AND "CICLE" ILIKE $4::CHAR
+                                AND "NUM_CREDITS" BETWEEN $5::INTEGER AND $5::INTEGER
+                                AND "SIGNATURE" ILIKE $6::CHAR
+                            )`;
             const stmt = await this.conn.connect();
-            const values = [`${DSC_CARRER}%`, `${DSC_CODE}%`, `${DSC_SCHOOL}%`, `${DSC_FACULTY}%`];
+            const values = [`${DSC_NAME}%`, DAT_YEAR, `${NRC}%`, `${CICLE}%`, NUM_CREDITS, `${SIGNATURE}%`];
             const result = await stmt.query(sql, values);
             return result.rows;
         } catch (error) {
@@ -41,20 +46,23 @@ class SearchCourseProgram {
     async searchUpdateAt(date1, date2) {
         try {
             const sql = `SELECT
-                            "EPPM_CAREER"."DSC_CARRER" AS "NOMBRE DE CARRERA",
-                            "EPPM_CAREER"."DSC_CODE" AS "CODIGO DE CARRERA",
-                            "EPPM_CAREER"."UPDATED AT" AS "ACTUALIZADO POR",
-                            "EPPM_CAREER"."ID_CAREER",
-                            "EPPM_SCHOOL"."DSC_SCHOOL" AS "NOMBRE DE LA ESCUELA",
-                            "EPPM_FACULTY"."DSC_FACULTY" AS "NOMBRE DE LA FACULTAD"
+                            "ID_COURSE_PROGRAM",
+                            "DSC_NAME" AS "NOMBRE DEL PROGRAMA",
+                            "DAT_YEAR" AS "FECHA",
+                            "ID_STUDY_PLAN",
+                            "NRC",
+                            "CICLE" AS "CICLO",
+                            "NUM_CREDITS" AS "CREDITOS",
+                            "SIGNATURE" AS "FIRMA",
+                            "UPDATED_AT" AS "FECHA DE ACTUALIZACION",
+                            "CREATED_AT" AS "FECHA DE CREACION",
+                            "PDF_URL" AS "PDF"
                         FROM
-                            PUBLIC."EPPM_CAREER"
-                            INNER JOIN "EPPM_SCHOOL" ON "EPPM_SCHOOL"."ID_SCHOOL" = "EPPM_CAREER"."ID_SCHOOL"
-                            INNER JOIN "EPPM_FACULTY" ON "EPPM_SCHOOL"."ID_FACULTY" = "EPPM_FACULTY"."ID_FACULTY"
+                            PUBLIC."EPPM_COURSE_PROGRAM"
                         WHERE
-                            "EPPM_CAREER"."STATE" = '1'
+                            "STATE" = '1'
                             AND (
-                                "EPPM_CAREER"."UPDATED AT" BETWEEN $1::DATE AND $2::DATE
+                                "UPDATED_AT" BETWEEN $1::DATE AND $2::DATE
                             );`;
             const stmt = await this.conn.connect();
             const values = [date1, date2];
@@ -71,20 +79,23 @@ class SearchCourseProgram {
     async searchCreatedAt(date1, date2) {
         try {
             const sql = `SELECT
-                            "EPPM_CAREER"."DSC_CARRER" AS "NOMBRE DE CARRERA",
-                            "EPPM_CAREER"."DSC_CODE" AS "CODIGO DE CARRERA",
-                            "EPPM_CAREER"."UPDATED AT" AS "ACTUALIZADO POR",
-                            "EPPM_CAREER"."ID_CAREER",
-                            "EPPM_SCHOOL"."DSC_SCHOOL" AS "NOMBRE DE LA ESCUELA",
-                            "EPPM_FACULTY"."DSC_FACULTY" AS "NOMBRE DE LA FACULTAD"
+                            "ID_COURSE_PROGRAM",
+                            "DSC_NAME" AS "NOMBRE DEL PROGRAMA",
+                            "DAT_YEAR" AS "FECHA",
+                            "ID_STUDY_PLAN",
+                            "NRC",
+                            "CICLE" AS "CICLO",
+                            "NUM_CREDITS" AS "CREDITOS",
+                            "SIGNATURE" AS "FIRMA",
+                            "UPDATED_AT" AS "FECHA DE ACTUALIZACION",
+                            "CREATED_AT" AS "FECHA DE CREACION",
+                            "PDF_URL" AS "PDF"
                         FROM
-                            PUBLIC."EPPM_CAREER"
-                            INNER JOIN "EPPM_SCHOOL" ON "EPPM_SCHOOL"."ID_SCHOOL" = "EPPM_CAREER"."ID_SCHOOL"
-                            INNER JOIN "EPPM_FACULTY" ON "EPPM_SCHOOL"."ID_FACULTY" = "EPPM_FACULTY"."ID_FACULTY"
+                            PUBLIC."EPPM_COURSE_PROGRAM"
                         WHERE
-                            "EPPM_CAREER"."STATE" = '1'
+                            "STATE" = '1'
                             AND (
-                                "EPPM_CAREER"."CREATED_AT" BETWEEN $1::DATE AND $2::DATE
+                                "CREATED_AT" BETWEEN $1::DATE AND $2::DATE
                             );`;
             const stmt = await this.conn.connect();
             const values = [date1, date2];
@@ -101,18 +112,21 @@ class SearchCourseProgram {
     async searchState(state) {
         try {
             const sql = `SELECT
-                            "EPPM_CAREER"."DSC_CARRER" AS "NOMBRE DE CARRERA",
-                            "EPPM_CAREER"."DSC_CODE" AS "CODIGO DE CARRERA",
-                            "EPPM_CAREER"."UPDATED AT" AS "ACTUALIZADO POR",
-                            "EPPM_CAREER"."ID_CAREER",
-                            "EPPM_SCHOOL"."DSC_SCHOOL" AS "NOMBRE DE LA ESCUELA",
-                            "EPPM_FACULTY"."DSC_FACULTY" AS "NOMBRE DE LA FACULTAD"
+                            "ID_COURSE_PROGRAM",
+                            "DSC_NAME" AS "NOMBRE DEL PROGRAMA",
+                            "DAT_YEAR" AS "FECHA",
+                            "ID_STUDY_PLAN",
+                            "NRC",
+                            "CICLE" AS "CICLO",
+                            "NUM_CREDITS" AS "CREDITOS",
+                            "SIGNATURE" AS "FIRMA",
+                            "UPDATED_AT" AS "FECHA DE ACTUALIZACION",
+                            "CREATED_AT" AS "FECHA DE CREACION",
+                            "PDF_URL" AS "PDF"
                         FROM
-                            PUBLIC."EPPM_CAREER"
-                            INNER JOIN "EPPM_SCHOOL" ON "EPPM_SCHOOL"."ID_SCHOOL" = "EPPM_CAREER"."ID_SCHOOL"
-                            INNER JOIN "EPPM_FACULTY" ON "EPPM_SCHOOL"."ID_FACULTY" = "EPPM_FACULTY"."ID_FACULTY"
+                            PUBLIC."EPPM_COURSE_PROGRAM"
                         WHERE
-                            "EPPM_CAREER"."STATE" = $1::CHAR;`;
+                            "STATE" = $1::CHAR;`;
             const stmt = await this.conn.connect();
             const values = [state];
             const result = await stmt.query(sql, values);
@@ -129,18 +143,21 @@ class SearchCourseProgram {
     async searchId(id) {
         try {
             const sql = `SELECT
-                            "EPPM_CAREER"."DSC_CARRER" AS "NOMBRE DE CARRERA",
-                            "EPPM_CAREER"."DSC_CODE" AS "CODIGO DE CARRERA",
-                            "EPPM_CAREER"."UPDATED AT" AS "ACTUALIZADO POR",
-                            "EPPM_CAREER"."ID_CAREER",
-                            "EPPM_SCHOOL"."DSC_SCHOOL" AS "NOMBRE DE LA ESCUELA",
-                            "EPPM_FACULTY"."DSC_FACULTY" AS "NOMBRE DE LA FACULTAD"
+                            "ID_COURSE_PROGRAM",
+                            "DSC_NAME" AS "NOMBRE DEL PROGRAMA",
+                            "DAT_YEAR" AS "FECHA",
+                            "ID_STUDY_PLAN",
+                            "NRC",
+                            "CICLE" AS "CICLO",
+                            "NUM_CREDITS" AS "CREDITOS",
+                            "SIGNATURE" AS "FIRMA",
+                            "UPDATED_AT" AS "FECHA DE ACTUALIZACION",
+                            "CREATED_AT" AS "FECHA DE CREACION",
+                            "PDF_URL" AS "PDF"
                         FROM
-                            PUBLIC."EPPM_CAREER"
-                            INNER JOIN "EPPM_SCHOOL" ON "EPPM_SCHOOL"."ID_SCHOOL" = "EPPM_CAREER"."ID_SCHOOL"
-                            INNER JOIN "EPPM_FACULTY" ON "EPPM_SCHOOL"."ID_FACULTY" = "EPPM_FACULTY"."ID_FACULTY"
+                            PUBLIC."EPPM_COURSE_PROGRAM"
                         WHERE
-                            "EPPM_CAREER"."ID_CAREER" = $1::INTEGER;`;
+                            "ID_COURSE_PROGRAM" = $1::INTEGER;`;
             const stmt = await this.conn.connect();
             const values = [id];
             const result = await stmt.query(sql, values);
@@ -153,51 +170,66 @@ class SearchCourseProgram {
             this.conn.disconnect();
         }
     }
-    async getPageBySearch(limit, offset, DSC_CARRER, DSC_CODE, DSC_SCHOOL, DSC_FACULTY) {
+    async getPageBySearch(limit, offset, DSC_NAME, DAT_YEAR, NRC, CICLE, NUM_CREDITS, SIGNATURE) {
         try {
             const sql = `SELECT
-                            "EPPM_CAREER"."DSC_CARRER" AS "NOMBRE DE CARRERA",
-                            "EPPM_CAREER"."DSC_CODE" AS "CODIGO DE CARRERA",
-                            "EPPM_CAREER"."UPDATED AT" AS "ACTUALIZADO POR",
-                            "EPPM_CAREER"."ID_CAREER",
-                            "EPPM_SCHOOL"."DSC_SCHOOL" AS "NOMBRE DE LA ESCUELA",
-                            "EPPM_FACULTY"."DSC_FACULTY" AS "NOMBRE DE LA FACULTAD"
+                            "ID_COURSE_PROGRAM",
+                            "DSC_NAME" AS "NOMBRE DEL PROGRAMA",
+                            "DAT_YEAR" AS "FECHA",
+                            "ID_STUDY_PLAN",
+                            "NRC",
+                            "CICLE" AS "CICLO",
+                            "NUM_CREDITS" AS "CREDITOS",
+                            "SIGNATURE" AS "FIRMA",
+                            "UPDATED_AT" AS "FECHA DE ACTUALIZACION",
+                            "CREATED_AT" AS "FECHA DE CREACION",
+                            "PDF_URL" AS "PDF"
                         FROM
-                            PUBLIC."EPPM_CAREER"
-                            INNER JOIN "EPPM_SCHOOL" ON "EPPM_SCHOOL"."ID_SCHOOL" = "EPPM_CAREER"."ID_SCHOOL"
-                            INNER JOIN "EPPM_FACULTY" ON "EPPM_SCHOOL"."ID_FACULTY" = "EPPM_FACULTY"."ID_FACULTY"
+                            PUBLIC."EPPM_COURSE_PROGRAM"
                         WHERE
-                            "EPPM_CAREER"."STATE" = '1'
+                            "STATE" = '1'
                             AND (
-                                "EPPM_CAREER"."DSC_CARRER" ILIKE $1::TEXT
-                                AND "EPPM_CAREER"."DSC_CODE" ILIKE $2::TEXT
-                                AND "EPPM_SCHOOL"."DSC_SCHOOL" ILIKE $3::TEXT
-                                AND "EPPM_FACULTY"."DSC_FACULTY" ILIKE $4::TEXT
+                                 "DSC_NAME" ILIKE $1::TEXT
+                                AND "DAT_YEAR" BETWEEN $2::DATE AND $2::DATE
+                                AND "NRC" ILIKE $3::TEXT
+                                AND "CICLE" ILIKE $4::CHAR
+                                AND "NUM_CREDITS" BETWEEN $5::INTEGER AND $5::INTEGER
+                                AND "SIGNATURE" ILIKE $6::CHAR
                             )
                         ORDER BY
-                            "EPPM_CAREER"."DSC_CARRER" ASC
+                            "DSC_NAME" ASC
                         LIMIT
-                            $5::INTEGER
+                            $7::INTEGER
                         OFFSET
-                            $6::INTEGER;`;
+                            $8::INTEGER;`;
             const stmt = await this.conn.connect();
-            const result = await stmt.query(sql, [`${DSC_CARRER}%`, `${DSC_CODE}%`, `${DSC_SCHOOL}%`, `${DSC_FACULTY}%`, limit, offset]);
+            const result = await stmt.query(sql, [`${DSC_NAME}%`, DAT_YEAR, `${NRC}%`, `${CICLE}%`, NUM_CREDITS, `${SIGNATURE}%`, limit, offset]);
             //ahora voy por el total de resultados
             const sql2 = `SELECT
-                                COUNT("EPPM_CAREER"."ID_CAREER") AS "TOTAL COINCIDENCIAS"
-                            FROM
-                                PUBLIC."EPPM_CAREER"
-                                INNER JOIN "EPPM_SCHOOL" ON "EPPM_SCHOOL"."ID_SCHOOL" = "EPPM_CAREER"."ID_SCHOOL"
-                                INNER JOIN "EPPM_FACULTY" ON "EPPM_SCHOOL"."ID_FACULTY" = "EPPM_FACULTY"."ID_FACULTY"
-                            WHERE
-                                "EPPM_CAREER"."STATE" = '1'
-                                AND (
-                                    "EPPM_CAREER"."DSC_CARRER" ILIKE $1::TEXT
-                                    AND "EPPM_CAREER"."DSC_CODE" ILIKE $2::TEXT
-                                AND "EPPM_SCHOOL"."DSC_SCHOOL" ILIKE $3::TEXT
-                                AND "EPPM_FACULTY"."DSC_FACULTY" ILIKE $4::TEXT
-                                )`;
-            const result2 = await stmt.query(sql2, [`${DSC_CARRER}%`, `${DSC_CODE}%`, `${DSC_SCHOOL}%`, `${DSC_FACULTY}%`]);
+                            "ID_COURSE_PROGRAM",
+                            "DSC_NAME" AS "NOMBRE DEL PROGRAMA",
+                            "DAT_YEAR" AS "FECHA",
+                            "ID_STUDY_PLAN",
+                            "NRC",
+                            "CICLE" AS "CICLO",
+                            "NUM_CREDITS" AS "CREDITOS",
+                            "SIGNATURE" AS "FIRMA",
+                            "UPDATED_AT" AS "FECHA DE ACTUALIZACION",
+                            "CREATED_AT" AS "FECHA DE CREACION",
+                            "PDF_URL" AS "PDF"
+                        FROM
+                            PUBLIC."EPPM_COURSE_PROGRAM"
+                        WHERE
+                            "STATE" = '1'
+                            AND (
+                                 "DSC_NAME" ILIKE $1::TEXT
+                                AND "DAT_YEAR" BETWEEN $2::DATE AND $2::DATE
+                                AND "NRC" ILIKE $3::TEXT
+                                AND "CICLE" ILIKE $4::CHAR
+                                AND "NUM_CREDITS" BETWEEN $5::INTEGER AND $5::INTEGER
+                                AND "SIGNATURE" ILIKE $6::CHAR
+                            )`;
+            const result2 = await stmt.query(sql2, [`${DSC_NAME}%`, DAT_YEAR, `${NRC}%`, `${CICLE}%`, NUM_CREDITS, `${SIGNATURE}%`]);
             //envio los dos datos
             return {
                 rows: result.rows,
@@ -213,11 +245,11 @@ class SearchCourseProgram {
     async getPageInfo(pageSize = 8) {
         try {
             const sql = `SELECT
-                            COUNT("EPPM_CAREER"."STATE") AS "total"
+                            COUNT("ID_COURSE_PROGRAM") AS "total"
                         FROM
-                            PUBLIC."EPPM_CAREER"
+                            PUBLIC."EPPM_COURSE_PROGRAM"
                         WHERE
-                            "EPPM_CAREER"."STATE" = '1'`;
+                            "STATE" = '1'`;
             const stmt = await this.conn.connect();
             const result = await stmt.query(sql);
             console.log(result);

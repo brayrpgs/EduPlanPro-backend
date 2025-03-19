@@ -21,6 +21,7 @@ const schoolphone = require('./router/schoolphone');
 const searchfacultyphone = require('./router/searchfacultyphone');
 const courseprogram = require('./router/courseprogram');
 const teachercourseprogram = require('./router/teachercourseprogram');
+const searchcourseprogram = require('./router/searchcourseprogram');
 const app = express();
 const port = 3001;
 app.use(express.json());
@@ -121,6 +122,11 @@ searchfacultyphone(app);
  * modulo relacional de telefonos y facultades
  */
 schoolphone(app);
+
+/**
+ * modulo de busquedas de programas del curso
+ */
+searchcourseprogram(app);
 
 /**
  * modulo de programas del curso
