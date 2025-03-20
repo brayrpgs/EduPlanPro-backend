@@ -207,17 +207,7 @@ class SearchCourseProgram {
             const result = await stmt.query(sql, [`${DSC_NAME}%`, DAT_YEAR || null, `${NRC}%`, `${CICLE}%`, NUM_CREDITS || null, `${SIGNATURE}%` || null, limit, offset]);
             //ahora voy por el total de resultados
             const sql2 = `SELECT
-                            "ID_COURSE_PROGRAM",
-                            "DSC_NAME" AS "NOMBRE DEL PROGRAMA",
-                            "DAT_YEAR" AS "FECHA",
-                            "ID_STUDY_PLAN",
-                            "NRC",
-                            "CICLE" AS "CICLO",
-                            "NUM_CREDITS" AS "CREDITOS",
-                            "SIGNATURE" AS "FIRMA",
-                            "UPDATED_AT" AS "FECHA DE ACTUALIZACION",
-                            "CREATED_AT" AS "FECHA DE CREACION",
-                            "PDF_URL" AS "PDF"
+                             COUNT("ID_COURSE_PROGRAM") AS "TOTAL COINCIDENCIAS"
                         FROM
                             PUBLIC."EPPM_COURSE_PROGRAM"
                         WHERE
@@ -253,11 +243,8 @@ class SearchCourseProgram {
                             "STATE" = '1'`;
             const stmt = await this.conn.connect();
             const result = await stmt.query(sql);
-            console.log(result);
-
             const totalRecords = parseInt(result.rows[0].total, 10);
             const totalPages = Math.ceil(totalRecords / pageSize);
-
             return {
                 totalRecords,
                 totalPages,
