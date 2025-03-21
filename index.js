@@ -22,6 +22,8 @@ const searchfacultyphone = require('./router/searchfacultyphone');
 const courseprogram = require('./router/courseprogram');
 const teachercourseprogram = require('./router/teachercourseprogram');
 const searchcourseprogram = require('./router/searchcourseprogram');
+const reports = require('./router/reports');
+const backup = require('./services/backupService');
 const app = express();
 const port = 3001;
 /*hay que moverlo luego*/
@@ -136,6 +138,17 @@ courseprogram(app)
  * modulo relacional de programas del curso y profesores
  */
 teachercourseprogram(app);
+
+
+/**
+ * modulo de reportes
+ */
+reports(app);
+
+/**
+ * modulo de backups
+ */
+backup(app);
 
 /**
  * modulo de captura de rutas erroneas
