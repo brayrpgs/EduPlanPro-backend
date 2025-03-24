@@ -2,8 +2,8 @@ const cors = require('cors');
 const morgan = require('morgan');
 const session = require('express-session');
 
-
 const middlewares = (app) => {
+   
     app.use(cors({
         origin: 'http://localhost:3000',
         credentials: true
@@ -16,6 +16,7 @@ const middlewares = (app) => {
         saveUninitialized: true,
         cookie: { secure: false }
     }));
+    
 
 };
 module.exports = middlewares;

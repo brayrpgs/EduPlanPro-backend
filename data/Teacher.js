@@ -1,6 +1,7 @@
 const validateEmail = require("../services/validateEmail");
 const validateFields = require("../services/validateFields");
 const ConnectionDB = require("./ConnectionDB");
+const TeacherCourseProgram = require("./TeacherCourseProgram");
 
 class Teacher {
     constructor(parameters) {
@@ -78,6 +79,9 @@ class Teacher {
 
     async deleteById(id) {
         try {
+            //Eliminamos todas las relaciones
+            const obj = new TeacherCourseProgram();
+            obj.delete_from_id_teacher(id);
             //elimino el profesor
             const sql = `DELETE FROM public."EPPM_TEACHER"
                         WHERE "ID_TEACHER" = $1::integer
@@ -103,9 +107,15 @@ class Teacher {
 
     async updateById(id, name, secName, idcard, email, idUser, stat) {
         //validacion de emails
-        if (!validateEmail(email)) {//agreagr segunda capa
+        if (validateEmail(email) === false) {//agreagr segunda capa
             console.log("invalidado por parche");
             return undefined;
+        }
+
+        if (stat === '0') {
+            //Eliminamos todas las relaciones
+            const obj = new TeacherCourseProgram();
+            obj.delete_from_id_teacher(id);
         }
         try {
             /**
