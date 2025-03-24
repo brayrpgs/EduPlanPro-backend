@@ -2,35 +2,10 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 17.0
--- Dumped by pg_dump version 17.0
+-- Dumped from database version 17.4
+-- Dumped by pg_dump version 17.4
 
--- Started on 2025-02-20 15:57:34
-
-SET statement_timeout = 0;
-SET lock_timeout = 0;
-SET idle_in_transaction_session_timeout = 0;
-SET transaction_timeout = 0;
-SET client_encoding = 'UTF8';
-SET standard_conforming_strings = on;
-SELECT pg_catalog.set_config('search_path', '', false);
-SET check_function_bodies = false;
-SET xmloption = content;
-SET client_min_messages = warning;
-SET row_security = off;
-
-DROP DATABASE "EDUPLANPRO";
---
--- TOC entry 5056 (class 1262 OID 16388)
--- Name: EDUPLANPRO; Type: DATABASE; Schema: -; Owner: postgres
---
-
-CREATE DATABASE "EDUPLANPRO" WITH TEMPLATE = template0 ENCODING = 'UTF8' LOCALE_PROVIDER = libc LOCALE = 'Spanish_Spain.1252';
-
-
-ALTER DATABASE "EDUPLANPRO" OWNER TO postgres;
-
-\connect "EDUPLANPRO"
+-- Started on 2025-03-11 19:46:50
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -44,6 +19,77 @@ SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
 
+ALTER TABLE IF EXISTS ONLY public."EPPT_TEACHER_COURSE_PROGRAM" DROP CONSTRAINT IF EXISTS "FK_TEACHER";
+ALTER TABLE IF EXISTS ONLY public."EPPM_COURSE_PROGRAM" DROP CONSTRAINT IF EXISTS "FK_STUDY_PLAN";
+ALTER TABLE IF EXISTS ONLY public."EPPT_PHONE_SCHOOL" DROP CONSTRAINT IF EXISTS "FK_SCHOOL";
+ALTER TABLE IF EXISTS ONLY public."EPPM_CAREER" DROP CONSTRAINT IF EXISTS "FK_SCHOOL";
+ALTER TABLE IF EXISTS ONLY public."EPPM_USER" DROP CONSTRAINT IF EXISTS "FK_ROL";
+ALTER TABLE IF EXISTS ONLY public."EPPM_USER" DROP CONSTRAINT IF EXISTS "FK_PREFERENCES_USER";
+ALTER TABLE IF EXISTS ONLY public."EPPP_PREFERENCES" DROP CONSTRAINT IF EXISTS "FK_PREFERENCES";
+ALTER TABLE IF EXISTS ONLY public."EPPT_PHONE_SCHOOL" DROP CONSTRAINT IF EXISTS "FK_PHONE";
+ALTER TABLE IF EXISTS ONLY public."EPPT_FACULTY_PHONE" DROP CONSTRAINT IF EXISTS "FK_PHONE";
+ALTER TABLE IF EXISTS ONLY public."EPPM_USER" DROP CONSTRAINT IF EXISTS "FK_PERSON";
+ALTER TABLE IF EXISTS ONLY public."EPPM_TEACHER" DROP CONSTRAINT IF EXISTS "FK_PERSON";
+ALTER TABLE IF EXISTS ONLY public."EPPT_FACULTY_PHONE" DROP CONSTRAINT IF EXISTS "FK_FACULTY";
+ALTER TABLE IF EXISTS ONLY public."EPPM_SCHOOL" DROP CONSTRAINT IF EXISTS "FK_FACULTY";
+ALTER TABLE IF EXISTS ONLY public."EPPT_TEACHER_COURSE_PROGRAM" DROP CONSTRAINT IF EXISTS "FK_COURSE_PROGRAM";
+ALTER TABLE IF EXISTS ONLY public."EPPM_STUDY_PLAN" DROP CONSTRAINT IF EXISTS "FK_CAREER";
+DROP INDEX IF EXISTS public."fki_FK_STUDY_PLAN";
+DROP INDEX IF EXISTS public."fki_FK_SCHOOL";
+DROP INDEX IF EXISTS public."fki_FK_ROL";
+DROP INDEX IF EXISTS public."fki_FK_PREFERENCES_USER";
+DROP INDEX IF EXISTS public."fki_FK_PREFERENCES";
+DROP INDEX IF EXISTS public."fki_FK_PERSON";
+DROP INDEX IF EXISTS public."fki_FK_COURSE_PROGRAM";
+DROP INDEX IF EXISTS public."fki_FK_CAREER";
+DROP INDEX IF EXISTS public."fki_FK";
+ALTER TABLE IF EXISTS ONLY public."EPPM_SCHOOL" DROP CONSTRAINT IF EXISTS "UNIQUE_SCHOOL";
+ALTER TABLE IF EXISTS ONLY public."EPPM_FACULTY" DROP CONSTRAINT IF EXISTS "UNIQUE_FACULTY";
+ALTER TABLE IF EXISTS ONLY public."EPPM_TEACHER" DROP CONSTRAINT IF EXISTS "UNIQUE_EMAIL";
+ALTER TABLE IF EXISTS ONLY public."EPPM_USER" DROP CONSTRAINT IF EXISTS "PK_USER";
+ALTER TABLE IF EXISTS ONLY public."EPPT_TEACHER_COURSE_PROGRAM" DROP CONSTRAINT IF EXISTS "PK_TEACHER_COURSE_PROGRAM";
+ALTER TABLE IF EXISTS ONLY public."EPPM_TEACHER" DROP CONSTRAINT IF EXISTS "PK_TEACHER";
+ALTER TABLE IF EXISTS ONLY public."EPPM_STUDY_PLAN" DROP CONSTRAINT IF EXISTS "PK_STUDY_PLAN";
+ALTER TABLE IF EXISTS ONLY public."EPPM_SCHOOL" DROP CONSTRAINT IF EXISTS "PK_SCHOOL";
+ALTER TABLE IF EXISTS ONLY public."EPPM_ROL" DROP CONSTRAINT IF EXISTS "PK_ROL";
+ALTER TABLE IF EXISTS ONLY public."EPPP_PREFERENCES" DROP CONSTRAINT IF EXISTS "PK_PREFERENCES";
+ALTER TABLE IF EXISTS ONLY public."EPPT_PHONE_SCHOOL" DROP CONSTRAINT IF EXISTS "PK_PHONE_SCHOOL";
+ALTER TABLE IF EXISTS ONLY public."EPPM_PHONE" DROP CONSTRAINT IF EXISTS "PK_PHONE";
+ALTER TABLE IF EXISTS ONLY public."EPPM_PERSON" DROP CONSTRAINT IF EXISTS "PK_PERSON";
+ALTER TABLE IF EXISTS ONLY public."EPPT_FACULTY_PHONE" DROP CONSTRAINT IF EXISTS "PK_FACULTY_PHONE";
+ALTER TABLE IF EXISTS ONLY public."EPPM_FACULTY" DROP CONSTRAINT IF EXISTS "PK_FACULTY";
+ALTER TABLE IF EXISTS ONLY public."EPPM_COURSE_PROGRAM" DROP CONSTRAINT IF EXISTS "PK_COURSE_PROGRAM";
+ALTER TABLE IF EXISTS ONLY public."EPPM_CAREER" DROP CONSTRAINT IF EXISTS "PK_CAREER";
+ALTER TABLE IF EXISTS ONLY public."EPPM_PHONE" DROP CONSTRAINT IF EXISTS "NUM_PHONE_NUMBER_UNIQUE";
+ALTER TABLE IF EXISTS ONLY public."EPPM_ROL" DROP CONSTRAINT IF EXISTS "DSC_NAME_UNIQUE";
+DROP SEQUENCE IF EXISTS public."EPPT_TEACHER_COURSE_PROGRAM_ID_TEACHER_COUSE_PROGRAM_seq";
+DROP TABLE IF EXISTS public."EPPT_TEACHER_COURSE_PROGRAM";
+DROP SEQUENCE IF EXISTS public."EPPT_PHONE_SCHOOL_ID_PHONE_SCHOOL_seq";
+DROP TABLE IF EXISTS public."EPPT_PHONE_SCHOOL";
+DROP SEQUENCE IF EXISTS public."EPPT_FACULTY_PHONE_ID_FACULTY_PHONE_seq";
+DROP TABLE IF EXISTS public."EPPT_FACULTY_PHONE";
+DROP SEQUENCE IF EXISTS public."EPPP_PREFERENCES_ID_PREFERENCES_seq";
+DROP TABLE IF EXISTS public."EPPP_PREFERENCES";
+DROP SEQUENCE IF EXISTS public."EPPM_USER_ID_USER_seq";
+DROP TABLE IF EXISTS public."EPPM_USER";
+DROP SEQUENCE IF EXISTS public."EPPM_TEACHER_ID_TEACHER_seq";
+DROP TABLE IF EXISTS public."EPPM_TEACHER";
+DROP SEQUENCE IF EXISTS public."EPPM_STUDY_PLAN_ID_STUDY_PLAN_seq";
+DROP TABLE IF EXISTS public."EPPM_STUDY_PLAN";
+DROP SEQUENCE IF EXISTS public."EPPM_SCHOOL_ID_SCHOOL_seq";
+DROP TABLE IF EXISTS public."EPPM_SCHOOL";
+DROP SEQUENCE IF EXISTS public."EPPM_ROL_ID_ROL_seq";
+DROP TABLE IF EXISTS public."EPPM_ROL";
+DROP SEQUENCE IF EXISTS public."EPPM_PHONE_ID_PHONE_seq";
+DROP TABLE IF EXISTS public."EPPM_PHONE";
+DROP SEQUENCE IF EXISTS public."EPPM_PERSON_ID_PERSON_seq";
+DROP TABLE IF EXISTS public."EPPM_PERSON";
+DROP SEQUENCE IF EXISTS public."EPPM_FACULTY_ID_FACULTY_seq";
+DROP TABLE IF EXISTS public."EPPM_FACULTY";
+DROP SEQUENCE IF EXISTS public."EPPM_COURSE_PROGRAM_ID_COURSE_PROGRAM_seq";
+DROP TABLE IF EXISTS public."EPPM_COURSE_PROGRAM";
+DROP TABLE IF EXISTS public."EPPM_CAREER";
+DROP SCHEMA IF EXISTS public;
 --
 -- TOC entry 4 (class 2615 OID 2200)
 -- Name: public; Type: SCHEMA; Schema: -; Owner: pg_database_owner
@@ -55,7 +101,7 @@ CREATE SCHEMA public;
 ALTER SCHEMA public OWNER TO pg_database_owner;
 
 --
--- TOC entry 5057 (class 0 OID 0)
+-- TOC entry 5056 (class 0 OID 0)
 -- Dependencies: 4
 -- Name: SCHEMA public; Type: COMMENT; Schema: -; Owner: pg_database_owner
 --
@@ -113,7 +159,7 @@ CREATE TABLE public."EPPM_COURSE_PROGRAM" (
     "ID_STUDY_PLAN" integer,
     "NRC" text,
     "CICLE" "char",
-    "NUM_CREDITS" numeric,
+    "NUM_CREDITS" integer,
     "SIGNATURE" "char",
     "UPDATED_BY" integer NOT NULL,
     "UPDATED_AT" timestamp without time zone DEFAULT CURRENT_TIMESTAMP,
@@ -142,7 +188,7 @@ CREATE SEQUENCE public."EPPM_COURSE_PROGRAM_ID_COURSE_PROGRAM_seq"
 ALTER SEQUENCE public."EPPM_COURSE_PROGRAM_ID_COURSE_PROGRAM_seq" OWNER TO postgres;
 
 --
--- TOC entry 5058 (class 0 OID 0)
+-- TOC entry 5057 (class 0 OID 0)
 -- Dependencies: 226
 -- Name: EPPM_COURSE_PROGRAM_ID_COURSE_PROGRAM_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -199,7 +245,7 @@ CREATE SEQUENCE public."EPPM_FACULTY_ID_FACULTY_seq"
 ALTER SEQUENCE public."EPPM_FACULTY_ID_FACULTY_seq" OWNER TO postgres;
 
 --
--- TOC entry 5059 (class 0 OID 0)
+-- TOC entry 5058 (class 0 OID 0)
 -- Dependencies: 219
 -- Name: EPPM_FACULTY_ID_FACULTY_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -258,7 +304,7 @@ CREATE SEQUENCE public."EPPM_PERSON_ID_PERSON_seq"
 ALTER SEQUENCE public."EPPM_PERSON_ID_PERSON_seq" OWNER TO postgres;
 
 --
--- TOC entry 5060 (class 0 OID 0)
+-- TOC entry 5059 (class 0 OID 0)
 -- Dependencies: 230
 -- Name: EPPM_PERSON_ID_PERSON_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -315,7 +361,7 @@ CREATE SEQUENCE public."EPPM_PHONE_ID_PHONE_seq"
 ALTER SEQUENCE public."EPPM_PHONE_ID_PHONE_seq" OWNER TO postgres;
 
 --
--- TOC entry 5061 (class 0 OID 0)
+-- TOC entry 5060 (class 0 OID 0)
 -- Dependencies: 217
 -- Name: EPPM_PHONE_ID_PHONE_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -373,7 +419,7 @@ CREATE SEQUENCE public."EPPM_ROL_ID_ROL_seq"
 ALTER SEQUENCE public."EPPM_ROL_ID_ROL_seq" OWNER TO postgres;
 
 --
--- TOC entry 5062 (class 0 OID 0)
+-- TOC entry 5061 (class 0 OID 0)
 -- Dependencies: 234
 -- Name: EPPM_ROL_ID_ROL_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -431,7 +477,7 @@ CREATE SEQUENCE public."EPPM_SCHOOL_ID_SCHOOL_seq"
 ALTER SEQUENCE public."EPPM_SCHOOL_ID_SCHOOL_seq" OWNER TO postgres;
 
 --
--- TOC entry 5063 (class 0 OID 0)
+-- TOC entry 5062 (class 0 OID 0)
 -- Dependencies: 221
 -- Name: EPPM_SCHOOL_ID_SCHOOL_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -492,7 +538,7 @@ CREATE SEQUENCE public."EPPM_STUDY_PLAN_ID_STUDY_PLAN_seq"
 ALTER SEQUENCE public."EPPM_STUDY_PLAN_ID_STUDY_PLAN_seq" OWNER TO postgres;
 
 --
--- TOC entry 5064 (class 0 OID 0)
+-- TOC entry 5063 (class 0 OID 0)
 -- Dependencies: 224
 -- Name: EPPM_STUDY_PLAN_ID_STUDY_PLAN_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -550,7 +596,7 @@ CREATE SEQUENCE public."EPPM_TEACHER_ID_TEACHER_seq"
 ALTER SEQUENCE public."EPPM_TEACHER_ID_TEACHER_seq" OWNER TO postgres;
 
 --
--- TOC entry 5065 (class 0 OID 0)
+-- TOC entry 5064 (class 0 OID 0)
 -- Dependencies: 228
 -- Name: EPPM_TEACHER_ID_TEACHER_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -610,7 +656,7 @@ CREATE SEQUENCE public."EPPM_USER_ID_USER_seq"
 ALTER SEQUENCE public."EPPM_USER_ID_USER_seq" OWNER TO postgres;
 
 --
--- TOC entry 5066 (class 0 OID 0)
+-- TOC entry 5065 (class 0 OID 0)
 -- Dependencies: 232
 -- Name: EPPM_USER_ID_USER_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -664,7 +710,7 @@ CREATE SEQUENCE public."EPPP_PREFERENCES_ID_PREFERENCES_seq"
 ALTER SEQUENCE public."EPPP_PREFERENCES_ID_PREFERENCES_seq" OWNER TO postgres;
 
 --
--- TOC entry 5067 (class 0 OID 0)
+-- TOC entry 5066 (class 0 OID 0)
 -- Dependencies: 242
 -- Name: EPPP_PREFERENCES_ID_PREFERENCES_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -718,7 +764,7 @@ CREATE SEQUENCE public."EPPT_FACULTY_PHONE_ID_FACULTY_PHONE_seq"
 ALTER SEQUENCE public."EPPT_FACULTY_PHONE_ID_FACULTY_PHONE_seq" OWNER TO postgres;
 
 --
--- TOC entry 5068 (class 0 OID 0)
+-- TOC entry 5067 (class 0 OID 0)
 -- Dependencies: 240
 -- Name: EPPT_FACULTY_PHONE_ID_FACULTY_PHONE_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -772,7 +818,7 @@ CREATE SEQUENCE public."EPPT_PHONE_SCHOOL_ID_PHONE_SCHOOL_seq"
 ALTER SEQUENCE public."EPPT_PHONE_SCHOOL_ID_PHONE_SCHOOL_seq" OWNER TO postgres;
 
 --
--- TOC entry 5069 (class 0 OID 0)
+-- TOC entry 5068 (class 0 OID 0)
 -- Dependencies: 238
 -- Name: EPPT_PHONE_SCHOOL_ID_PHONE_SCHOOL_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -826,7 +872,7 @@ CREATE SEQUENCE public."EPPT_TEACHER_COURSE_PROGRAM_ID_TEACHER_COUSE_PROGRAM_seq
 ALTER SEQUENCE public."EPPT_TEACHER_COURSE_PROGRAM_ID_TEACHER_COUSE_PROGRAM_seq" OWNER TO postgres;
 
 --
--- TOC entry 5070 (class 0 OID 0)
+-- TOC entry 5069 (class 0 OID 0)
 -- Dependencies: 236
 -- Name: EPPT_TEACHER_COURSE_PROGRAM_ID_TEACHER_COUSE_PROGRAM_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -864,6 +910,7 @@ INSERT INTO public."EPPM_CAREER" VALUES ('Ingenieria en Sistemas de la Informaci
 -- Data for Name: EPPM_COURSE_PROGRAM; Type: TABLE DATA; Schema: public; Owner: postgres
 --
 
+INSERT INTO public."EPPM_COURSE_PROGRAM" VALUES (1, 'Optativa II - Inteligencia Artificial', '2025-03-11', 2, 'EIF4200', '2', 3, '1', 1, '2025-03-11 17:52:20.468941', '2025-03-11 17:52:20.468941', 'www.unpdf.com', '1');
 
 
 --
@@ -897,6 +944,7 @@ INSERT INTO public."EPPM_FACULTY" VALUES (24, 'PRUEBA4', 1, '2024-11-01 23:00:34
 INSERT INTO public."EPPM_PERSON" VALUES (1, 'root', 'root', 'root', NULL, '2024-10-14 13:26:21.525194', '2024-10-14 13:26:21.525194', '1');
 INSERT INTO public."EPPM_PERSON" VALUES (50, 'pepe', 'pepe', 'pepe', 1, '2024-10-26 16:17:57.297689', '2024-10-26 16:11:28.193575', '1');
 INSERT INTO public."EPPM_PERSON" VALUES (53, 'brayan', 'rosales', '702770470', 1, '2024-10-27 00:45:31.957574', '2024-10-27 00:45:31.957574', '1');
+INSERT INTO public."EPPM_PERSON" VALUES (78, 'CARLOS', 'ORELLANA', '12345678', 1, '2025-02-23 19:03:10.029951', '2025-02-23 19:03:10.029951', '1');
 INSERT INTO public."EPPM_PERSON" VALUES (55, 'prueba', 'prueba', '12345678', 1, '2024-11-02 14:18:20.88868', '2024-11-02 14:18:20.88868', '1');
 INSERT INTO public."EPPM_PERSON" VALUES (56, 'prueba2', 'prueba2', '12345678', 1, '2024-11-02 14:18:25.951996', '2024-11-02 14:18:25.951996', '1');
 INSERT INTO public."EPPM_PERSON" VALUES (57, 'prueba3', 'prueba4', '12345678', 1, '2024-11-02 14:19:10.525487', '2024-11-02 14:19:10.525487', '1');
@@ -909,7 +957,10 @@ INSERT INTO public."EPPM_PERSON" VALUES (63, 'prueba10', 'prueba10', '12345678',
 INSERT INTO public."EPPM_PERSON" VALUES (64, 'CARLOS', 'ORELLANA', '12345678', 1, '2024-11-02 14:49:43.617315', '2024-11-02 14:49:43.617315', '1');
 INSERT INTO public."EPPM_PERSON" VALUES (73, 'BRAYAN', 'ROSALES', '12345678', 1, '2024-11-02 16:47:48.104294', '2024-11-02 16:47:48.104294', '1');
 INSERT INTO public."EPPM_PERSON" VALUES (75, 'kennet', 'moreira', '703030376', 1, '2024-11-03 01:54:51.888069', '2024-11-03 01:54:51.888069', '1');
+INSERT INTO public."EPPM_PERSON" VALUES (79, 'david', 'fallas', '87654321', 1, '2025-02-23 19:10:14.329553', '2025-02-23 19:10:14.329553', '1');
 INSERT INTO public."EPPM_PERSON" VALUES (54, 'brayan', 'Rosales', '702770470', 1, '2024-11-03 20:05:02.78564', '2024-10-27 17:53:45.410448', '1');
+INSERT INTO public."EPPM_PERSON" VALUES (80, 'brayan', 'rosales', '702770470', 1, '2025-02-23 19:11:26.521118', '2025-02-23 19:11:26.521118', '1');
+INSERT INTO public."EPPM_PERSON" VALUES (81, 'CARLOS', 'ORELLANA', '12345678', 1, '2025-02-23 20:30:03.308535', '2025-02-23 20:18:22.4222', '1');
 
 
 --
@@ -967,6 +1018,8 @@ INSERT INTO public."EPPM_STUDY_PLAN" VALUES (2, 'Ingenieria en Sistemas', '2012-
 
 INSERT INTO public."EPPM_TEACHER" VALUES (27, 64, 'email', 1, '2024-11-02 14:49:43.617315', '2024-11-02 14:49:43.617315', '1');
 INSERT INTO public."EPPM_TEACHER" VALUES (36, 73, 'PRUEBA@PRUEBA.COM', 1, '2024-11-02 16:47:48.104294', '2024-11-02 16:47:48.104294', '1');
+INSERT INTO public."EPPM_TEACHER" VALUES (39, 78, 'carlos@gmail.com', 1, '2025-02-23 19:03:10.029951', '2025-02-23 19:03:10.029951', '1');
+INSERT INTO public."EPPM_TEACHER" VALUES (40, 81, '1@gmail.com', 1, '2025-02-23 20:30:03.268015', '2025-02-23 20:18:22.4222', '0');
 
 
 --
@@ -978,6 +1031,8 @@ INSERT INTO public."EPPM_TEACHER" VALUES (36, 73, 'PRUEBA@PRUEBA.COM', 1, '2024-
 INSERT INTO public."EPPM_USER" VALUES (1, 1, 1, '$2a$10$G1nIrht5pq.sd06IjdbfoeUz9ySD8gs.41t.X92Cuh1zY0fOKvzwi', 1, '2024-10-14 13:32:29.512893', '2024-10-14 13:32:29.512893', '1', NULL);
 INSERT INTO public."EPPM_USER" VALUES (27, 75, 5, '$2b$10$.4M5u8WUZCk2hvKSQE1KA.4NRec8yDrU9EquSl1KFQVJuOBHvoE1W', 1, '2024-11-03 01:54:51.888069', '2024-11-03 01:54:51.888069', '1', NULL);
 INSERT INTO public."EPPM_USER" VALUES (25, 54, 5, '$2b$10$uMM2BbyM3gK91NvxmDsS1elZEoZj3mWGtMokN1wstQ9anj3e2Pz9S', 1, '2024-11-03 20:05:02.827491', '2024-11-03 20:05:02.827491', '1', NULL);
+INSERT INTO public."EPPM_USER" VALUES (28, 79, 5, '$2b$10$O/ZX7kJl96620wZlp2ZgguNDFTOPmA27Y3/b99L0jdA6EV4sKXlOC', 1, '2025-02-23 19:10:14.329553', '2025-02-23 19:10:14.329553', '1', NULL);
+INSERT INTO public."EPPM_USER" VALUES (29, 80, 5, '$2b$10$po9UouGo/m6bWbOSTZn6Ze7PyIF3ckGt17U3r.KqLw6qeM6WJ.vGm', 1, '2025-02-23 19:11:26.521118', '2025-02-23 19:11:26.521118', '1', NULL);
 
 
 --
@@ -1018,7 +1073,7 @@ INSERT INTO public."EPPT_PHONE_SCHOOL" VALUES (2, 37, 8);
 
 
 --
--- TOC entry 5071 (class 0 OID 0)
+-- TOC entry 5070 (class 0 OID 0)
 -- Dependencies: 244
 -- Name: EPPM_CAREER_ID_CAREER_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -1027,7 +1082,7 @@ SELECT pg_catalog.setval('public."EPPM_CAREER_ID_CAREER_seq"', 7, true);
 
 
 --
--- TOC entry 5072 (class 0 OID 0)
+-- TOC entry 5071 (class 0 OID 0)
 -- Dependencies: 226
 -- Name: EPPM_COURSE_PROGRAM_ID_COURSE_PROGRAM_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -1036,16 +1091,16 @@ SELECT pg_catalog.setval('public."EPPM_COURSE_PROGRAM_ID_COURSE_PROGRAM_seq"', 1
 
 
 --
--- TOC entry 5073 (class 0 OID 0)
+-- TOC entry 5072 (class 0 OID 0)
 -- Dependencies: 245
 -- Name: EPPM_COURSE_PROGRAM_ID_COURSE_PROGRAM_seq1; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public."EPPM_COURSE_PROGRAM_ID_COURSE_PROGRAM_seq1"', 1, false);
+SELECT pg_catalog.setval('public."EPPM_COURSE_PROGRAM_ID_COURSE_PROGRAM_seq1"', 1, true);
 
 
 --
--- TOC entry 5074 (class 0 OID 0)
+-- TOC entry 5073 (class 0 OID 0)
 -- Dependencies: 219
 -- Name: EPPM_FACULTY_ID_FACULTY_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -1054,7 +1109,7 @@ SELECT pg_catalog.setval('public."EPPM_FACULTY_ID_FACULTY_seq"', 1, false);
 
 
 --
--- TOC entry 5075 (class 0 OID 0)
+-- TOC entry 5074 (class 0 OID 0)
 -- Dependencies: 246
 -- Name: EPPM_FACULTY_ID_FACULTY_seq1; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -1063,7 +1118,7 @@ SELECT pg_catalog.setval('public."EPPM_FACULTY_ID_FACULTY_seq1"', 38, true);
 
 
 --
--- TOC entry 5076 (class 0 OID 0)
+-- TOC entry 5075 (class 0 OID 0)
 -- Dependencies: 230
 -- Name: EPPM_PERSON_ID_PERSON_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -1072,16 +1127,16 @@ SELECT pg_catalog.setval('public."EPPM_PERSON_ID_PERSON_seq"', 1, false);
 
 
 --
--- TOC entry 5077 (class 0 OID 0)
+-- TOC entry 5076 (class 0 OID 0)
 -- Dependencies: 247
 -- Name: EPPM_PERSON_ID_PERSON_seq1; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public."EPPM_PERSON_ID_PERSON_seq1"', 77, true);
+SELECT pg_catalog.setval('public."EPPM_PERSON_ID_PERSON_seq1"', 81, true);
 
 
 --
--- TOC entry 5078 (class 0 OID 0)
+-- TOC entry 5077 (class 0 OID 0)
 -- Dependencies: 217
 -- Name: EPPM_PHONE_ID_PHONE_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -1090,7 +1145,7 @@ SELECT pg_catalog.setval('public."EPPM_PHONE_ID_PHONE_seq"', 1, true);
 
 
 --
--- TOC entry 5079 (class 0 OID 0)
+-- TOC entry 5078 (class 0 OID 0)
 -- Dependencies: 248
 -- Name: EPPM_PHONE_ID_PHONE_seq1; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -1099,7 +1154,7 @@ SELECT pg_catalog.setval('public."EPPM_PHONE_ID_PHONE_seq1"', 27, true);
 
 
 --
--- TOC entry 5080 (class 0 OID 0)
+-- TOC entry 5079 (class 0 OID 0)
 -- Dependencies: 234
 -- Name: EPPM_ROL_ID_ROL_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -1108,7 +1163,7 @@ SELECT pg_catalog.setval('public."EPPM_ROL_ID_ROL_seq"', 1, false);
 
 
 --
--- TOC entry 5081 (class 0 OID 0)
+-- TOC entry 5080 (class 0 OID 0)
 -- Dependencies: 249
 -- Name: EPPM_ROL_ID_ROL_seq1; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -1117,7 +1172,7 @@ SELECT pg_catalog.setval('public."EPPM_ROL_ID_ROL_seq1"', 16, true);
 
 
 --
--- TOC entry 5082 (class 0 OID 0)
+-- TOC entry 5081 (class 0 OID 0)
 -- Dependencies: 221
 -- Name: EPPM_SCHOOL_ID_SCHOOL_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -1126,7 +1181,7 @@ SELECT pg_catalog.setval('public."EPPM_SCHOOL_ID_SCHOOL_seq"', 1, false);
 
 
 --
--- TOC entry 5083 (class 0 OID 0)
+-- TOC entry 5082 (class 0 OID 0)
 -- Dependencies: 250
 -- Name: EPPM_SCHOOL_ID_SCHOOL_seq1; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -1135,7 +1190,7 @@ SELECT pg_catalog.setval('public."EPPM_SCHOOL_ID_SCHOOL_seq1"', 41, true);
 
 
 --
--- TOC entry 5084 (class 0 OID 0)
+-- TOC entry 5083 (class 0 OID 0)
 -- Dependencies: 224
 -- Name: EPPM_STUDY_PLAN_ID_STUDY_PLAN_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -1144,7 +1199,7 @@ SELECT pg_catalog.setval('public."EPPM_STUDY_PLAN_ID_STUDY_PLAN_seq"', 1, false)
 
 
 --
--- TOC entry 5085 (class 0 OID 0)
+-- TOC entry 5084 (class 0 OID 0)
 -- Dependencies: 251
 -- Name: EPPM_STUDY_PLAN_ID_STUDY_PLAN_seq1; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -1153,7 +1208,7 @@ SELECT pg_catalog.setval('public."EPPM_STUDY_PLAN_ID_STUDY_PLAN_seq1"', 2, true)
 
 
 --
--- TOC entry 5086 (class 0 OID 0)
+-- TOC entry 5085 (class 0 OID 0)
 -- Dependencies: 228
 -- Name: EPPM_TEACHER_ID_TEACHER_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -1162,16 +1217,16 @@ SELECT pg_catalog.setval('public."EPPM_TEACHER_ID_TEACHER_seq"', 1, false);
 
 
 --
--- TOC entry 5087 (class 0 OID 0)
+-- TOC entry 5086 (class 0 OID 0)
 -- Dependencies: 252
 -- Name: EPPM_TEACHER_ID_TEACHER_seq1; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public."EPPM_TEACHER_ID_TEACHER_seq1"', 38, true);
+SELECT pg_catalog.setval('public."EPPM_TEACHER_ID_TEACHER_seq1"', 40, true);
 
 
 --
--- TOC entry 5088 (class 0 OID 0)
+-- TOC entry 5087 (class 0 OID 0)
 -- Dependencies: 232
 -- Name: EPPM_USER_ID_USER_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -1180,16 +1235,16 @@ SELECT pg_catalog.setval('public."EPPM_USER_ID_USER_seq"', 1, false);
 
 
 --
--- TOC entry 5089 (class 0 OID 0)
+-- TOC entry 5088 (class 0 OID 0)
 -- Dependencies: 253
 -- Name: EPPM_USER_ID_USER_seq1; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
 
-SELECT pg_catalog.setval('public."EPPM_USER_ID_USER_seq1"', 27, true);
+SELECT pg_catalog.setval('public."EPPM_USER_ID_USER_seq1"', 29, true);
 
 
 --
--- TOC entry 5090 (class 0 OID 0)
+-- TOC entry 5089 (class 0 OID 0)
 -- Dependencies: 242
 -- Name: EPPP_PREFERENCES_ID_PREFERENCES_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -1198,7 +1253,7 @@ SELECT pg_catalog.setval('public."EPPP_PREFERENCES_ID_PREFERENCES_seq"', 1, fals
 
 
 --
--- TOC entry 5091 (class 0 OID 0)
+-- TOC entry 5090 (class 0 OID 0)
 -- Dependencies: 254
 -- Name: EPPP_PREFERENCES_ID_PREFERENCES_seq1; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -1207,7 +1262,7 @@ SELECT pg_catalog.setval('public."EPPP_PREFERENCES_ID_PREFERENCES_seq1"', 1, tru
 
 
 --
--- TOC entry 5092 (class 0 OID 0)
+-- TOC entry 5091 (class 0 OID 0)
 -- Dependencies: 240
 -- Name: EPPT_FACULTY_PHONE_ID_FACULTY_PHONE_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -1216,7 +1271,7 @@ SELECT pg_catalog.setval('public."EPPT_FACULTY_PHONE_ID_FACULTY_PHONE_seq"', 1, 
 
 
 --
--- TOC entry 5093 (class 0 OID 0)
+-- TOC entry 5092 (class 0 OID 0)
 -- Dependencies: 255
 -- Name: EPPT_FACULTY_PHONE_ID_FACULTY_PHONE_seq1; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -1225,7 +1280,7 @@ SELECT pg_catalog.setval('public."EPPT_FACULTY_PHONE_ID_FACULTY_PHONE_seq1"', 5,
 
 
 --
--- TOC entry 5094 (class 0 OID 0)
+-- TOC entry 5093 (class 0 OID 0)
 -- Dependencies: 238
 -- Name: EPPT_PHONE_SCHOOL_ID_PHONE_SCHOOL_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -1234,7 +1289,7 @@ SELECT pg_catalog.setval('public."EPPT_PHONE_SCHOOL_ID_PHONE_SCHOOL_seq"', 1, fa
 
 
 --
--- TOC entry 5095 (class 0 OID 0)
+-- TOC entry 5094 (class 0 OID 0)
 -- Dependencies: 256
 -- Name: EPPT_PHONE_SCHOOL_ID_PHONE_SCHOOL_seq1; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -1243,7 +1298,7 @@ SELECT pg_catalog.setval('public."EPPT_PHONE_SCHOOL_ID_PHONE_SCHOOL_seq1"', 2, t
 
 
 --
--- TOC entry 5096 (class 0 OID 0)
+-- TOC entry 5095 (class 0 OID 0)
 -- Dependencies: 236
 -- Name: EPPT_TEACHER_COURSE_PROGRAM_ID_TEACHER_COUSE_PROGRAM_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -1252,7 +1307,7 @@ SELECT pg_catalog.setval('public."EPPT_TEACHER_COURSE_PROGRAM_ID_TEACHER_COUSE_P
 
 
 --
--- TOC entry 5097 (class 0 OID 0)
+-- TOC entry 5096 (class 0 OID 0)
 -- Dependencies: 257
 -- Name: EPPT_TEACHER_COURSE_PROGRAM_ID_TEACHER_COUSE_PROGRAM_seq1; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -1638,7 +1693,7 @@ ALTER TABLE ONLY public."EPPT_TEACHER_COURSE_PROGRAM"
     ADD CONSTRAINT "FK_TEACHER" FOREIGN KEY ("ID_TEACHER") REFERENCES public."EPPM_TEACHER"("ID_TEACHER");
 
 
--- Completed on 2025-02-20 15:57:34
+-- Completed on 2025-03-11 19:46:50
 
 --
 -- PostgreSQL database dump complete

@@ -1,24 +1,26 @@
-const ControllerStudyPlan = require("../controllers/ControllerStudyPlan");
+
+const ControllerCourseProgram = require("../controllers/ControllerCourseProgram");
 const validateSession = require("../middlewares/validateSession");
 
-const studyPlan = (app) => {
+const courseprogram = (app) => {
     let response = {
         "data": "message",
         "code": "code"
     };
-
-    app.route("/studyPlan")
+    app.route("/courseprogram")
         .post(async (req, res) => {
             if (!(await validateSession(req, res, response))) return;
-            const controller = new ControllerStudyPlan();//DSC_NAME, DAT_INIT, DAT_MAX, ID_CAREER, UPDATED_BY, PDF_URL
-            const result = await controller.insertStudyPlan(req.body.DSC_NAME, req.body.DAT_INIT, req.body.DAT_MAX, req.body.ID_CAREER, req.session.usernameData[0].ID_USER, req.body.PDF_URL)
+            const controller = new ControllerCourseProgram();
+            const result = await controller.insertCourseProgram(req.body.DSC_NAME,
+                req.body.DAT_YEAR, req.body.ID_STUDY_PLAN, req.body.NRC, req.body.CICLE,
+                req.body.NUM_CREDITS, req.body.SIGNATURE, req.session.usernameData[0].ID_USER, req.body.PDF_URL);
             if (result === true) {
-                response.data = "El Plan de estudios fue creado correctamente";
+                response.data = "El programa de curso fue creado correctamente";
                 response.code = "200";
                 res.send(response);
             }
             else if (result === '23505') {
-                response.data = "El Plan de estudios ya Existe";
+                response.data = "El programa de curso Ya Esta Registrado";
                 response.code = "500";
                 res.send(response);
             }
@@ -28,43 +30,44 @@ const studyPlan = (app) => {
                 res.send(response);
             }
             else {
-                response.data = "El Plan de estudios No fue creado";
+                response.data = "El programa de curso No fue creado";
                 response.code = "400";
                 res.send(response);
             }
         })
         .get(async (req, res) => {
             if (!(await validateSession(req, res, response))) return;
-            const controller = new ControllerStudyPlan();
-            response.data = await controller.getAllStudyPlan();
+            const controller = new ControllerCourseProgram();
+            response.data = await controller.getAllCourseProgram();
             response.code = "200";
             res.send(response);
         })
         .delete(async (req, res) => {
             if (!(await validateSession(req, res, response))) return;
-            const controller = new ControllerStudyPlan();
-            if (await controller.deleteStudyPlanByID(req.body.id) !== false) {
-                response.data = "El Plan de estudios fue Eliminado correctamente";
+            const controller = new ControllerCourseProgram();
+            if (await controller.deleteCourseProgramByID(req.body.id) !== false) {
+                response.data = "El programa de curso fue eliminado correctamente";
                 response.code = "200";
                 res.send(response);
             }
             else {
-                response.data = "El Plan de estudios No fue eliminado";
+                response.data = "El programa de curso No fue eliminado";
                 response.code = "400";
                 res.send(response);
             }
         })
         .patch(async (req, res) => {
             if (!(await validateSession(req, res, response))) return;
-            const controller = new ControllerStudyPlan();
-            const result = await controller.updateStudyPlanByID(req.body.DSC_NAME, req.body.DAT_INIT, req.body.DAT_MAX, req.body.ID_CAREER, req.session.usernameData[0].ID_USER, req.body.PDF_URL, req.body.STATE, req.body.ID_STUDY_PLAN);
+            const controller = new ControllerCourseProgram();//, STATE, ID_COURSE_PROGRAM
+            const result = await controller.updateCourseProgramByID(req.body.DSC_NAME, req.body.DAT_YEAR, req.body.ID_STUDY_PLAN, req.body.NRC, req.body.CICLE, req.body.NUM_CREDITS, req.body.SIGNATURE, req.session.usernameData[0].ID_USER, req.body.PDF_URL, req.body.STATE, req.body.ID_COURSE_PROGRAM);
+
             if (result) {
-                response.data = "El Plan de estudios fue Actualizado correctamente";
+                response.data = "El programa de curso fue Actualizado correctamente";
                 response.code = "200";
                 res.send(response);
             }
             else {
-                response.data = "El Plan de estudios No fue Actualizado";
+                response.data = "El programa de curso No fue Actualizado";
                 response.code = "400";
                 res.send(response);
             }
@@ -74,9 +77,8 @@ const studyPlan = (app) => {
          */
         .put(async (req, res) => {
             if (!(await validateSession(req, res, response))) return;
-            const controller = new ControllerStudyPlan();
+            const controller = new ControllerCourseProgram();
             res.send({ "code": "200" });
         });
 }
-
-module.exports = studyPlan;
+module.exports = courseprogram;
