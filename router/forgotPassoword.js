@@ -1,3 +1,4 @@
+const ControllerForgotPassword = require("../controllers/ControllerForgotPassword");
 const validateSession = require("../middlewares/validateSession");
 
 const forgotPassword = (app) => {
@@ -9,6 +10,8 @@ const forgotPassword = (app) => {
   app.route("/forgotpassword").post((async (req, res) => {
     if (!(await validateSession(req, res, response))) return;
 
+    const controllerForgotPassword = new ControllerForgotPassword();
+
     // Validar que los datos vengan correctos
     if(req.body.question1 === "" || req.body.question2 === "" || req.body.question3 === ""){
         response.code = "400";
@@ -16,6 +19,9 @@ const forgotPassword = (app) => {
         res.send(response);
         return;
     }
+    
+    const result = await controllerForgotPassword.getUserWithPassword(req.body.question1, req.body.question2, req.body.question3);
+    console.log(result)
     
     response.code = "200";
     response.message = "Datos recibidos correctamente";
