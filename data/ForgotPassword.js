@@ -1,6 +1,6 @@
 const ConnectionDB = require("./ConnectionDB");
 
-class FacultyPhone {
+class ForgotPassword {
   constructor(parameters) {
     this.conn = new ConnectionDB();
   }
@@ -42,4 +42,4 @@ class FacultyPhone {
   }
 }
 
-module.exports = FacultyPhone;
+module.exports = ForgotPassword;
