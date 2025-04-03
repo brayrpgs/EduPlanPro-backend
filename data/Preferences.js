@@ -5,11 +5,6 @@ class Preferences {
         this.conn = new ConnectionDB();
     }
     async insert(ID_USER, PREFERENCES) {
-
-        if (!validateFields(DSC_CARRER, "string") || !validateFields(UPDATED_BY, "number")) {
-            return undefined;
-        };
-
         try {
             const sql = `INSERT INTO
                             PUBLIC."EPPP_PREFERENCES" ("ID_USER", "PREFERENCES")
@@ -20,12 +15,12 @@ class Preferences {
             await stmt.query(sql, values);
             return true;
         } catch (error) {
-            return error.code;
+            console.log(error);
+            return false;
         }
         finally {
             this.conn.disconnect();
         }
-
     }
 
     async getAll() {
