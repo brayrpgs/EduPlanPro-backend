@@ -30,15 +30,17 @@ const forgotPassword = (app) => {
 
     if (result.length === 0) {
       response.code = "404";
-      response.message = "No se puedo verificar el usuario segun las respuestas enviadas.";
+      response.message =
+        "No se puedo verificar el usuario segun las respuestas enviadas.";
       res.send(response);
-
     } else {
       response.code = "200";
-      response.message = "Verificacion completada exitosamente.";
+      response.message = result;
       res.send(response);
     }
   });
+
+  
 };
 
 module.exports = forgotPassword;
