@@ -40,6 +40,47 @@ const forgotPassword = (app) => {
     }
   });
 
+  app.route("/changepassword").post(async (req, res) => {
+    if (!(await validateSession(req, res, response))) return;
+
+    const controllerForgotPassword = new ControllerForgotPassword();
+
+    const user = req.body;
+    const {
+      newPassword,
+      newPasswordConfirmation,
+      ID_USER,
+    } = user;
+
+    if (!newPassword || !newPasswordConfirmation || !ID_USER) {
+      response.code = "400";
+      response.message = "Los datos no se enviaron correctamente.";
+      res.send(response);
+      return;
+    }
+
+    if (newPassword !== newPasswordConfirmation) {
+      response.code = "401";
+      response.message = "Las contraseñas no coinciden.";
+      res.send(response);
+      return;
+    }
+
+    const result = await controllerForgotPassword.updatePassword(user);
+    if(result){
+      response.code = "200";
+      response.message = "Contraseña actualizada correctamente.";
+      res.send(response);
+      return;
+
+    } else {
+
+      response.code = "500";
+      response.message = "No se pudo actualizar la contraseña.";
+      res.send(response);
+      return;
+    }
+  });
   
 };
 
