@@ -24,6 +24,7 @@ const teachercourseprogram = require('./router/teachercourseprogram');
 const searchcourseprogram = require('./router/searchcourseprogram');
 const reports = require('./router/reports');
 const backup = require('./services/backupService');
+const preferences = require('./router/preferences');
 const app = express();
 const port = 3001;
 /*hay que moverlo luego*/
@@ -149,6 +150,11 @@ reports(app);
  * modulo de backups
  */
 backup(app);
+
+/**
+ * modulo depreferencias
+ */
+preferences(app);
 
 /**
  * modulo de captura de rutas erroneas
