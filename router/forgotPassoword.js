@@ -8,7 +8,7 @@ const forgotPassword = (app) => {
   };
 
   app.route("/forgotpassword").post(async (req, res) => {
-    if (!(await validateSession(req, res, response))) return;
+    //if (!(await validateSession(req, res, response))) return;
 
     const controllerForgotPassword = new ControllerForgotPassword();
 
@@ -41,7 +41,7 @@ const forgotPassword = (app) => {
   });
 
   app.route("/changepassword").post(async (req, res) => {
-    if (!(await validateSession(req, res, response))) return;
+    //if (!(await validateSession(req, res, response))) return;
 
     const controllerForgotPassword = new ControllerForgotPassword();
 
