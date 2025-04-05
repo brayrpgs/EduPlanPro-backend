@@ -19,11 +19,18 @@ const searchstudyplan = require('./router/searchstudyplan');
 const facultyphone = require('./router/FacultyPhone');
 const schoolphone = require('./router/schoolphone');
 const searchfacultyphone = require('./router/searchfacultyphone');
+const courseprogram = require('./router/courseprogram');
+const teachercourseprogram = require('./router/teachercourseprogram');
+const searchcourseprogram = require('./router/searchcourseprogram');
+const reports = require('./router/reports');
+const backup = require('./services/backupService');
+const preferences = require('./router/preferences');
 const forgotPassword = require('./router/forgotPassoword');
 const app = express();
 const port = 3001;
-app.use(express.json());
-
+/*hay que moverlo luego*/
+app.use(express.json({ limit: '50mb', extended: true }));
+app.use(express.urlencoded({ limit: "50mb", extended: true, parameterLimit: 50000 }));
 /**
  * modulo middelwares
  */
@@ -123,6 +130,37 @@ schoolphone(app);
   Modulo de recuperacion de contraseña
 */
 forgotPassword(app);
+
+/**
+ * modulo de busquedas de programas del curso
+ */
+searchcourseprogram(app);
+
+/**
+ * modulo de programas del curso
+ */
+courseprogram(app)
+
+/**
+ * modulo relacional de programas del curso y profesores
+ */
+teachercourseprogram(app);
+
+
+/**
+ * modulo de reportes
+ */
+reports(app);
+
+/**
+ * modulo de backups
+ */
+backup(app);
+
+/**
+ * modulo depreferencias
+ */
+preferences(app);
 
 /**
  * modulo de captura de rutas erroneas
