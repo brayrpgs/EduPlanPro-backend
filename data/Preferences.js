@@ -23,18 +23,21 @@ class Preferences {
         }
     }
 
-    async getAll() {
+    async getAll(id) {
         try {
             const sql = `SELECT
                             "ID_PREFERENCES",
                             "ID_USER",
                             "PREFERENCES" AS "PREFERENCIAS"
                         FROM
-                            PUBLIC."EPPP_PREFERENCES";`;
+                            PUBLIC."EPPP_PREFERENCES"
+                        WHERE
+                            "ID_USER" = $1::INTEGER`;
             const stmt = await this.conn.connect();
-            const result = await stmt.query(sql);
+            const result = await stmt.query(sql, [id]);
             return result.rows;
         } catch (error) {
+            console.log(error);
             return false;
         }
         finally {
@@ -46,12 +49,13 @@ class Preferences {
         try {
             const sql = `DELETE FROM PUBLIC."EPPP_PREFERENCES"
                             WHERE
-                                "ID_PREFERENCES" = $1::INTEGER;`;
+                                "ID_USER" = $1::INTEGER;`;
             const stmt = await this.conn.connect();
             const values = [id];
-            const result = await stmt.query(sql, values);
-            return result.rows;
+            await stmt.query(sql, values);
+            return true;
         } catch (error) {
+            console.log(error);
             return false;
         }
         finally {
@@ -59,7 +63,7 @@ class Preferences {
         }
     }
 
-    async updateById(PREFERENCES, ID_USER) {
+    async updateById(ID_USER,PREFERENCES) {
         try {
             const sql = `UPDATE PUBLIC."EPPP_PREFERENCES"
                         SET
@@ -68,9 +72,8 @@ class Preferences {
                             "ID_USER" = $2::INTEGER;`;
             const stmt = await this.conn.connect();
             const values = [PREFERENCES, ID_USER];
-            const result = await stmt.query(sql, values);
-            console.log(result);
-            return result.rows;
+            await stmt.query(sql, values);
+            return true;
         } catch (error) {
             console.log(error);
             return false;

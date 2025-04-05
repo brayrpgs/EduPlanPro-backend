@@ -8,8 +8,8 @@ class ControllerPreferences {
         return await this.Preferences.insert(ID_USER, PREFERENCES);
     }
 
-    async getAllPreferences() {
-        return await this.Preferences.getAll();
+    async getAllPreferences(id) {
+        return await this.Preferences.getAll(id);
     }
 
     async deletePreferencesByID(id) {
