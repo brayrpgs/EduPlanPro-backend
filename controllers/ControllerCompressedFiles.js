@@ -13,6 +13,10 @@ class ControllerCompressedFiles {
     async compressStudyPlans(FILE_NAME) {
         return await this.compressedFiles.compressedFiles(FILE_NAME);
     }
+
+    async compressStudyPlans(FILE_NAME) {
+        return await this.compressedFiles.compressedFilesCoursesPlan(FILE_NAME);
+    }
 }
 
 module.exports = ControllerCompressedFiles;
