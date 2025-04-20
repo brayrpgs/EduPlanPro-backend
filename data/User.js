@@ -52,6 +52,31 @@ class User {
         if (!validateFields(name, "string") || !validateFields(secName, "string") || !validateFields(idUser, "number") || !validateFields(idRol, "number")) {
             return undefined;
         };
+        try {
+            const validate = `SELECT
+                "EPPM_PERSON"."DSC_NAME",
+                "EPPM_PERSON"."DSC_SECOND_NAME",
+                "EPPM_PERSON"."IDCARD"
+            FROM
+                "EPPM_USER"
+                INNER JOIN "EPPM_PERSON" ON "EPPM_PERSON"."ID_PERSON" = "EPPM_USER"."ID_PERSON"
+            WHERE
+                "EPPM_USER"."STATE" = '1'
+                AND "EPPM_PERSON"."DSC_NAME" = $1::text
+                AND "EPPM_PERSON"."DSC_SECOND_NAME" = $2::text
+                AND "EPPM_PERSON"."IDCARD" = $3::text`;
+
+            const stmt = await this.conn.connect();
+            const result = await stmt.query(validate,[name, secName, idcard]);
+            if (result.rows.length > 0) {
+                return '23505'; // Código de error para duplicado
+            }
+        } catch (error) {
+            console.error(error);
+            return false;
+        }
+
+
         const client = await this.conn.connect();
         try {
             await client.query('BEGIN');

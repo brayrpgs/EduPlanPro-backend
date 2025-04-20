@@ -21,6 +21,11 @@ const user = (app) => {
                 response.data = "Campos invalidos";
                 response.code = "501";
                 res.send(response);
+            }else if(result === '23505') {
+                response.data = "El Usuario Ya Esta Registrado";
+                response.code = "500";
+                res.send(response);
+
             }
             else {
                 response.data = "El Usuario No fue creado";
