@@ -16,6 +16,33 @@ class Teacher {
         if (!validateEmail(email)) {
             return undefined;
         }
+        try {
+            const validate = `SELECT
+                    "EPPM_PERSON"."DSC_NAME",
+                    "EPPM_PERSON"."DSC_SECOND_NAME",
+                    "EPPM_PERSON"."IDCARD",
+                    "EPPM_TEACHER"."EMAIL"
+                    
+                FROM
+                    "EPPM_TEACHER"
+                    INNER JOIN "EPPM_PERSON" ON "EPPM_PERSON"."ID_PERSON" = "EPPM_TEACHER"."ID_PERSON"
+                WHERE
+                    "EPPM_TEACHER"."STATE" = '1'
+                    AND "EPPM_PERSON"."DSC_NAME" = $1::text
+                    AND "EPPM_PERSON"."DSC_SECOND_NAME" = $2::text
+                    AND "EPPM_PERSON"."IDCARD" = $3::text
+                    AND "EPPM_TEACHER"."EMAIL" = $4::text
+                `;
+            const stmt = await this.conn.connect();
+            const result = await stmt.query(validate,[name, secName, idcard, email]);
+            if (result.rows.length > 0) {
+                return '23505'; // Código de error para duplicado
+            }
+        } catch (error) {
+            console.error(error);
+            return false;
+        }
+
         const client = await this.conn.connect();
         try {
             await client.query('BEGIN');
