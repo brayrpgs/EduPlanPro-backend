@@ -5,10 +5,10 @@ const fs = require("fs");
 const backup = (app) => {
     app.get("/backup", async (req, res) => {
         const envVars = {
-            PGPASSWORD: "123",
+            PGPASSWORD: "123", //depende de la base de datos y usuario
             PGDATABASE: "EDUPLANPRO",
             PGHOST: "localhost",
-            PGPORT: "5432",
+            PGPORT: "5432", // Puerto por defecto de PostgreSQL
             PGUSER: "postgres"
         };
 
@@ -19,14 +19,15 @@ const backup = (app) => {
         const backupFilePath = path.join(__dirname, "backup.sql");
 
         const command = `${pgDumpPath} -F c -b -v -f "${backupFilePath}"`;
-
+        // Ejecuta el comando pg_dump para generar el backup
+        // Verifica si el archivo de backup ya existe y lo elimina
         exec(command, { env: { ...process.env, ...envVars } }, (error, stdout, stderr) => {
             if (error) {
                 console.error(`Error al ejecutar pg_dump: ${error.message}`);
                 return res.status(500).json({ error: "Error al generar el backup" });
             }
             console.log("Backup generado correctamente");
-
+            //  muestra el resultado de la ejecución
             // Enviar el archivo al usuario
             res.download(backupFilePath, "backup.sql", (err) => {
                 if (err) console.error(`Error al enviar el archivo: ${err.message}`);
