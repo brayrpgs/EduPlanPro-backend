@@ -1,49 +1,6 @@
+// npm install node-cron -- Librería para programar tareas automáticas en Node.js
+
 const { exec } = require("child_process");
-const path = require("path");
-const fs = require("fs");
-
-const backup = (app) => {
-    app.get("/backup", async (req, res) => {
-        const envVars = {
-            PGPASSWORD: "123", //depende de la base de datos y usuario
-            PGDATABASE: "EDUPLANPRO",
-            PGHOST: "localhost",
-            PGPORT: "5432", // Puerto por defecto de PostgreSQL
-            PGUSER: "postgres"
-        };
-
-        // Ruta completa a pg_dump.exe
-        const pgDumpPath = `"C:\\Program Files\\PostgreSQL\\17\\bin\\pg_dump.exe"`;
-
-        // Ruta donde se guardará el backup
-        const backupFilePath = path.join(__dirname, "backup.sql");
-
-        const command = `${pgDumpPath} -F c -b -v -f "${backupFilePath}"`;
-        // Ejecuta el comando pg_dump para generar el backup
-        // Verifica si el archivo de backup ya existe y lo elimina
-        exec(command, { env: { ...process.env, ...envVars } }, (error, stdout, stderr) => {
-            if (error) {
-                console.error(`Error al ejecutar pg_dump: ${error.message}`);
-                return res.status(500).json({ error: "Error al generar el backup" });
-            }
-            console.log("Backup generado correctamente");
-            //  muestra el resultado de la ejecución
-            // Enviar el archivo al usuario
-            res.download(backupFilePath, "backup.sql", (err) => {
-                if (err) console.error(`Error al enviar el archivo: ${err.message}`);
-
-                // Opcional: eliminar el archivo después de enviarlo
-                fs.unlinkSync(backupFilePath);
-            });
-        });
-    });
-};
-
-module.exports = backup;
-
-//npm install node-cron librería para Node.js que permite programar tareas automáticas a intervalos de tiempo definidos 
-
-/*const { exec } = require("child_process");
 const path = require("path");
 const fs = require("fs");
 const cron = require("node-cron");
@@ -60,49 +17,55 @@ const backup = (app) => {
     const pgDumpPath = `"C:\\Program Files\\PostgreSQL\\17\\bin\\pg_dump.exe"`;
     const backupFilePath = path.join(__dirname, "backup.sql");
 
-    // 👉 Programar para cada domingo a la 1:00 AM (puedes ajustar el horario)
-    cron.schedule('0 1 * * 0', () => {
-        console.log('Iniciando proceso automático de backup semanal...');
-
-        // Verificar si existe el archivo anterior y eliminarlo
-        if (fs.existsSync(backupFilePath)) {
-            fs.unlinkSync(backupFilePath);
-            console.log('Respaldo anterior eliminado.');
-        }
-
-        const command = `${pgDumpPath} -F c -b -v -f "${backupFilePath}"`;
-        
-        exec(command, { env: { ...process.env, ...envVars } }, (error, stdout, stderr) => {
+    // Programado para cada lunes a las 8:00 AM
+    cron.schedule('0 8 * * 1', () => {
+        console.log(' Iniciando proceso automático de backup semanal (lunes 8:00 AM)...');
+        generarBackup((error) => {
             if (error) {
-                console.error(`Error al ejecutar pg_dump: ${error.message}`);
-                return;
+                console.error(` Error durante el backup automático: ${error.message}`);
+            } else {
+                console.log(" Backup generado correctamente de forma automática.");
             }
-            console.log("✅ Backup generado correctamente de forma automática.");
         });
     });
 
-    // ✔️ También mantiene el endpoint manual por si quieres hacer el backup a mano
+    // Endpoint manual para realizar el backup desde la aplicación con un botón
     app.get("/backup", async (req, res) => {
-        if (fs.existsSync(backupFilePath)) {
-            fs.unlinkSync(backupFilePath);
-            console.log('Respaldo anterior eliminado (por petición manual).');
-        }
-
-        const command = `${pgDumpPath} -F c -b -v -f "${backupFilePath}"`;
-
-        exec(command, { env: { ...process.env, ...envVars } }, (error, stdout, stderr) => {
+        generarBackup((error) => {
             if (error) {
-                console.error(`Error al ejecutar pg_dump: ${error.message}`);
+                console.error(` Error al ejecutar pg_dump: ${error.message}`);
                 return res.status(500).json({ error: "Error al generar el backup" });
             }
-            console.log("Backup generado correctamente (por petición manual).");
+            console.log("Backup generado correctamente (por solicitud manual).");
+
+            // Enviar el archivo al usuario
             res.download(backupFilePath, "backup.sql", (err) => {
-                if (err) console.error(`Error al enviar el archivo: ${err.message}`);
+                if (err) {
+                    console.error(`Error al enviar el archivo: ${err.message}`);
+                }
+                // Eliminar el archivo después de enviarlo
                 fs.unlinkSync(backupFilePath);
             });
         });
     });
+
+    // Función para generar el backup (evita repetir código)
+    function generarBackup(callback) {
+        // Verificar si existe el archivo anterior y eliminarlo
+        if (fs.existsSync(backupFilePath)) {
+            fs.unlinkSync(backupFilePath);
+            console.log(' Respaldo anterior eliminado.');
+        }
+
+        const command = `${pgDumpPath} -F c -b -v -f "${backupFilePath}"`;
+
+        exec(command, { env: { ...process.env, ...envVars } }, (error, stdout, stderr) => {
+            if (error) {
+                return callback(error);
+            }
+            callback(null);
+        });
+    }
 };
 
 module.exports = backup;
-*/
