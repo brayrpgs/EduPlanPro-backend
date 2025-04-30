@@ -17,9 +17,9 @@ const backup = (app) => {
     const pgDumpPath = `"C:\\Program Files\\PostgreSQL\\17\\bin\\pg_dump.exe"`;
     const backupFilePath = path.join(__dirname, "backup.sql");
 
-    // Programado para cada lunes a las 8:00 AM
-    cron.schedule('0 8 * * 1', () => {
-        console.log(' Iniciando proceso automático de backup semanal (lunes 8:00 AM)...');
+    // Programado para cada lunes a las 1:00 AM ya que se anilizo que si o si a esa hora debe estar encendido el servidor
+    cron.schedule('0 10 * * 1', () => {
+        console.log(' Iniciando proceso automático de backup semanal (lunes 10:00 AM)...');
         generarBackup((error) => {
             if (error) {
                 console.error(` Error durante el backup automático: ${error.message}`);
@@ -28,7 +28,7 @@ const backup = (app) => {
             }
         });
     });
-
+    
     // Endpoint manual para realizar el backup desde la aplicación con un botón
     app.get("/backup", async (req, res) => {
         generarBackup((error) => {
