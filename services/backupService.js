@@ -7,7 +7,7 @@ const cron = require("node-cron");
 
 const backup = (app) => {
     const envVars = {
-        PGPASSWORD: "2122", //cambiar por la contraseña de postgrest de ustedes o que vayan a colocar "ojo"
+        PGPASSWORD: "123", //cambiar por la contraseña de postgrest de ustedes o que vayan a colocar "ojo"
         PGDATABASE: "EDUPLANPRO",
         PGHOST: "localhost",
         PGPORT: "5432",
