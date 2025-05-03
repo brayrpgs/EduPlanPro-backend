@@ -4,11 +4,10 @@ const { exec } = require("child_process");
 const path = require("path");
 const fs = require("fs");
 const cron = require("node-cron");
-const AdmZip = require("adm-zip");
 
 const backup = (app) => {
     const envVars = {
-        PGPASSWORD: "2122",
+        PGPASSWORD: "2122", //cambiar por la contraseña de postgrest de ustedes o que vayan a colocar "ojo"
         PGDATABASE: "EDUPLANPRO",
         PGHOST: "localhost",
         PGPORT: "5432",
@@ -22,34 +21,34 @@ const backup = (app) => {
         fs.mkdirSync(backupDir, { recursive: true });
     }
 
-    // Cron semanal (lunes 10 AM)
+    // Cron semanal (lunes 10 AM) 
     cron.schedule('0 10 * * 1', () => {
-        console.log(" Backup semanal automático (lunes 10AM)");
-        generarBackup((err, zipPath) => {
-            if (!err) console.log("Backup semanal generado:", zipPath);
+        console.log(" Backup automático de prueba (cada minuto)");
+        generarBackup((err, sqlPath) => {
+            if (!err) console.log(" Backup generado:", sqlPath);
         });
     });
 
     // Cron mensual (día 1 a las 12:00 PM)
     cron.schedule('0 12 1 * *', () => {
-        console.log("Backup mensual automático (día 1 - 12:00 PM)");
-        generarBackup((err, zipPath) => {
-            if (!err) console.log(" Backup mensual generado:", zipPath);
+        console.log(" Backup mensual automático (día 1 - 12:00 PM)");
+        generarBackup((err, sqlPath) => {
+            if (!err) console.log(" Backup mensual generado:", sqlPath);
         });
     });
 
     // Endpoint manual
     app.get("/backup", async (req, res) => {
-        generarBackup((error, zipPath) => {
+        generarBackup((error, sqlPath) => {
             if (error) {
                 console.error(" Error manual:", error.message);
                 return res.status(500).json({ error: "Error al generar el backup" });
             }
 
-            console.log(` Backup manual generado: ${zipPath}`);
-            res.download(zipPath, path.basename(zipPath), (err) => {
+            console.log(` Backup manual generado: ${sqlPath}`);
+            res.download(sqlPath, path.basename(sqlPath), (err) => {
                 if (err) console.error(" Error al enviar:", err.message);
-               // fs.unlinkSync(zipPath);
+                // fs.unlinkSync(sqlPath); // opcional: eliminar después de enviar
             });
         });
     });
@@ -58,9 +57,9 @@ const backup = (app) => {
         const now = new Date();
         const timestamp = now.toISOString().split("T")[0];
         const sqlPath = path.join(backupDir, `backup-${timestamp}.sql`);
-        const zipPath = path.join(backupDir, `backup-${timestamp}.zip`);
 
-        const command = `${pgDumpPath} -F c -b -v -f "${sqlPath}"`;
+        //  Formato plano para .sql legible
+        const command = `${pgDumpPath} -F p -b -v -f "${sqlPath}"`;
 
         exec(command, { env: { ...process.env, ...envVars } }, (error, stdout, stderr) => {
             if (error) {
@@ -68,19 +67,10 @@ const backup = (app) => {
                 return callback(error);
             }
 
-            // Comprimir .sql en .zip
-            const zip = new AdmZip();
-            zip.addLocalFile(sqlPath);
-            zip.writeZip(zipPath);
-            console.log("Comprimido en:", zipPath);
-
-            // Eliminar el .sql original
-            fs.unlinkSync(sqlPath);
-
-            // Limpiar archivos viejos
+            // Limpieza de archivos antiguos
             limpiarBackupsAntiguos();
 
-            callback(null, zipPath);
+            callback(null, sqlPath);
         });
     }
 
@@ -95,10 +85,39 @@ const backup = (app) => {
 
             if (edadDias > diasMaximos) {
                 fs.unlinkSync(filePath);
-                console.log(`Backup eliminado: ${file}`);
+                console.log(` Backup eliminado: ${file}`);
             }
         });
     }
+// endpoint para restaurar la base de datos
+    app.post("/restore", async (req, res) => {
+        const { fileName } = req.body;
+    
+        if (!fileName || !fileName.endsWith(".sql")) {
+            return res.status(400).json({ error: "Archivo inválido o no proporcionado" });
+        }
+    
+        const restorePath = path.join(backupDir, fileName);
+    
+        if (!fs.existsSync(restorePath)) {
+            return res.status(404).json({ error: "Archivo no encontrado" });
+        }
+    
+        const psqlPath = `"C:\\Program Files\\PostgreSQL\\16\\bin\\psql.exe"`; // ruta real
+    
+        const command = `${psqlPath} -U postgres -d EDUPLANPRO -f "${restorePath}"`;
+    
+        exec(command, { env: { ...process.env, PGPASSWORD: "2122" } }, (error, stdout, stderr) => {
+            if (error) {
+                console.error(" Error al restaurar:", stderr);
+                return res.status(500).json({ error: "Error al restaurar la base de datos" });
+            }
+    
+            console.log(" Base de datos restaurada desde:", fileName);
+            res.json({ message: `Restauración exitosa desde ${fileName}` });
+        });
+    });
+    
 };
 
 module.exports = backup;
