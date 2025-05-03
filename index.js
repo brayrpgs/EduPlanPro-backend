@@ -33,12 +33,6 @@ app.use(express.json({ limit: '50mb', extended: true }));
 app.use(express.urlencoded({ limit: "50mb", extended: true, parameterLimit: 50000 }));
 
 /**
- * modulo de backups
- */
-backup(app);
-
-
-/**
  * modulo middelwares
  */
 middlewares(app);
@@ -47,6 +41,11 @@ middlewares(app);
  * modulo de sessiones
  */
 session(app);
+
+/**
+ * modulo de backups
+ */
+backup(app);
 
 /**
  * modulo de facultades

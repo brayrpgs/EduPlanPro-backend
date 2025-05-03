@@ -4,6 +4,8 @@ const { exec } = require("child_process");
 const path = require("path");
 const fs = require("fs");
 const cron = require("node-cron");
+const validateSession = require("../middlewares/validateSession");
+const { response } = require("express");
 
 const backup = (app) => {
     const envVars = {
@@ -14,7 +16,7 @@ const backup = (app) => {
         PGUSER: "postgres"
     };
 
-    const pgDumpPath = `"C:\\Program Files\\PostgreSQL\\16\\bin\\pg_dump.exe"`;
+    const pgDumpPath = `"C:\\Program Files\\PostgreSQL\\17\\bin\\pg_dump.exe"`;
     const backupDir = "C:\\respaldosBD";
 
     if (!fs.existsSync(backupDir)) {
@@ -39,6 +41,7 @@ const backup = (app) => {
 
     // Endpoint manual
     app.get("/backup", async (req, res) => {
+        if (!(await validateSession(req, res, response))) return;
         generarBackup((error, sqlPath) => {
             if (error) {
                 console.error(" Error manual:", error.message);
@@ -54,9 +57,7 @@ const backup = (app) => {
     });
 
     function generarBackup(callback) {
-        const now = new Date();
-        const timestamp = now.toISOString().split("T")[0];
-        const sqlPath = path.join(backupDir, `backup-${timestamp}.sql`);
+        const sqlPath = path.join(backupDir, "backup.sql");
 
         //  Formato plano para .sql legible
         const command = `${pgDumpPath} -F p -b -v -f "${sqlPath}"`;
@@ -91,6 +92,7 @@ const backup = (app) => {
     }
 // endpoint para restaurar la base de datos
     app.post("/restore", async (req, res) => {
+        if (!(await validateSession(req, res, response))) return;
         const { fileName } = req.body;
     
         if (!fileName || !fileName.endsWith(".sql")) {
@@ -103,11 +105,11 @@ const backup = (app) => {
             return res.status(404).json({ error: "Archivo no encontrado" });
         }
     
-        const psqlPath = `"C:\\Program Files\\PostgreSQL\\16\\bin\\psql.exe"`; // ruta real
+        const psqlPath = `"C:\\Program Files\\PostgreSQL\\17\\bin\\psql.exe"`; // ruta real
     
         const command = `${psqlPath} -U postgres -d EDUPLANPRO -f "${restorePath}"`;
     
-        exec(command, { env: { ...process.env, PGPASSWORD: "2122" } }, (error, stdout, stderr) => {
+        exec(command, { env: { ...process.env, PGPASSWORD: "123" } }, (error, stdout, stderr) => {
             if (error) {
                 console.error(" Error al restaurar:", stderr);
                 return res.status(500).json({ error: "Error al restaurar la base de datos" });
