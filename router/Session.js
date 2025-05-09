@@ -1,46 +1,57 @@
 const ControllerUsers = require("../controllers/ControllerUser");
+
 const session = (app) => {
-    let response = {
-        "message": "message",
-        "code": "code"
-    };
     app.route("/session")
         .post(async (req, res) => {
             const controller = new ControllerUsers();
-            req.session.usernameData = await controller.auth(req.body.idcard, req.body.password);
-            if (req.session.usernameData === false) {
+            const result = await controller.auth(req.body.idcard, req.body.password);
+            let response = {};
+
+            if (!result || result === false) {
                 response.code = "400";
-                response.message = "Lo sentimos intentelo de nuevo";
-                res.json(response);
+                response.message = "Lo sentimos, inténtelo de nuevo";
+                return res.json(response);
             }
-            else {
-                response.code = "200";
-                response.message = "Sesión iniciada y username asignado";
-                res.json(response);
-            }
+
+            // Guarda los datos en sesión
+            req.session.usernameData = result;
+
+            response.code = "200";
+            response.message = "Sesión iniciada";
+            res.json(response);
         })
+
         .get((req, res) => {
+            let response = {};
+
             if (req.session.usernameData) {
-                response.message = `Bienvenido(a), ${req.session.usernameData[0].DSC_NAME}`;
                 response.code = "200";
-                res.send(response);
+                response.message = `Bienvenido(a), ${req.session.usernameData[0].DSC_NAME}`;
+                response.data = {
+                    ID_USER: req.session.usernameData[0].ID_USER
+                };
             } else {
-                response.message = "Por favor inicia sesión";
                 response.code = "400";
-                res.send(response);
+                response.message = "Por favor inicia sesión";
+                response.data = null;
             }
+
+            res.json(response);
         })
+
         .delete((req, res) => {
+            let response = {};
             req.session.destroy((err) => {
                 if (err) {
                     response.message = "Error al cerrar la sesión";
                     response.code = "500";
-                    return res.status(500).send(response);
+                    return res.status(500).json(response);
                 }
                 response.message = "Sesión cerrada";
                 response.code = "200";
-                res.send(response);
+                res.json(response);
             });
         });
-}
-module.exports = session
+};
+
+module.exports = session;
