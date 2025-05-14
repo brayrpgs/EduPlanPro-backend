@@ -124,6 +124,37 @@ class CourseProgram {
             this.conn.disconnect();
         }
     }
+
+    async getAllEliminated() {
+        try {
+            const sql = `SELECT
+                            "ID_COURSE_PROGRAM",
+                            "DSC_NAME" AS "NOMBRE DEL PROGRAMA",
+                            "DAT_YEAR" AS "AÑO",
+                            "ID_STUDY_PLAN",
+                            "NRC",
+                            "CICLE" AS "CICLO",
+                            "NUM_CREDITS" AS "NUMERO DE CREDITOS",
+                            "SIGNATURE" AS "FIRMA DIGITAL",
+                            "UPDATED_BY",
+                            "UPDATED_AT",
+                            "CREATED_AT",
+                            "PDF_URL" AS "PDF",
+                            "STATE" AS "ESTADO"
+                        FROM
+                            PUBLIC."EPPM_COURSE_PROGRAM"
+                        WHERE
+                            "STATE" = '0';`;
+            const stmt = await this.conn.connect();
+            const result = await stmt.query(sql);
+            return result.rows;
+        } catch (error) {
+            return false;
+        }
+        finally {
+            this.conn.disconnect();
+        }
+    }
 }
 
 module.exports = CourseProgram;

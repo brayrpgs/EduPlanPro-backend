@@ -24,6 +24,10 @@ class ControllerUser {
         return await this.userdata.updateById(id, name, secName, idcard, idRol, pass, idUser, stat, flagPass);
     }
 
+    async getAllUserEliminated() {
+        return await this.userdata.getAllEliminated();
+    }
+
 }
 
 module.exports = ControllerUser;

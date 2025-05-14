@@ -9,7 +9,7 @@ const recyclebin = (app) => {
     };
     app.route("/recyclebin")
         .get(async (req, res) => {
-          // if (!(await validateSession(req, res, response))) return;
+        if (!(await validateSession(req, res, response))) return;
             const controller = new ControllerEliminated();
             controller.getAllEliminated();
         })

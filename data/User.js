@@ -222,6 +222,33 @@ class User {
         }
     }
 
+    async getAllEliminated() {
+        try {
+            const sql = `SELECT
+                            T1."ID_USER",
+                            T2."DSC_NAME" AS "NOMBRE",
+                            T2."DSC_SECOND_NAME" AS "APELLIDOS",
+                            T2."IDCARD" AS "IDENTIFICACION",
+                            T3."DSC_NAME" AS "ROL",
+                            T4."DSC_NAME" AS "ACTUALIZADO POR"
+                        FROM
+                            PUBLIC."EPPM_USER" T1
+                            INNER JOIN "EPPM_PERSON" T2 ON T2."ID_PERSON" = T1."ID_PERSON"
+                            INNER JOIN "EPPM_ROL" T3 ON T3."ID_ROL" = T1."ID_ROL"
+                            INNER JOIN "EPPM_PERSON" T4 ON T4."ID_PERSON" = T1."ID_PERSON"
+                        WHERE
+                            T1."STATE" = '0';`;
+            const stmt = await this.conn.connect();
+            const result = await stmt.query(sql);
+            return result.rows;
+        } catch (error) {
+            console.log(error);
+            return false;
+        }
+        finally {
+            this.conn.disconnect();
+        }
+    }
 
 }
 module.exports = User;

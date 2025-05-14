@@ -108,6 +108,35 @@ class StudyPlan {
             this.conn.disconnect();
         }
     }
+
+    async getAllEliminated() {
+        try {
+            const sql = `SELECT
+                            "ID_STUDY_PLAN",
+                            "DSC_NAME",
+                            "DAT_INIT",
+                            "DAT_MAX",
+                            "ID_CAREER",
+                            "UPDATED_BY",
+                            "UPDATED_AT",
+                            "CREATED_AT",
+                            "PDF_URL",
+                            "STATE"
+                        FROM
+                            PUBLIC."EPPM_STUDY_PLAN"
+                        WHERE
+                            "STATE" = '0';`;
+            const stmt = await this.conn.connect();
+            const result = await stmt.query(sql);
+            return result.rows;
+        } catch (error) {
+            console.log(error);
+            return false;
+        }
+        finally {
+            this.conn.disconnect();
+        }
+    }
 }
 
 module.exports = StudyPlan;

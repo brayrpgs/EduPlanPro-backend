@@ -21,6 +21,9 @@ class ControllerTeacher {
         return await this.teacher.updateById(id, name, secName, idcard, email, idUser, stat);
     }
 
+    async getAllTeacherEliminated() {
+        return await this.teacher.getAllEliminated();
+    }
 
 }
 

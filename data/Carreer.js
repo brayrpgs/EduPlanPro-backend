@@ -99,6 +99,30 @@ class Carreer {
             this.conn.disconnect();
         }
     }
+
+    async getAllEliminated() {
+        try {
+            const sql = `SELECT
+                            "DSC_CARRER" AS "NOMBRE DE LA CARRERA",
+                            "DSC_CODE" AS "CODIGO",
+                            "ID_SCHOOL",
+                            "UPDATED_BY" AS "ACTUALIZADO POR",
+                            "STATE",
+                            "ID_CAREER" 
+                        FROM
+                            PUBLIC."EPPM_CAREER"
+                        WHERE 
+                            "STATE" = '0';`;
+            const stmt = await this.conn.connect();
+            const result = await stmt.query(sql);
+            return result.rows;
+        } catch (error) {
+            return false;
+        }
+        finally {
+            this.conn.disconnect();
+        }
+    }
 }
 
 module.exports = Carreer;

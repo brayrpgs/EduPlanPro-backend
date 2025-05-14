@@ -21,7 +21,10 @@ class ControllerStudyPlan {
         return await this.StudyPlan.updateById(DSC_NAME, DAT_INIT, DAT_MAX, ID_CAREER, UPDATED_BY, PDF_URL, STATE, ID_STUDY_PLAN);
     }
 
-
+    async getAllStudyPlanEliminated() {
+        return await this.StudyPlan.getAllEliminated();
+    }
+    
 }
 
 module.exports = ControllerStudyPlan;
