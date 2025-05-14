@@ -26,6 +26,7 @@ const reports = require('./router/reports');
 const backup = require('./services/backupService');
 const preferences = require('./router/preferences');
 const forgotPassword = require('./router/forgotPassoword');
+const recyclebin = require('./router/recyclebin');
 const app = express();
 const port = 3001;
 /*hay que moverlo luego*/
@@ -163,6 +164,11 @@ reports(app);
  * modulo depreferencias
  */
 preferences(app);
+
+/**
+ * modulo de papelera
+ */
+recyclebin(app);
 
 /**
  * modulo de captura de rutas erroneas
