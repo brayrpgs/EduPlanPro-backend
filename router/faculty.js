@@ -11,7 +11,7 @@ const faculty = (app) => {
             if (!(await validateSession(req, res, response))) return;
             const controller = new ControllerFaculty();
             const result = await controller.insertFaculty(req.body.name, req.session.usernameData[0].ID_USER);
-            
+
             if (result === true) {
                 response.data = "La facultad fue creada correctamente";
                 response.code = "200";
@@ -43,8 +43,9 @@ const faculty = (app) => {
         .delete(async (req, res) => {
             if (!(await validateSession(req, res, response))) return;
             const controller = new ControllerFaculty();
-            if (await controller.deleteFacultyByID(req.body.id) !== false) {
-                response.data = "La facultad fue Eliminada correctamente";
+            const result = await controller.deleteFacultyByID(req.body.id)
+            if (result) {
+                response.data = result;
                 response.code = "200";
                 res.send(response);
             }

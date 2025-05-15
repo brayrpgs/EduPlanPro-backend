@@ -26,6 +26,7 @@ const reports = require('./router/reports');
 const backup = require('./services/backupService');
 const preferences = require('./router/preferences');
 const forgotPassword = require('./router/forgotPassoword');
+const recyclebin = require('./router/recyclebin');
 const app = express();
 const port = 3001;
 /*hay que moverlo luego*/
@@ -164,15 +165,22 @@ reports(app);
  */
 preferences(app);
 
+/***
+ * papelera de recicleje
+ */
+recyclebin(app)
+
 /**
  * modulo de captura de rutas erroneas
  * siempre al final
  */
 rutesError(app);
 
+
+
 /**
  * levanta el puerto 3001
  * */
 app.listen(port, () => {
-  console.log(`https://localhost:${port}`);
+  console.log(`http://localhost:${port}`);
 })

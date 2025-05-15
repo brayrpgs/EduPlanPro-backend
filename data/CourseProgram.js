@@ -84,9 +84,16 @@ class CourseProgram {
                                 "ID_COURSE_PROGRAM" = $1::INTEGER;`;
             const stmt = await this.conn.connect();
             const values = [id];
-            const result = await stmt.query(sql, values);
-            return result.rows;
+            await stmt.query(sql, values);
+            return "El programa de curso fue eliminado correctamente";
         } catch (error) {
+            if (error.code === "23503") {
+
+                return `El programa de curso no puede ser eliminada debido
+                 a que aún está siendo requerida (usada) por un
+                 programa del curso llamado  ***. Asegúrese de revisar el módulo de programas del curso
+                  y la papelera.`;
+            }
             return false;
         }
         finally {

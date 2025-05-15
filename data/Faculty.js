@@ -57,11 +57,17 @@ class Faculty {
 	                    WHERE "ID_FACULTY" = $1::integer;`;
             const stmt = await this.conn.connect();
             const values = [id];
-            const result = await stmt.query(sql, values);
-            return result.rows;
+            await stmt.query(sql, values);
+            console.log(id);
+            return "La facultad fue Eliminada correctamente";
         } catch (error) {
-            console.log(error);
-            return false;
+            if (error.code === "23503") {
+                return `La facultad no puede ser eliminada debido
+                 a que aún está siendo requerida (usada) por una 
+                 escuela. Asegúrese de revisar el módulo de escuelas
+                  y la papelera.`;
+            }
+            return false
         }
         finally {
             this.conn.disconnect();

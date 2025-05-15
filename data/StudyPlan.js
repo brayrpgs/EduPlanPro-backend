@@ -73,9 +73,25 @@ class StudyPlan {
                             "ID_STUDY_PLAN" = $1::INTEGER;`;
             const stmt = await this.conn.connect();
             const values = [id];
-            const result = await stmt.query(sql, values);
-            return result.rows;
+            await stmt.query(sql, values);
+            return "El Plan de estudios fue Eliminado correctamente";
         } catch (error) {
+            console.log(error)
+            if (error.code === "23503") {
+
+                const sql = `SELECT
+                            "DSC_NAME"
+                        FROM
+                            PUBLIC."EPPM_COURSE_PROGRAM"
+                        WHERE "ID_STUDY_PLAN" = ${id};`
+                const stmt = await this.conn.connect();
+                const name = (await stmt.query(sql)).rows;
+                console.log(name)
+                return `El Plan de estudios no puede ser eliminada debido
+                 a que aún está siendo requerida (usada) por un
+                 programa del curso llamado **${name[0].DSC_NAME}**. Asegúrese de revisar el módulo de programas del curso
+                  y la papelera.`;
+            }
             return false;
         }
         finally {

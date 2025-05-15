@@ -43,8 +43,9 @@ const studyPlan = (app) => {
         .delete(async (req, res) => {
             if (!(await validateSession(req, res, response))) return;
             const controller = new ControllerStudyPlan();
-            if (await controller.deleteStudyPlanByID(req.body.id) !== false) {
-                response.data = "El Plan de estudios fue Eliminado correctamente";
+            const result = await controller.deleteStudyPlanByID(req.body.id)
+            if (result) {
+                response.data = result;
                 response.code = "200";
                 res.send(response);
             }

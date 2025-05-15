@@ -44,8 +44,9 @@ const carreer = (app) => {
         .delete(async (req, res) => {
             if (!(await validateSession(req, res, response))) return;
             const controller = new ControllerCarreer();
-            if (await controller.deleteCarreerByID(req.body.id) !== false) {
-                response.data = "La carrera fue Eliminada correctamente";
+            const result = await controller.deleteCarreerByID(req.body.id)
+            if (result) {
+                response.data = result;
                 response.code = "200";
                 res.send(response);
             }

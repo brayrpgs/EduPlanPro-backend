@@ -57,9 +57,15 @@ class School {
 	                    WHERE "ID_SCHOOL" = $1::integer;`;
             const stmt = await this.conn.connect();
             const values = [id];
-            const result = await stmt.query(sql, values);
-            return result.rows;
+            await stmt.query(sql, values);
+            return "La Escuela fue Eliminada correctamente";
         } catch (error) {
+            if (error.code === "23503") {
+                return `La Escuela no puede ser eliminada debido
+                a que aún está siendo requerida(usada) por una
+                carrera.Asegúrese de revisar el módulo de carreras
+                 y la papelera.`
+            }
             console.log(error);
             return false;
         }
