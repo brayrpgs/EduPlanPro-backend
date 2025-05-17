@@ -13,6 +13,11 @@ const recyclebin = (app) => {
             const controller = new ControllerEliminated();
             controller.getAllEliminated();
         })
+
+        .patch(async (req, res) => {
+        if (!(await validateSession(req, res, response))) return;
+            const controller = new ControllerEliminated();
+        })
 }
 
 module.exports = recyclebin;
