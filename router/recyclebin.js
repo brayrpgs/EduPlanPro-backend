@@ -11,7 +11,9 @@ const recyclebin = (app) => {
         .get(async (req, res) => {
         if (!(await validateSession(req, res, response))) return;
             const controller = new ControllerEliminated();
-            controller.getAllEliminated();
+            response.data = await controller.getAllEliminated();
+            response.code = "200";
+            res.send(response);
         })
 
         .patch(async (req, res) => {
