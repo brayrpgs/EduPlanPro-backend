@@ -19,6 +19,10 @@ class ControllerCourseProgram {
     async updateCourseProgramByID(DSC_NAME, DAT_YEAR, ID_STUDY_PLAN, NRC, CICLE, NUM_CREDITS, SIGNATURE, UPDATED_BY, PDF_URL, STATE, ID_COURSE_PROGRAM) {
         return await this.CourseProgram.updateById(DSC_NAME, DAT_YEAR, ID_STUDY_PLAN, NRC, CICLE, NUM_CREDITS, SIGNATURE, UPDATED_BY, PDF_URL, STATE, ID_COURSE_PROGRAM);
     }
+
+    async getAllCourseProgramEliminated() {
+        return await this.CourseProgram.getAllEliminated();
+    }
 }
 
 module.exports = ControllerCourseProgram;

@@ -171,6 +171,11 @@ preferences(app);
 recyclebin(app)
 
 /**
+ * modulo de papelera
+ */
+recyclebin(app);
+
+/**
  * modulo de captura de rutas erroneas
  * siempre al final
  */

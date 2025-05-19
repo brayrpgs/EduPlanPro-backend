@@ -20,6 +20,9 @@ class ControllerFaculty {
         return await this.faculty.updateById(desc, user, stat, id);
     }
 
+    async getAllFacultyEliminated() {
+        return await this.faculty.getAllEliminated();
+    }
 
 }
 

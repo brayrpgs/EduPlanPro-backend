@@ -185,6 +185,34 @@ class Teacher {
             this.conn.disconnect();
         }
     }
+
+    async getAllEliminated() {
+        try {
+            const sql = `SELECT
+                            "EPPM_TEACHER"."ID_TEACHER",
+                            "EPPM_PERSON"."DSC_NAME" AS "NOMBRE",
+                            "EPPM_PERSON"."DSC_SECOND_NAME" AS "APELLIDOS",
+                            "EPPM_PERSON"."IDCARD" AS "CEDULA",
+                            "EPPM_TEACHER"."EMAIL" AS "CORREO",
+                            "EPPM_PERSON2"."DSC_NAME" AS "ACTUALIZADO POR"
+                        FROM
+                            PUBLIC."EPPM_TEACHER"
+                            INNER JOIN "EPPM_PERSON" ON "EPPM_PERSON"."ID_PERSON" = "EPPM_TEACHER"."ID_PERSON"
+                            INNER JOIN "EPPM_USER" ON "EPPM_USER"."ID_PERSON" = "EPPM_PERSON"."UPDATED_BY"
+                            INNER JOIN "EPPM_PERSON" "EPPM_PERSON2" ON "EPPM_PERSON2"."ID_PERSON" = "EPPM_USER"."ID_PERSON"
+                            WHERE 
+                            "EPPM_TEACHER"."STATE" = '0'`;
+            const stmt = await this.conn.connect();
+            const result = await stmt.query(sql);
+            return result.rows;
+        } catch (error) {
+            console.log(error);
+            return false;
+        }
+        finally {
+            this.conn.disconnect();
+        }
+    }
 }
 
 module.exports = Teacher;

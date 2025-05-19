@@ -20,6 +20,9 @@ class ControllerCarreer {
         return await this.Carreer.updateById(DSC_CARRER, DSC_CODE, ID_SCHOOL, UPDATED_BY, STATE, ID_CAREER);
     }
 
+    async getAllCareerEliminated() { 
+        return await this.Carreer.getAllEliminated();
+    }
 
 }
 
