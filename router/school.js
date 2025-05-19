@@ -41,8 +41,9 @@ const school = (app) => {
         .delete(async (req, res) => {
             if (!(await validateSession(req, res, response))) return;
             const controller = new ControllerSchool();
-            if (await controller.deleteschoolByID(req.body.id) !== false) {
-                response.data = "La Escuela fue Eliminada correctamente";
+            const result = await controller.deleteschoolByID(req.body.id)
+            if (result) {
+                response.data = result;
                 response.code = "200";
                 res.send(response);
             }
@@ -54,7 +55,8 @@ const school = (app) => {
         })
         .patch(async (req, res) => {
             if (!(await validateSession(req, res, response))) return;
-            const controller = new ControllerSchool();//desc, faculty, user, stat, id
+            console.log(req.body);
+            const controller = new ControllerSchool();
             if (await controller.updateschoolByID(req.body.desc, req.body.facu, req.session.usernameData[0].ID_USER, req.body.stat, req.body.id) !== false) {
                 response.data = "La Escuela fue Actualizada correctamente";
                 response.code = "200";

@@ -33,6 +33,12 @@ const searchteacher = (app) => {
                 response.data = await controller.getPageInfo(pageSize = 8);
                 res.send(response);
             }
+            else if (req.query.name === "filter-state") {
+                const controller = new ControllerSearchTeacher();
+                response.code = "200";
+                response.data = await controller.getByState(req.query.stat);
+                res.send(response);
+            }
             else {
                 response.code = "400";
                 response.data = "Parametros de busqueda incorrecto";

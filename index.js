@@ -165,6 +165,11 @@ reports(app);
  */
 preferences(app);
 
+/***
+ * papelera de recicleje
+ */
+recyclebin(app)
+
 /**
  * modulo de papelera
  */
@@ -176,9 +181,11 @@ recyclebin(app);
  */
 rutesError(app);
 
+
+
 /**
  * levanta el puerto 3001
  * */
 app.listen(port, () => {
-  console.log(`https://localhost:${port}`);
+  console.log(`http://localhost:${port}`);
 })

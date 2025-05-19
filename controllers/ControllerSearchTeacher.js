@@ -8,12 +8,19 @@ class ControllerSearchTeacher {
         return this.searchTeacher.getPageBySearch(limit = 8, offset, name, secName, idCard, email);
     }
 
-    async getPageInfo(pageSize = 8){
+    async getPageInfo(pageSize = 8) {
         return this.searchTeacher.getPageInfo(pageSize = 8);
     }
 
     async searchId(id) {
         return this.searchTeacher.searchId(id);
     }
+
+    async getByState(state) {
+        return this.searchTeacher.getByState(state);
+    }
+
+
+
 }
 module.exports = ControllerSearchTeacher;

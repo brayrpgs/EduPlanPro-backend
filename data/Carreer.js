@@ -63,9 +63,16 @@ class Carreer {
                         "ID_CAREER" = $1::INTEGER;`;
             const stmt = await this.conn.connect();
             const values = [id];
-            const result = await stmt.query(sql, values);
-            return result.rows;
+            await stmt.query(sql, values);
+            return "La carrera fue eliminada correctamente."
         } catch (error) {
+            console.log(error)
+            if (error.code === "23503") {
+                return `La carrera no puede ser eliminada debido
+                 a que aún está siendo requerida (usada) por un
+                 plan de estudios. Asegúrese de revisar el módulo de plan de estudios
+                  y la papelera.`;
+            }
             return false;
         }
         finally {

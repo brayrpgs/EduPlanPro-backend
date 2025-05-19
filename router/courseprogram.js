@@ -45,8 +45,9 @@ const courseprogram = (app) => {
         .delete(async (req, res) => {
             if (!(await validateSession(req, res, response))) return;
             const controller = new ControllerCourseProgram();
-            if (await controller.deleteCourseProgramByID(req.body.id) !== false) {
-                response.data = "El programa de curso fue eliminado correctamente";
+            const result = await controller.deleteCourseProgramByID(req.body.id)
+            if (result) {
+                response.data = result;
                 response.code = "200";
                 res.send(response);
             }

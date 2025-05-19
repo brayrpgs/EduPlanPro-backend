@@ -21,9 +21,13 @@ const session = (app) => {
         })
         .get((req, res) => {
             if (req.session.usernameData) {
-                response.message = `Bienvenido(a), ${req.session.usernameData[0].DSC_NAME}`;
+                response.message = {
+                    "Greeting": `Bienvenido(a), ${req.session.usernameData[0].DSC_NAME}`,
+                    "user": req.session.usernameData[0]
+                }
                 response.code = "200";
-                res.send(response);
+                res.json(response)
+                //res.send(response);
             } else {
                 response.message = "Por favor inicia sesión";
                 response.code = "400";

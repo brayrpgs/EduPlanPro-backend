@@ -7,18 +7,19 @@ class SearchCarreer {
     async search(DSC_CARRER, DSC_CODE, DSC_SCHOOL, DSC_FACULTY) {
         try {
             const sql = `SELECT
-                            "EPPM_CAREER"."DSC_CARRER" AS "NOMBRE DE CARRERA",
-                            "EPPM_CAREER"."DSC_CODE" AS "CODIGO DE CARRERA",
-                            "EPPM_CAREER"."UPDATED AT" AS "ACTUALIZADO POR",
-                            "EPPM_CAREER"."ID_CAREER",
-                            "EPPM_SCHOOL"."DSC_SCHOOL" AS "NOMBRE DE LA ESCUELA",
-                            "EPPM_FACULTY"."DSC_FACULTY" AS "NOMBRE DE LA FACULTAD"
-                        FROM
-                            PUBLIC."EPPM_CAREER"
-                            INNER JOIN "EPPM_SCHOOL" ON "EPPM_SCHOOL"."ID_SCHOOL" = "EPPM_CAREER"."ID_SCHOOL"
-                            INNER JOIN "EPPM_FACULTY" ON "EPPM_SCHOOL"."ID_FACULTY" = "EPPM_FACULTY"."ID_FACULTY"
-                        WHERE
-                            "EPPM_CAREER"."STATE" = '1'
+                                "EPPM_CAREER"."DSC_CARRER" AS "NOMBRE DE CARRERA",
+                                "EPPM_CAREER"."DSC_CODE" AS "CODIGO DE CARRERA",
+                                "EPPM_CAREER"."UPDATED AT" AS "ACTUALIZADO POR",
+                                "EPPM_CAREER"."ID_CAREER",
+                                "EPPM_SCHOOL"."DSC_SCHOOL" AS "NOMBRE DE LA ESCUELA",
+                                "EPPM_FACULTY"."DSC_FACULTY" AS "NOMBRE DE LA FACULTAD",
+                                "EPPM_SCHOOL"."ID_SCHOOL"
+                            FROM
+                                PUBLIC."EPPM_CAREER"
+                                INNER JOIN "EPPM_SCHOOL" ON "EPPM_SCHOOL"."ID_SCHOOL" = "EPPM_CAREER"."ID_SCHOOL"
+                                INNER JOIN "EPPM_FACULTY" ON "EPPM_SCHOOL"."ID_FACULTY" = "EPPM_FACULTY"."ID_FACULTY"
+                            WHERE
+                                "EPPM_CAREER"."STATE" = '1'
                             AND (
                                 "EPPM_CAREER"."DSC_CARRER" ILIKE $1::TEXT
                                 AND "EPPM_CAREER"."DSC_CODE" ILIKE $2::TEXT
@@ -161,7 +162,8 @@ class SearchCarreer {
                             "EPPM_CAREER"."UPDATED AT" AS "ACTUALIZADO POR",
                             "EPPM_CAREER"."ID_CAREER",
                             "EPPM_SCHOOL"."DSC_SCHOOL" AS "NOMBRE DE LA ESCUELA",
-                            "EPPM_FACULTY"."DSC_FACULTY" AS "NOMBRE DE LA FACULTAD"
+                            "EPPM_FACULTY"."DSC_FACULTY" AS "NOMBRE DE LA FACULTAD",
+                            "EPPM_SCHOOL"."ID_SCHOOL"
                         FROM
                             PUBLIC."EPPM_CAREER"
                             INNER JOIN "EPPM_SCHOOL" ON "EPPM_SCHOOL"."ID_SCHOOL" = "EPPM_CAREER"."ID_SCHOOL"
