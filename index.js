@@ -176,7 +176,7 @@ recyclebin(app)
  */
 rutesError(app);
 
-
+console.log("Saludos desde CI/CD");
 
 /**
  * levanta el puerto 3001
