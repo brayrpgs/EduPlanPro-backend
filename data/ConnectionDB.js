@@ -17,7 +17,7 @@ class ConnectionDB {
       try {
         await this.client.connect();
         this.connected = true;
-        console.log("Conexión exitosa a la base de datos");
+        //console.log("Conexión exitosa a la base de datos");
       } catch (error) {
         console.error(`Error de conexión: ${error.message}`);
         throw error;
@@ -31,7 +31,7 @@ class ConnectionDB {
       try {
         await this.client.end();
         this.connected = false;
-        console.log("Conexión cerrada con éxito");
+        //console.log("Conexión cerrada con éxito");
       } catch (error) {
         console.error(`Error al cerrar la conexión: ${error.message}`);
       }

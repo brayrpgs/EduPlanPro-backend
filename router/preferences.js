@@ -18,15 +18,24 @@ const preferences = (app) => {
                 response.code = "200";
                 res.send(response);
             } else {
-                response.data = "La carrera No fue creada";
+                response.data = "Las preferencias no fueron creadas correctamente";
                 response.code = "400";
                 res.send(response);
             }
         })
         .get(async (req, res) => {
             if (!(await validateSession(req, res, response))) return;
+        
+            const user = req.session?.usernameData?.[0];  // <-- acá definís user
+        
+            if (!user || !user.ID_USER) {
+                response.data = "Sesión inválida o usuario no disponible";
+                response.code = "401";
+                return res.status(401).send(response);
+            }
+        
             const controller = new ControllerPreferences();
-            response.data = await controller.getAllPreferences(req.session.usernameData[0].ID_USER);
+            response.data = await controller.getAllPreferences(user.ID_USER);
             response.code = "200";
             res.send(response);
         })

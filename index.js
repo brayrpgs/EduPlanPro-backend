@@ -176,11 +176,11 @@ recyclebin(app)
  */
 rutesError(app);
 
-console.log("Saludos desde CI/CD");
-
 /**
  * levanta el puerto 3001
  * */
 app.listen(port, () => {
   console.log(`http://localhost:${port}`);
 })
+
+module.exports = app
