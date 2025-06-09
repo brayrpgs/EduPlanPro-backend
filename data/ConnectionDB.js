@@ -4,7 +4,7 @@ class ConnectionDB {
   constructor() {
     this.client = new Client({
       user: "postgres",
-      password: "123",  
+      password: "123",
       host: "localhost",
       port: 5432,
       database: "EDUPLANPRO"
@@ -17,10 +17,18 @@ class ConnectionDB {
       try {
         await this.client.connect();
         this.connected = true;
-        //console.log("Conexión exitosa a la base de datos");
-      } catch (error) {
-        console.error(`Error de conexión: ${error.message}`);
-        throw error;
+      } catch (error1) {
+        console.error(`Primer intento fallido: ${error1.message}`);
+
+        try {
+          this.client.host = "postgres";
+          console.warn("Intentando conexión con host 'postgres'...");
+          await this.client.connect();
+          this.connected = true;
+        } catch (error2) {
+          console.error(`Segundo intento fallido: ${error2.message}`);
+          throw new Error("No se pudo conectar a la base de datos.");
+        }
       }
     }
     return this.client;

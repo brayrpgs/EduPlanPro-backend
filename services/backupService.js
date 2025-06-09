@@ -7,6 +7,10 @@ const cron = require("node-cron");
 const validateSession = require("../middlewares/validateSession");
 const { response } = require("express");
 
+// Variables para guardar las tareas
+let jobSemanal;
+let jobMensual;
+
 const backup = (app) => {
     const envVars = {
         PGPASSWORD: "123", //cambiar por la contraseña de postgrest de ustedes o que vayan a colocar "ojo"
@@ -24,7 +28,7 @@ const backup = (app) => {
     }
 
     // Cron semanal (lunes 10 AM) 
-    cron.schedule('0 10 * * 1', () => {
+    jobSemanal = cron.schedule('0 10 * * 1', () => {
         console.log(" Backup automático de prueba (cada minuto)");
         generarBackup((err, sqlPath) => {
             if (!err) console.log(" Backup generado:", sqlPath);
@@ -32,7 +36,7 @@ const backup = (app) => {
     });
 
     // Cron mensual (día 1 a las 12:00 PM)
-    cron.schedule('0 12 1 * *', () => {
+    jobMensual = cron.schedule('0 12 1 * *', () => {
         console.log(" Backup mensual automático (día 1 - 12:00 PM)");
         generarBackup((err, sqlPath) => {
             if (!err) console.log(" Backup mensual generado:", sqlPath);
@@ -90,36 +94,43 @@ const backup = (app) => {
             }
         });
     }
-// endpoint para restaurar la base de datos
+    // endpoint para restaurar la base de datos
     app.post("/restore", async (req, res) => {
         if (!(await validateSession(req, res, response))) return;
         const { fileName } = req.body;
-    
+
         if (!fileName || !fileName.endsWith(".sql")) {
             return res.status(400).json({ error: "Archivo inválido o no proporcionado" });
         }
-    
+
         const restorePath = path.join(backupDir, fileName);
-    
+
         if (!fs.existsSync(restorePath)) {
             return res.status(404).json({ error: "Archivo no encontrado" });
         }
-    
+
         const psqlPath = `"C:\\Program Files\\PostgreSQL\\17\\bin\\psql.exe"`; // ruta real
-    
+
         const command = `${psqlPath} -U postgres -d EDUPLANPRO -f "${restorePath}"`;
-    
+
         exec(command, { env: { ...process.env, PGPASSWORD: "123" } }, (error, stdout, stderr) => {
             if (error) {
                 console.error(" Error al restaurar:", stderr);
                 return res.status(500).json({ error: "Error al restaurar la base de datos" });
             }
-    
+
             console.log(" Base de datos restaurada desde:", fileName);
             res.json({ message: `Restauración exitosa desde ${fileName}` });
         });
     });
-    
+
 };
 
-module.exports = backup;
+// Función para parar los cron jobs
+const stopBackupJobs = () => {
+    if (jobSemanal) jobSemanal.stop();
+    if (jobMensual) jobMensual.stop();
+};
+
+module.exports = { stopBackupJobs, backup }
+

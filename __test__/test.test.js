@@ -1,5 +1,6 @@
 const app = require("..");
 const request = require("supertest");
+const { stopBackupJobs } = require("../services/backupService");
 
 let server;
 let cookie; // <-- aquí se almacenará la sesión
@@ -10,7 +11,9 @@ beforeAll(() => {
 });
 
 afterAll(async () => {
+    stopBackupJobs();
     await new Promise((resolve) => server.close(resolve));
+
 });
 //test de kendall fallas
 describe("Test de inicio de sesiónes", () => {
