@@ -4,11 +4,12 @@ const request = require("supertest");
 let server;
 let cookie; // <-- aquí se almacenará la sesión
 
-beforeEach(() => {
+
+beforeAll(() => {
     server = app.listen(3005);
 });
 
-afterEach(async () => {
+afterAll(async () => {
     await new Promise((resolve) => server.close(resolve));
 });
 //test de kendall fallas
