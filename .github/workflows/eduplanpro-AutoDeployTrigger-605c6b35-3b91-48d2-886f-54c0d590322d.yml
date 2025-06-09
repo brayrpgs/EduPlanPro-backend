@@ -2,7 +2,7 @@ name: Trigger auto deployment for eduplanpro
 
 on:
   push:
-    branches: 
+    branches:
       [ CI-CD ]
     paths:
       - '**'
@@ -13,9 +13,9 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    permissions: 
-      id-token: write #This is required for requesting the OIDC JWT Token
-      contents: read #Required when GH token is used to authenticate with private repo
+    permissions:
+      id-token: write
+      contents: read
     services:
       postgres:
         image: postgres:15
@@ -58,13 +58,20 @@ jobs:
           psql -h localhost -U postgres -d EDUPLANPRO -f database/dump-EDUPLANPRO.sql
 
       - name: Run tests
+        id: run-tests
+        continue-on-error: true
         env:
           DB_HOST: localhost
           DB_PORT: 5432
           DB_USER: postgres
           DB_PASSWORD: 123
           DB_NAME: EDUPLANPRO
-        run: npm test -- __test__/test.test.js --detectOpenHandles
+        run: |
+          npm test -- __test__/test.test.js --detectOpenHandles 2>&1 | tee test-output.log
+
+      - name: Fail job if tests failed
+        if: steps.run-tests.outcome == 'failure'
+        run: exit 1
 
       - name: Azure Login
         uses: azure/login@v1
@@ -86,3 +93,61 @@ jobs:
           imageToBuild: brayrpgs/eduplanpro:${{ github.sha }}
           _buildArgumentsKey_: |
             _buildArgumentsValues_
+
+      # CAPTURA LOG DE ERROR
+      - name: Capturar resumen del error
+        if: failure()
+        run: |
+          echo "Extrayendo últimas líneas del log de error..."
+          LOG_FILE=$(find $GITHUB_WORKSPACE -name "test-output.log" | head -n 1)
+          if [ -f "$LOG_FILE" ]; then
+            tail -n 50 "$LOG_FILE" > error.log
+          else
+            echo "No se encontró log de error" > error.log
+          fi
+
+      # CORREO SI TODO SALE BIEN
+      - name: Enviar correo si el despliegue fue exitoso
+        if: success()
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: ${{ secrets.MAIL_USERNAME }}
+          password: ${{ secrets.MAIL_PASSWORD }}
+          subject: ✅ Despliegue exitoso de EduplanPro
+          to: ${{ secrets.MAIL_TO }}
+          from: ${{ secrets.MAIL_USERNAME }}
+          body: |
+            🎉 El despliegue de EduplanPro fue exitoso.
+
+            🔹 Commit: ${{ github.sha }}
+            🔹 Autor: ${{ github.actor }}
+            🔹 Rama: ${{ github.ref_name }}
+            🔹 Repositorio: ${{ github.repository }}
+            🔹 Enlace al run: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+      # CORREO SI FALLA
+      - name: Enviar correo si falló el workflow
+        if: failure()
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          username: ${{ secrets.MAIL_USERNAME }}
+          password: ${{ secrets.MAIL_PASSWORD }}
+          subject: ❌ Error en el workflow de EduplanPro
+          to: ${{ secrets.MAIL_TO }}
+          from: ${{ secrets.MAIL_USERNAME }}
+          body: |
+            ⚠️ El workflow falló durante el despliegue de EduplanPro.
+
+            🔹 Commit: ${{ github.sha }}
+            🔹 Autor: ${{ github.actor }}
+            🔹 Rama: ${{ github.ref_name }}
+            🔹 Repositorio: ${{ github.repository }}
+            🔹 Enlace al run: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+            🧵 Últimas líneas del log de error están adjuntas.
+
+          attachments: error.log
