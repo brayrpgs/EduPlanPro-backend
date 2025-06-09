@@ -5,7 +5,7 @@ class ConnectionDB {
     this.client = new Client({
       user: "postgres",
       password: "123",  
-      host: "postgres",
+      host: "localhost",
       port: 5432,
       database: "EDUPLANPRO"
     });
