@@ -61,7 +61,7 @@ jobs:
           DB_USER: postgres
           DB_PASSWORD: 123
           DB_NAME: EDUPLANPRO
-        run: npm test -- __test__/test.test.js
+        run: npm test -- __test__/test.test.js --detectOpenHandles
 
       - name: Azure Login
         uses: azure/login@v1
