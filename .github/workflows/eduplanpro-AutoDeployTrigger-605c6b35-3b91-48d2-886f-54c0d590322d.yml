@@ -13,9 +13,20 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    permissions: 
-      id-token: write
-      contents: read
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: 123
+          POSTGRES_DB: EDUPLANPRO
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready -U postgres"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
 
     steps:
       - name: Checkout to the branch
@@ -29,7 +40,27 @@ jobs:
       - name: Install dependencies
         run: npm install
 
+      - name: Wait for PostgreSQL to be ready
+        run: |
+          echo "Waiting for PostgreSQL to be ready..."
+          for i in {1..10}; do
+            pg_isready -h localhost -p 5432 -U postgres && break
+            sleep 3
+          done
+
+      - name: Load SQL schema and data
+        env:
+          PGPASSWORD: 123
+        run: |
+          psql -h localhost -U postgres -d EDUPLANPRO -f database/dump-EDUPLANPRO.sql
+
       - name: Run tests
+        env:
+          DB_HOST: localhost
+          DB_PORT: 5432
+          DB_USER: postgres
+          DB_PASSWORD: 123
+          DB_NAME: EDUPLANPRO
         run: npm test -- __test__/test.test.js
 
       - name: Azure Login
