@@ -11,7 +11,8 @@ const validateFields = (field, type) => {
             console.log(`Invalidado: el campo "${field}" no es un número válido`);
             return false;
         }
-    } else {
+    }
+    else {
         console.log(`Tipo no soportado: "${type}"`);
         return false;
     }

@@ -34,35 +34,40 @@ export default function () {
       },
     };
 
-    group('GET /session', function () {
+    //pruebas de rendimiento de kendall
+    group('GET /session kendall', function () {
       let res = http.get(`${BASE_URL}/session`, headers);
       check(res, {
         'GET /session responde 200': (r) => r.status === 200 && r.json('code') === '200',
       });
     });
 
-    group('GET /faculty', function () {
+    //pruebas de rendimiento de brayan
+    group('GET /faculty brayan', function () {
       let res = http.get(`${BASE_URL}/faculty`, headers);
       check(res, {
         'GET /faculty responde 200': (r) => r.status === 200 && r.json('code') === '200',
       });
     });
 
-    group('GET /school', function () {
+    //prueba de rendimineto de ceasar
+    group('GET /school ceasar', function () {
       let res = http.get(`${BASE_URL}/school`, headers);
       check(res, {
         'GET /school responde 200': (r) => r.status === 200 && r.json('code') === '200',
       });
     });
 
-    group('GET /rol', function () {
+    //pruebas de rendimineto de carlos
+    group('GET /rol carlos', function () {
       let res = http.get(`${BASE_URL}/rol`, headers);
       check(res, {
         'GET /rol responde 200': (r) => r.status === 200 && r.json('code') === '200',
       });
     });
 
-    group('GET /preferences', function () {
+    //pruebas de rendimiento de david
+    group('GET /preferences david', function () {
       let res = http.get(`${BASE_URL}/preferences`, headers);
       check(res, {
         'GET /preferences responde 200': (r) => r.status === 200 && r.json('code') === '200',

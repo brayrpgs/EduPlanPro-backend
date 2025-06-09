@@ -16,6 +16,19 @@ const middlewares = (app) => {
         saveUninitialized: true,
         cookie: { secure: false }
     }));
+
+    app.use((req, res, next) => {
+        // Middleware para manejar errores de SQL Injection
+        if (req.method === 'POST' || req.method === 'PUT' || req.method === 'DELETE') {
+            const forbiddenPattern = /['";\\\-‐‒–—―]+|--/g;
+            for (const key in req.body) {
+                if (typeof req.body[key] === 'string' && forbiddenPattern.test(req.body[key])) {
+                    return res.status(400).json({ error: 'Input contains forbidden characters.' });
+                }
+            }
+        }
+        next();
+    });
     
 
 };

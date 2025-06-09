@@ -279,7 +279,7 @@ describe("Test de Preferencias", () => {
         console.log(response.body);
 
         expect(response.status).toBe(200);
-        expect(["200","400"]).toContain(response.body.code);
+        expect(["200", "400"]).toContain(response.body.code);
         expect([
             "Las preferencias fueron creadas correctamente",
             "Las preferencias no fueron creadas correctamente",
@@ -303,3 +303,177 @@ describe("Test de Preferencias", () => {
         expect(response.body.data).toBe("Las preferencias fueron eliminadas correctamente");
     });
 });
+
+
+/**
+ * test de intecciones de SQL
+ */
+
+// Test sesión con inyección SQL kendall fallas
+describe("Test de sesión con inyección SQL", () => {
+    it("POST /session con credenciales válidas", async () => {
+        const response = await request(app)
+            .post("/session")
+            .send({
+                idcard: "root",
+                password: "root"
+            })
+            .set("Accept", "application/json");
+
+        expect(response.status).toBe(200);
+        expect(response.body.code).toBe("200");
+
+        cookie = response.headers["set-cookie"];
+        expect(cookie).toBeDefined();
+    });
+
+    it("POST /session con intento de inyección SQL en idcard", async () => {
+        const response = await request(app)
+            .post("/session")
+            .send({
+                idcard: "' OR '1'='1",
+                password: "anything"
+            })
+            .set("Accept", "application/json");
+        console.log(response.body);
+        expect(response.status).toBe(400);
+    });
+});
+
+// Test facultades con sesión y prueba de inyección SQL brayan rosales
+describe("Test de facultades con inyección SQL", () => {
+    beforeAll(async () => {
+        const response = await request(app)
+            .post("/session")
+            .send({
+                idcard: "root",
+                password: "root"
+            })
+            .set("Accept", "application/json");
+
+        cookie = response.headers["set-cookie"];
+    });
+
+    it("POST /faculty con intento de inyección SQL en name", async () => {
+        const response = await request(app)
+            .post("/faculty")
+            .send({ name: "'; DROP TABLE faculties; --" })
+            .set("Accept", "application/json")
+            .set("Cookie", cookie);
+        console.log(response.body);
+        expect(response.status).toBe(400);
+        expect(response.body.code).not.toBe("200");
+    });
+});
+
+// Test escuelas con sesión y prueba de inyección SQL ceasar calvo
+describe("Test de escuelas con inyección SQL", () => {
+    let cookie;
+    let idFaculty;
+
+    beforeAll(async () => {
+        const sessionRes = await request(app)
+            .post("/session")
+            .send({
+                idcard: "root",
+                password: "root"
+            })
+            .set("Accept", "application/json");
+        cookie = sessionRes.headers["set-cookie"];
+
+        const facultyRes = await request(app)
+            .get("/faculty")
+            .set("Cookie", cookie);
+
+        const data = Array.from(facultyRes.body.data).sort((a, b) => a.ID_FACULTY - b.ID_FACULTY).reverse();
+        idFaculty = data[0].ID_FACULTY;
+    });
+
+
+    it("POST /school con intento de inyección SQL en desc", async () => {
+        const response = await request(app)
+            .post("/school")
+            .send({
+                desc: "' OR 1=1 --",
+                id: idFaculty
+            })
+            .set("Accept", "application/json")
+            .set("Cookie", cookie);
+        console.log(response.body);
+        expect(response.status).toBe(400);
+        expect(response.body.code).not.toBe("200");
+    });
+});
+
+// Test roles con sesión y prueba de inyección SQL Carlos Orellana
+describe("Test de roles con inyección SQL", () => {
+    let cookie;
+
+    beforeAll(async () => {
+        const response = await request(app)
+            .post("/session")
+            .send({
+                idcard: "root",
+                password: "root"
+            })
+            .set("Accept", "application/json");
+
+        cookie = response.headers["set-cookie"];
+    });
+
+
+    it("POST /rol con intento de inyección SQL en name", async () => {
+        const response = await request(app)
+            .post("/rol")
+            .send({
+                name: "' OR 'x'='x",
+                desc: "test"
+            })
+            .set("Accept", "application/json")
+            .set("Cookie", cookie);
+
+        console.log(response.body);
+        expect(response.status).toBe(400);
+        expect(response.body.code).not.toBe("200");
+    });
+});
+
+// Test preferencias con sesión y prueba de inyección SQL
+describe("Test de preferencias con inyección SQL", () => {
+    let cookie;
+
+    beforeAll(async () => {
+        const response = await request(app)
+            .post("/session")
+            .send({
+                idcard: "root",
+                password: "root"
+            })
+            .set("Accept", "application/json");
+
+        cookie = response.headers["set-cookie"];
+    });
+
+    it("POST /preferences con intento de inyección SQL en font", async () => {
+        const response = await request(app)
+            .post("/preferences")
+            .send({
+                font: "'; DROP TABLE preferences; --",
+                size_font: "Pequeño",
+                header_footer_color: "Rojo",
+                icon_size: "Mediano",
+                theme: "Claro",
+            })
+            .set("Accept", "application/json")
+            .set("Cookie", cookie);
+
+        expect(response.status).toBe(400);
+        expect(response.body.code).not.toBe("200");
+    });
+});
+
+
+
+
+
+

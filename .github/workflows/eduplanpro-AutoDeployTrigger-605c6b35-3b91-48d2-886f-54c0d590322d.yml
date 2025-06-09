@@ -1,28 +1,36 @@
 name: Trigger auto deployment for eduplanpro
 
-# When this action will be executed
 on:
-  # Automatically trigger it when detected changes in repo
   push:
     branches: 
       [ CI-CD ]
     paths:
-    - '**'
-    - '.github/workflows/eduplanpro-AutoDeployTrigger-605c6b35-3b91-48d2-886f-54c0d590322d.yml'
+      - '**'
+      - '.github/workflows/eduplanpro-AutoDeployTrigger-605c6b35-3b91-48d2-886f-54c0d590322d.yml'
 
-  # Allow manual trigger 
-  workflow_dispatch:      
+  workflow_dispatch:
 
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     permissions: 
-      id-token: write #This is required for requesting the OIDC JWT Token
-      contents: read #Required when GH token is used to authenticate with private repo
+      id-token: write
+      contents: read
 
     steps:
       - name: Checkout to the branch
         uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '22'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run tests
+        run: npm test -- __test__/test.test.js
 
       - name: Azure Login
         uses: azure/login@v1
@@ -44,5 +52,3 @@ jobs:
           imageToBuild: brayrpgs/eduplanpro:${{ github.sha }}
           _buildArgumentsKey_: |
             _buildArgumentsValues_
-
-
