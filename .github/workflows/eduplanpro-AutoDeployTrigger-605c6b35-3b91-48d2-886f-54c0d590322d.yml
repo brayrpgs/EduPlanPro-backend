@@ -44,7 +44,7 @@ jobs:
         run: |
           echo "Waiting for PostgreSQL to be ready..."
           for i in {1..10}; do
-            pg_isready -h localhost -p 5432 -U postgres && break
+            pg_isready -h postgres -p 5432 -U postgres && break
             sleep 3
           done
 
@@ -52,11 +52,11 @@ jobs:
         env:
           PGPASSWORD: 123
         run: |
-          psql -h localhost -U postgres -d EDUPLANPRO -f database/dump-EDUPLANPRO.sql
+          psql -h postgres -U postgres -d EDUPLANPRO -f database/dump-EDUPLANPRO.sql
 
       - name: Run tests
         env:
-          DB_HOST: localhost
+          DB_HOST: postgres
           DB_PORT: 5432
           DB_USER: postgres
           DB_PASSWORD: 123
