@@ -1,6 +1,6 @@
 services:
   eduplanpro_backend:
-    build: EduPlanPro-backend/.
+    build: ./EduPlanPro-backend/
     ports:
       - "3001:3001"
     restart: always
@@ -8,7 +8,7 @@ services:
       - postgres
   postgres:
     image: postgres:17
-    container_name: postgres_db
+    container_name: postgres_eduplanpro
     ports:
       - "5432:5432"
     environment:
@@ -19,7 +19,7 @@ services:
       - db_data:/var/lib/postgresql/data
   pgadmin:
     image: dpage/pgadmin4:latest
-    container_name: pgadmin
+    container_name: pgadmin_eduplanpro
     restart: always
     environment:
       PGADMIN_DEFAULT_EMAIL: una@una.com
@@ -29,7 +29,7 @@ services:
     volumes:
       - pgadmin_data:/var/lib/pgadmin
   eduplanpro_frontend:
-    build: EduPlanPro-Frontend/.
+    build: ./EduPlanPro-Frontend/
     ports:
        - "3000:3000"
     restart: always
