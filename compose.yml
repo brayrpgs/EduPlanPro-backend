@@ -1,0 +1,40 @@
+services:
+  eduplanpro_backend:
+    build: EduPlanPro-backend/.
+    ports:
+      - "3001:3001"
+    restart: always
+    depends_on:
+      - postgres
+  postgres:
+    image: postgres:17
+    container_name: postgres_db
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: "123"
+    restart: always
+    volumes:
+      - db_data:/var/lib/postgresql/data
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: pgadmin
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: una@una.com
+      PGADMIN_DEFAULT_PASSWORD: sarapiqui
+    ports:
+      - "80:80"
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+  eduplanpro_frontend:
+    build: EduPlanPro-Frontend/.
+    ports:
+       - "3000:3000"
+    restart: always
+    depends_on:
+        - eduplanpro_backend
+volumes:
+  db_data:
+  pgadmin_data:
